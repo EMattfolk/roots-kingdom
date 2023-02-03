@@ -2,6 +2,35 @@ local isDown = love.keyboard.isDown
 local player = nil
 local npcs = nil
 local dialog = nil
+local input = nil
+
+function createDialogTree()
+	local dt = nil
+	dt = {
+		text = function(t, next)
+			table.insert(dt.data, { type = "text", text = t, next = next })
+			return dt
+		end,
+		choice = function(yes, no, yesText, noText, yesNext, noNext)
+			table.insert(dt.data, {
+				type = "choice",
+				yes = yes,
+				no = no,
+				yesText = yesText,
+				noText = noText,
+				yesNext = yesNext,
+				noNext = noNext,
+			})
+			return dt
+		end,
+		index = 1,
+		data = {},
+		get = function()
+			return dt.data[dt.index]
+		end,
+	}
+	return dt
+end
 
 function createPlayer()
 	return {
@@ -40,16 +69,23 @@ function createPlayer()
 		getCloseNpc = function(player, npcs)
 			range = 100
 			res = nil
-			table.foreach(npcs, function(npc) end)
+			table.foreach(npcs, function(_, npc)
+				local dx = player.x - npc.x
+				local dy = player.y - npc.y
+				if dx * dx + dy * dy <= range * range then
+					res = npc
+				end
+			end)
 			return res
 		end,
 	}
 end
 
-function createNpc(x, y)
+function createNpc(x, y, dialogTree)
 	return {
 		x = x,
 		y = y,
+		dialogTree = dialogTree,
 		update = function(npc) end,
 		draw = function(npc)
 			love.graphics.setColor(0, 1, 0)
@@ -77,14 +113,22 @@ end
 
 function restart()
 	player = createPlayer()
-	npcs = { createNpc(700, 300), createNpc(400, 300) }
-	dialog = createDialog(
-		"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-	)
+	npcs = {
+		createNpc(400, 300, createDialogTree().text("Hello", 2).text("there.", 1)),
+		createNpc(700, 300, createDialogTree().text("There", 1)),
+	}
+	dialog = nil
+	input = { space = false }
 end
 
 function love.load()
 	restart()
+end
+
+function love.keypressed(key)
+	if key == "space" then
+		input.space = true
+	end
 end
 
 function love.update(dt)
@@ -98,6 +142,19 @@ function love.update(dt)
 	if isDown("q") or isDown("escape") then
 		love.event.quit()
 	end
+	closeNpc = player:getCloseNpc(npcs)
+	if closeNpc ~= nil then
+		if input.space then
+			if dialog ~= nil then
+				closeNpc.dialogTree.index = closeNpc.dialogTree.get().next
+			end
+			dialog = createDialog(closeNpc.dialogTree.get().text)
+		end
+	else
+		dialog = nil
+	end
+
+	input.space = false
 end
 
 function love.draw()
