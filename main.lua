@@ -1,29 +1,46 @@
-isDown = love.keyboard.isDown
-player = nil
-npcs = nil
+local isDown = love.keyboard.isDown
+local player = nil
+local npcs = nil
 
 function createPlayer()
 	return {
 		x = 0,
 		y = 0,
-		speed = 250,
+		speed = 400,
 		update = function(player, dt)
+			local dx = 0
+			local dy = 0
 			if isDown("up") then
-				player.y = player.y - dt * player.speed
+				dy = -1
 			end
 			if isDown("down") then
-				player.y = player.y + dt * player.speed
+				dy = 1
 			end
 			if isDown("left") then
-				player.x = player.x - dt * player.speed
+				dx = -1
 			end
 			if isDown("right") then
-				player.x = player.x + dt * player.speed
+				dx = 1
 			end
+
+			local tot = math.sqrt(dx * dx + dy * dy)
+			if tot ~= 0 then
+				dx = dx / tot
+				dy = dy / tot
+			end
+
+			player.x = player.x + dt * dx * player.speed
+			player.y = player.y + dt * dy * player.speed
 		end,
 		draw = function(player)
 			love.graphics.setColor(1, 1, 0)
 			love.graphics.rectangle("fill", player.x, player.y, 100, 100)
+		end,
+		getCloseNpc = function(player, npcs)
+			range = 100
+			res = nil
+			table.foreach(npcs, function(npc) end)
+			return res
 		end,
 	}
 end
@@ -63,6 +80,9 @@ function love.update(dt)
 	table.foreach(npcs, function(_, npc)
 		npc:update()
 	end)
+	if isDown("r") then
+		restart()
+	end
 	if isDown("q") or isDown("escape") then
 		love.event.quit()
 	end
