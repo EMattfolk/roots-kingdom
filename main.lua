@@ -928,11 +928,12 @@ function love.draw()
 			"center"
 		)
 		-- Utritning av karaktärer på framsidan
-		love.graphics.draw(resbigking, 1300, 300, 0, 0.2, 0.2)
+		love.graphics.scale(love.graphics.getWidth() / 1920, love.graphics.getHeight() / 1080)
+		love.graphics.draw(resbigking, 1320, 300, 0, 0.2, 0.2)
 		love.graphics.draw(reskantarell, 650, 400, 0, -1, 1)
-		love.graphics.draw(resbigemo, 1600, 200, 0, 0.7, 0.7)
-		love.graphics.draw(resbiggrump, 200, 800, 0, 0.3, 0.3)
-		love.graphics.draw(resbigmorfar, 450, 200, 0, -0.7, 0.7)
+		love.graphics.draw(resbigemo, 1650, 100, 0, 0.7, 0.7)
+		love.graphics.draw(resbiggrump, 100, 800, 0, 0.4, 0.4)
+		love.graphics.draw(resbigmorfar, 450, 200, 0, -0.9, 0.9)
 	elseif scene == "game" then
 		love.graphics.origin()
 		area:draw()
