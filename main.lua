@@ -63,7 +63,7 @@ function createTransition(dir, onTransition)
 				love.graphics.rectangle(
 					"fill",
 					love.graphics.getWidth() * -xdir + xdir * tr.progress * love.graphics.getWidth(),
-					love.graphics.getWidth() * -ydir + ydir * tr.progress * love.graphics.getHeight(),
+					love.graphics.getHeight() * -ydir + ydir * tr.progress * love.graphics.getHeight(),
 					love.graphics.getWidth(),
 					love.graphics.getHeight()
 				)
@@ -794,7 +794,16 @@ function love.update(dt)
 		end
 		local closePortal = player:getCloseEntity(area.portals)
 		if closePortal ~= nil and input.interact then
-			transition = createTransition({ x = 1, y = 0 }, function()
+			local xdir = 0
+			local ydir = 0
+			if closePortal.x < 300 or 1600 < closePortal.x then
+				xdir = (closePortal.x - love.graphics.getWidth() / 2)
+					/ math.abs(closePortal.x - love.graphics.getWidth() / 2)
+			else
+				ydir = (closePortal.y - love.graphics.getHeight() / 2)
+					/ math.abs(closePortal.y - love.graphics.getHeight() / 2)
+			end
+			transition = createTransition({ x = xdir, y = ydir }, function()
 				area = areas[closePortal.next]
 				player.x = closePortal.newX
 				player.y = closePortal.newY
