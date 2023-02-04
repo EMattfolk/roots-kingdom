@@ -7,10 +7,18 @@ local choice = nil
 local areas = nil
 local area = nil
 
-function createArea(npcs, color)
+function createPortal(x, y, next)
+	return {
+		x = x,
+		y = y,
+		next = next,
+	}
+end
+
+function createArea(npcs, color, portals)
 	return {
 		npcs = npcs,
-		portals = {},
+		portals = portals,
 		draw = function(area)
 			love.graphics.setColor(color)
 			love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
@@ -182,7 +190,7 @@ function restart()
 	dialog = nil
 	input = { space = false }
 	choice = nil
-	areas = { createArea({ npcs[1], npcs[2] }, { 0, 0.5, 0 }) }
+	areas = { createArea({ npcs[1], npcs[2] }, { 0, 0.5, 0 }, { createPortal(100, 400, 2) }) }
 	area = areas[1]
 end
 
