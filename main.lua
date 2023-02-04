@@ -38,11 +38,13 @@ function toScreenY(y)
 	return love.graphics.getHeight() / 1080 * y
 end
 
-function createPortal(x, y, next)
+function createPortal(x, y, next, newX, newY)
 	return {
 		x = x,
 		y = y,
 		next = next,
+		newX = newX,
+		newY = newY,
 		draw = function(portal)
 			love.graphics.setColor(0, 0, 1)
 			love.graphics.ellipse("line", toScreenX(portal.x), toScreenY(portal.y), 50, 25)
@@ -419,15 +421,27 @@ function restart()
 	input = { interact = false }
 	choice = nil
 	areas = {
-		createArea(resfancyfancy, { npcs[1], npcs[5] }, { createPortal(100, 800, 2) }), -- Slottet
+		createArea(resfancyfancy, { npcs[1], npcs[5] }, { createPortal(100, 800, 2, 100, 800) }), -- Slottet
+		createArea(resfancyfancy, { npcs[2], npcs[3] }, {
+			createPortal(100, 800, 1, 100, 800),
+			createPortal(650, 100, 5, 650, 1000),
+			createPortal(1800, 750, 3, 100, 750),
+		}),
 		createArea(
-			resfancyfancy,
-			{ npcs[2], npcs[3] },
-			{ createPortal(100, 800, 1), createPortal(650, 100, 5), createPortal(1800, 750, 3) }
+			resbackground,
+			{ npcs[1] },
+			{ createPortal(100, 750, 2, 1800, 750), createPortal(1200, 100, 4, 1200, 1000) }
 		),
-		createArea(resbackground, { npcs[1] }, { createPortal(100, 750, 2), createPortal(1200, 100, 4) }),
-		createArea(resthedarkside, { npcs[4] }, { createPortal(1200, 1000, 3), createPortal(100, 300, 5) }),
-		createArea(resmodern, { npcs[1] }, { createPortal(650, 1000, 2), createPortal(1800, 300, 4) }),
+		createArea(
+			resthedarkside,
+			{ npcs[4] },
+			{ createPortal(1200, 1000, 3, 1200, 100), createPortal(100, 300, 5, 1800, 300) }
+		),
+		createArea(
+			resmodern,
+			{ npcs[1] },
+			{ createPortal(650, 1000, 2, 650, 100), createPortal(1800, 300, 4, 100, 300) }
+		),
 	}
 	area = areas[1]
 	scene = "menu"
@@ -483,6 +497,8 @@ function love.update(dt)
 		closePortal = player:getCloseEntity(area.portals)
 		if closePortal ~= nil and input.interact then
 			area = areas[closePortal.next]
+			player.x = closePortal.newX
+			player.y = closePortal.newY
 		end
 		closeNpc = player:getCloseEntity(area.npcs)
 		if closeNpc ~= nil then
