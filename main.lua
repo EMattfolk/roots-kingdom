@@ -118,7 +118,7 @@ function createPlayer()
     vy = 0,
 		dir = 1,
 		speed = 400,
-		acc = 650,
+		acc = 850,
 		update = function(player, dt)
 			local dx = 0
 			local dy = 0
@@ -141,7 +141,7 @@ function createPlayer()
 				dy = dy / tot
 			end
 
-      local drag = 0.01
+      local drag = 0.001
       player.vx = math.pow(drag, dt) * player.vx + dt * dx * player.acc
       player.vy = math.pow(drag, dt) * player.vy + dt * dy * player.acc
 
@@ -160,15 +160,19 @@ function createPlayer()
 			end
 		end,
 		draw = function(player)
+      local vlen = math.sqrt(player.vx * player.vx + player.vy * player.vy)
+      local wiggle = 2 * (math.sqrt(vlen) / 500) * math.sin(love.timer.getTime() * 10)
 			local scale = toScreenX(2)
 			love.graphics.setColor(1, 1, 1)
 			love.graphics.draw(
 				reskantis,
-				toScreenX(player.x) - reskantis:getWidth() / 2 * -player.dir * scale,
-				toScreenY(player.y) - reskantis:getHeight() / 2 * scale,
-				0,
+				toScreenX(player.x),
+				toScreenY(player.y),
+				wiggle,
 				-player.dir * scale,
-				scale
+				scale,
+        reskantis:getWidth() / 2,
+        reskantis:getHeight() / 2
 			)
 		end,
 		getCloseEntity = function(player, entities)
