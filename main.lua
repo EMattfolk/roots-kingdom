@@ -108,6 +108,7 @@ function createPlayer()
 	return {
 		x = 0,
 		y = 0,
+		dir = 1,
 		speed = 400,
 		update = function(player, dt)
 			local dx = 0
@@ -133,16 +134,22 @@ function createPlayer()
 
 			player.x = player.x + dt * dx * player.speed
 			player.y = player.y + dt * dy * player.speed
+
+			if dx < 0 then
+				player.dir = -1
+			elseif dx > 0 then
+				player.dir = 1
+			end
 		end,
 		draw = function(player)
 			local scale = toScreenX(2)
 			love.graphics.setColor(1, 1, 1)
 			love.graphics.draw(
 				reskantis,
-				toScreenX(player.x - reskantis:getWidth() / 2 * scale),
+				toScreenX(player.x - reskantis:getWidth() / 2 * -player.dir * scale),
 				toScreenY(player.y - reskantis:getHeight() / 2 * scale),
 				0,
-				scale,
+				-player.dir * scale,
 				scale
 			)
 		end,
