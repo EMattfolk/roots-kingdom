@@ -277,7 +277,7 @@ function restart()
 						dt.index = 4
 					end,
 					function(dt, npc)
-						dt.index = 10
+						dt.index = 14
 					end,
 					"Jag tror inte att någon skulle prata illa om dig!",
 					"Sant, det låter inte så trevligt att gå dit."
@@ -303,6 +303,7 @@ function restart()
 					end,
 					function(dt, npc)
 						dt.index = 9
+						npc.accepted = true
 					end,
 					"Du inbillar dig säkert bara! Jag tror alla tycker om dig!",
 					"Jag ska bjuda alla, du kommer säkert hitta nya vänner! Då blir du inte lika ensam längre."
@@ -315,9 +316,13 @@ function restart()
 				-- Vinner karaktären
 				.text(
 					"Verkligen? Hmm... Det kanske, fast nej… eller okej. Det vore trevligt att få umgås med vanligt folk igen… Jag gör det, lilla kantarell. Vi ses på balen!",
-					10
+					11
 				)
-				.ending(10)
+				.ending(13)
+				.ending(12)
+				.text("Jag har inte tid att prata, jag måste göra mig iordning.", 11)
+				.text("Låt mig vara ifred med mina daggdroppar, kära du.", 10)
+				.text("Precis. Så var så snäll och gå. Jag har ett glas daggdroppar som väntar på mig nu.", 10)
 		),
 
 		-- Morfar
@@ -373,7 +378,31 @@ function restart()
 				.ending(4)
 		),
 		-- PTSD svamp
-
+		createNpc(
+			600,
+			400,
+			resptsd,
+			createDialogTree()
+				.text(
+					"Mig? På en bal? Men lilla kantarell, tror du de skulle släppa in mig med alla mina barn? Du vet att jag inte kan lämna dem ensamma och inte har jag någon som kan ta hand om dem.",
+					2
+				)
+				.choice(
+					function(dt, npc)
+						dt.index = 3
+					end,
+					function(dt, npc)
+						dt.index = 3
+					end,
+					"Jag ska bjuda in hela riket! Så klart att de släpper in er!",
+					"Det kommer säkert en massa barn på balen, den är till för hela riket!"
+				)
+				.text(
+					"På riktigt? Nämen, oj, då måste vi ju passa på! En bal på slotten, kan du tänka dig! Tack lilla kantarell! Lycka till med ditt uppdrag så ses vi på balen. Nu har jag en massa förberedelser att stå i!",
+					4
+				)
+				.ending(4)
+		),
 		-- EMO svamp
 		createNpc(
 			600,
@@ -405,12 +434,132 @@ function restart()
 				.ending(5)
 		),
 		-- Ghost
-
+		createNpc(
+			600,
+			400,
+			resghost,
+			createDialogTree()
+				.text(
+					"Mig? På en bal? Men lilla kantarell, tror du de skulle släppa in mig med alla mina barn? Du vet att jag inte kan lämna dem ensamma och inte har jag någon som kan ta hand om dem.",
+					2
+				)
+				.choice(
+					function(dt, npc)
+						dt.index = 3
+					end,
+					function(dt, npc)
+						dt.index = 3
+					end,
+					"Jag ska bjuda in hela riket! Så klart att de släpper in er!",
+					"Det kommer säkert en massa barn på balen, den är till för hela riket!"
+				)
+				.text(
+					"På riktigt? Nämen, oj, då måste vi ju passa på! En bal på slotten, kan du tänka dig! Tack lilla kantarell! Lycka till med ditt uppdrag så ses vi på balen. Nu har jag en massa förberedelser att stå i!",
+					4
+				)
+				.ending(4)
+		),
 		-- Long
-
+		createNpc(
+			600,
+			400,
+			resblygsvamp,
+			createDialogTree()
+				.text(
+					"Mig? På en bal? Men lilla kantarell, tror du de skulle släppa in mig med alla mina barn? Du vet att jag inte kan lämna dem ensamma och inte har jag någon som kan ta hand om dem.",
+					2
+				)
+				.choice(
+					function(dt, npc)
+						dt.index = 3
+					end,
+					function(dt, npc)
+						dt.index = 3
+					end,
+					"Jag ska bjuda in hela riket! Så klart att de släpper in er!",
+					"Det kommer säkert en massa barn på balen, den är till för hela riket!"
+				)
+				.text(
+					"På riktigt? Nämen, oj, då måste vi ju passa på! En bal på slotten, kan du tänka dig! Tack lilla kantarell! Lycka till med ditt uppdrag så ses vi på balen. Nu har jag en massa förberedelser att stå i!",
+					4
+				)
+				.ending(4)
+		),
 		-- Kungen
-
+		createNpc(
+			600,
+			400,
+			resking,
+			createDialogTree()
+				.text(
+					"Mig? På en bal? Men lilla kantarell, tror du de skulle släppa in mig med alla mina barn? Du vet att jag inte kan lämna dem ensamma och inte har jag någon som kan ta hand om dem.",
+					2
+				)
+				.choice(
+					function(dt, npc)
+						dt.index = 3
+					end,
+					function(dt, npc)
+						dt.index = 3
+					end,
+					"Jag ska bjuda in hela riket! Så klart att de släpper in er!",
+					"Det kommer säkert en massa barn på balen, den är till för hela riket!"
+				)
+				.text(
+					"På riktigt? Nämen, oj, då måste vi ju passa på! En bal på slotten, kan du tänka dig! Tack lilla kantarell! Lycka till med ditt uppdrag så ses vi på balen. Nu har jag en massa förberedelser att stå i!",
+					4
+				)
+				.ending(4)
+		),
 		-- Alla vakter (8 st i princip identiska utöver att de introducerar till olika namn)
+		createNpc(
+			900,
+			400,
+			resguard,
+			createDialogTree().text("Välkommen till Farmsidan! Det är här vi sköter all vår odling!", 2).ending(1)
+		),
+		createNpc(
+			900,
+			400,
+			resguard,
+			createDialogTree().text("Välkommen till Farmsidan! Det är här vi sköter all vår odling!", 2).ending(1)
+		),
+		createNpc(
+			900,
+			400,
+			resguard,
+			createDialogTree().text("Välkommen till Farmsidan! Det är här vi sköter all vår odling!", 2).ending(1)
+		),
+		createNpc(
+			900,
+			400,
+			resguard,
+			createDialogTree().text("Välkommen till Farmsidan! Det är här vi sköter all vår odling!", 2).ending(1)
+		),
+		createNpc(
+			900,
+			400,
+			resguard,
+			createDialogTree().text("Välkommen till Farmsidan! Det är här vi sköter all vår odling!", 2).ending(1)
+		),
+		createNpc(
+			900,
+			400,
+			resguard,
+			createDialogTree().text("Välkommen till Farmsidan! Det är här vi sköter all vår odling!", 2).ending(1)
+		),
+		createNpc(
+			900,
+			400,
+			resguard,
+			createDialogTree().text("Välkommen till Farmsidan! Det är här vi sköter all vår odling!", 2).ending(1)
+		),
+		createNpc(
+			900,
+			400,
+			resguard,
+			createDialogTree().text("Välkommen till Farmsidan! Det är här vi sköter all vår odling!", 2).ending(1)
+		),
 		createNpc(
 			900,
 			400,
@@ -422,25 +571,25 @@ function restart()
 	input = { interact = false }
 	choice = nil
 	areas = {
-		createArea(resfancyfancy, { npcs[1], npcs[5] }, { createPortal(100, 800, 2, 100, 800) }), -- Slottet
-		createArea(resfancyfancy, { npcs[2], npcs[3] }, {
+		createArea(resfancyfancy, { npcs[8] }, { createPortal(100, 800, 2, 100, 800) }), -- Slottet
+		createArea(resfancyfancy, { npcs[1] }, {
 			createPortal(100, 800, 1, 100, 800),
 			createPortal(650, 100, 5, 650, 1000),
 			createPortal(1800, 750, 3, 100, 750),
 		}),
 		createArea(
 			resbackground,
-			{ npcs[1] },
+			{ npcs[2], npcs[3] },
 			{ createPortal(100, 750, 2, 1800, 750), createPortal(1200, 100, 4, 1200, 1000) }
 		),
 		createArea(
 			resthedarkside,
-			{ npcs[4] },
+			{ npcs[4], npcs[5] },
 			{ createPortal(1200, 1000, 3, 1200, 100), createPortal(100, 300, 5, 1800, 300) }
 		),
 		createArea(
 			resmodern,
-			{ npcs[1] },
+			{ npcs[6], npcs[7] },
 			{ createPortal(650, 1000, 2, 650, 100), createPortal(1800, 300, 4, 100, 300) }
 		),
 	}
