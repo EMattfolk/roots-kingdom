@@ -195,6 +195,7 @@ function restart()
 end
 
 function love.load()
+	love.window.setFullscreen(true)
 	restart()
 end
 
