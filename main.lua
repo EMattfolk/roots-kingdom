@@ -548,9 +548,12 @@ function restart()
 				)
 				.choice(function(dt, npc)
 					dt.index = 7
+					npc.accepted = true -- Att kungen har accepterat sin egen inbjudan.
+					table.insert(areas[1].portals, createPortal(960, 1050, 2, 100, 800))
 				end, function(dt, npc)
 					dt.index = 7
 					npc.accepted = true -- Att kungen har accepterat sin egen inbjudan.
+					table.insert(areas[1].portals, createPortal(960, 1050, 2, 100, 800))
 				end, "Ja!", "Självklart!")
 				.text("*Man tackar inte nej till en kung så du accepterar gladeligen ditt uppdrag.*", 8)
 				.text("Underbart! Se så, skynda iväg och bjud in ALLA!", 9)
@@ -618,7 +621,7 @@ function restart()
 	input = { interact = false }
 	choice = nil
 	areas = {
-		createArea(rescastle, { npcs[8] }, { createPortal(960, 1050, 2, 100, 800) }), -- Slottet
+		createArea(rescastle, { npcs[8] }, {}), -- Slottet
 		createArea(resfancyfancy, { npcs[1] }, {
 			createPortal(100, 800, 1, 100, 800),
 			createPortal(650, 100, 5, 650, 1000),
