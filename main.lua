@@ -643,29 +643,29 @@ function restart()
 		),
 		-- Alla vakter (9 st i princip identiska utöver att de introducerar till olika namn)
 		-- Vakterna på Solsidan
-		createNpc(100, 850, resguard, createDialogTree().text("Välkommen till Slottet!", 2).ending(1)),
+		createNpc(200, 850, resguard, createDialogTree().text("Välkommen till Slottet!", 2).ending(1)),
 		createNpc(
-			1800,
-			800,
+			1700,
+			850,
 			resguard,
 			createDialogTree().text("Välkommen till Farmsidan! Det är här vi sköter all vår odling!", 2).ending(1)
 		),
 		createNpc(
-			700,
-			100,
+			750,
+			200,
 			resguard,
 			createDialogTree().text("Välkommen till Framsidan! Det är här våra ingenjörer bor.", 2).ending(1)
 		),
 		-- Vakter på Farmsidan
 		createNpc(
-			100,
-			800,
+			200,
+			850,
 			resguard,
 			createDialogTree().text("Välkommen till Solsidan! Vårt finaste stadskvarter!", 2).ending(1)
 		),
 		createNpc(
-			1100,
-			100,
+			1300,
+			200,
 			resguard,
 			createDialogTree()
 				.text("Var försiktig när du går till Skuggsidan! Den är nära gränsen till ", 2)
@@ -673,20 +673,20 @@ function restart()
 		),
 		-- Vakter på Skuggsidan
 		createNpc(
-			1100,
-			1000,
+			1300,
+			900,
 			resguard,
 			createDialogTree().text("Välkommen till Farmsidan! Det är här vi sköter all vår odling!", 2).ending(1)
 		),
 		createNpc(
-			100,
-			400,
+			200,
+			350,
 			resguard,
 			createDialogTree().text("Välkommen till Framsidan! Det är här våra ingenjörer bor.", 2).ending(1)
 		),
 		-- Vakter på Framsidan
 		createNpc(
-			1800,
+			1700,
 			400,
 			resguard,
 			createDialogTree()
