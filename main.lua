@@ -923,7 +923,7 @@ function love.draw()
 
 		love.graphics.scale(love.graphics.getWidth() / 1920, love.graphics.getHeight() / 1080)
 
-    area:drawPortals()
+		area:drawPortals()
 
 		love.graphics.setColor(1, 1, 1)
 		love.graphics.draw(dammsystem)
