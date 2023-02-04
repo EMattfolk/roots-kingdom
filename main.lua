@@ -25,6 +25,7 @@ local resblygsvamp = nil
 local resghost = nil
 local resking = nil
 local resmodern = nil
+local rescastle = nil
 
 function utf8sub(s, to)
 	return s:sub(1, (utf8.offset(s, to) or #s + 1) - 1)
@@ -521,8 +522,8 @@ function restart()
 		),
 		-- Kungen
 		createNpc(
-			960,
-			300,
+			940,
+			250,
 			resking,
 			createDialogTree()
 				.text(
@@ -542,12 +543,19 @@ function restart()
 					5
 				)
 				.text(
-					"Lilla kantarell! Skulle inte du kunna hjälpa mig? Jag vill att hela riket bjuds in till min bal ikväll! Med din eviga optimism och livsglädje borde du kunna övertyga dem att komma!",
+					"Lilla kantarell! Skulle inte du kunna hjälpa mig? Jag vill att hela riket bjuds in till min bal ikväll! Med din eviga optimism och livsglädje borde du kunna övertyga dem att komma! Godtar du detta uppdrag?",
 					6
 				)
-				.text("*Man tackar inte nej till en kung så du ger dig gladeligen iväg på ditt uppdrag.*", 7)
-				.ending(8)
-				.text("Jag hoppas det går bra med inbjudningarna, lilla kantarell", 7)
+				.choice(function(dt, npc)
+					dt.index = 7
+				end, function(dt, npc)
+					dt.index = 7
+					npc.accepted = true -- Att kungen har accepterat sin egen inbjudan.
+				end, "Ja!", "Självklart!")
+				.text("*Man tackar inte nej till en kung så du accepterar gladeligen ditt uppdrag.*", 8)
+				.text("Underbart! Se så, skynda iväg och bjud in ALLA!", 9)
+				.ending(10)
+				.text("Jag hoppas det går bra med inbjudningarna, lilla kantarell", 9)
 		),
 		-- Alla vakter (8 st i princip identiska utöver att de introducerar till olika namn)
 		createNpc(
@@ -605,12 +613,12 @@ function restart()
 			createDialogTree().text("Välkommen till Farmsidan! Det är här vi sköter all vår odling!", 2).ending(1)
 		),
 	}
-	npcs[8].accepted = true -- Att kungen har accepterat sin egen inbjudan.
+
 	dialog = nil
 	input = { interact = false }
 	choice = nil
 	areas = {
-		createArea(resfancyfancy, { npcs[8] }, { createPortal(960, 1050, 2, 100, 800) }), -- Slottet
+		createArea(rescastle, { npcs[8] }, { createPortal(960, 1050, 2, 100, 800) }), -- Slottet
 		createArea(resfancyfancy, { npcs[1] }, {
 			createPortal(100, 800, 1, 100, 800),
 			createPortal(650, 100, 5, 650, 1000),
@@ -654,6 +662,7 @@ function love.load()
 	resghost = love.graphics.newImage("res/ghosty40.png")
 	resking = love.graphics.newImage("res/KONUNGEN.png")
 	resmodern = love.graphics.newImage("res/4thdimention.png")
+	rescastle = love.graphics.newImage("res/castleinthesky.png")
 
 	restart()
 end
