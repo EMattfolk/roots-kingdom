@@ -47,7 +47,7 @@ local pixelcode = [[
     vec4 effect(vec4 c, Image tex, vec2 tc, vec2 _)
     {
 
-      number radius = 0.9;
+      number radius = 0.99;
       number softness = 0.2;
       number opacity = 0.2;
       vec4 color = vec4(0.0, 0.0, 0.0, 1.0);
@@ -234,6 +234,10 @@ function createPlayer()
 
 			player.x = player.x + dt * player.vx
 			player.y = player.y + dt * player.vy
+
+      -- Walls
+      player.x = clamp(100, 1820, player.x)
+      player.y = clamp(100, 980, player.y)
 
 			if dx < 0 then
 				player.dir = -1
