@@ -39,14 +39,6 @@ function utf8sub(s, to)
 	return s:sub(1, (utf8.offset(s, to) or #s + 1) - 1)
 end
 
-function toScreenX(x)
-	return love.graphics.getWidth() / 1920 * x
-end
-
-function toScreenY(y)
-	return love.graphics.getHeight() / 1080 * y
-end
-
 function createTransition(dir, onTransition)
 	return {
 		progress = 0,
@@ -94,7 +86,7 @@ function createPortal(x, y, next, newX, newY)
 		newY = newY,
 		draw = function(portal)
 			love.graphics.setColor(0, 0, 1)
-			love.graphics.ellipse("line", toScreenX(portal.x), toScreenY(portal.y), 50, 25)
+			love.graphics.ellipse("line", portal.x, portal.y, 50, 25)
 		end,
 	}
 end
@@ -188,7 +180,7 @@ function createPlayer()
 
 				local dir = math.atan2(-player.vy, -player.vx)
 				dammsystem:setDirection(dir)
-				dammsystem:setPosition(toScreenX(player.x), toScreenY(player.y + reskantis:getHeight() / 2))
+				dammsystem:setPosition(player.x, player.y + reskantis:getHeight() / 2)
 				dammsystem:start()
 			else
 				dammsystem:pause()
@@ -216,12 +208,12 @@ function createPlayer()
 			local vlen = math.sqrt(player.vx * player.vx + player.vy * player.vy)
 			local speedSquash = math.sqrt(vlen) / 500
 			local wiggle = 2 * (math.sqrt(vlen) / 500) * math.sin(love.timer.getTime() * 10)
-			local scale = toScreenX(2)
+			local scale = 2
 			love.graphics.setColor(1, 1, 1)
 			love.graphics.draw(
 				reskantis,
-				toScreenX(player.x),
-				toScreenY(player.y),
+				player.x,
+				player.y,
 				wiggle,
 				-player.dir * scale,
 				scale * (1 + 0.03 * math.sin(love.timer.getTime() * 7 + 2)) * (1 - speedSquash),
@@ -254,17 +246,17 @@ function createNpc(x, y, image, dialogTree, breathSpeed)
 		dialogTree = dialogTree,
 		update = function(npc)
 			if npc.wasAccepted ~= npc.accepted then
-				emitSuccessParticles(toScreenX(npc.x), toScreenY(npc.y))
+				emitSuccessParticles(npc.x, npc.y)
 			end
 			npc.wasAccepted = npc.accepted
 		end,
 		draw = function(npc)
-			local scale = toScreenX(2)
+			local scale = 2
 			love.graphics.setColor(1, 1, 1)
 			love.graphics.draw(
 				image,
-				toScreenX(npc.x),
-				toScreenY(npc.y),
+				npc.x,
+				npc.y,
 				0,
 				scale,
 				scale * (1 + 0.02 * math.sin(love.timer.getTime() * breathSpeed)),
@@ -748,8 +740,8 @@ function love.load()
 	reskantis = love.graphics.newImage("res/kantis.png")
 	restrattis = love.graphics.newImage("res/famly50.png")
 	resmorfar = love.graphics.newImage("res/morfar.png")
-	resfont = love.graphics.newFont("res/Chalkduster.ttf", toScreenX(28))
-	resbigfont = love.graphics.newFont("res/Chalkduster.ttf", toScreenX(72))
+	resfont = love.graphics.newFont("res/Chalkduster.ttf", 28)
+	resbigfont = love.graphics.newFont("res/Chalkduster.ttf", 72)
 	resguard = love.graphics.newImage("res/mosh40.png")
 	resfancyfancy = love.graphics.newImage("res/fancyfancy.png", { linear = true })
 	resbackground = love.graphics.newImage("res/background.png")
@@ -886,6 +878,7 @@ end
 
 function love.draw()
 	if scene == "menu" then
+	  love.graphics.origin()
 		love.graphics.setFont(resbigfont)
 		love.graphics.clear(0, 0.6, 0.3)
 		love.graphics.setColor(1, 1, 1)
@@ -920,7 +913,10 @@ function love.draw()
 			"center"
 		)
 	elseif scene == "game" then
+	  love.graphics.origin()
 		area:draw()
+
+	  love.graphics.scale(love.graphics.getWidth() / 1920,  love.graphics.getHeight() / 1080)
 
 		love.graphics.setColor(1, 1, 1)
 		love.graphics.draw(dammsystem)
@@ -933,6 +929,7 @@ function love.draw()
 		end)
 		player:draw()
 
+	  love.graphics.origin()
 		if dialog ~= nil then
 			dialog:draw()
 		end
