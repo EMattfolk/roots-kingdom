@@ -836,6 +836,7 @@ function love.draw()
 	if scene == "menu" then
 		love.graphics.setFont(resbigfont)
 		love.graphics.clear(0, 0.6, 0.3)
+		love.graphics.setColor(1, 1, 1)
 		love.graphics.printf("Roots Kingdom", 0, love.graphics.getHeight() / 4, love.graphics.getWidth(), "center")
 		love.graphics.setFont(resfont)
 		love.graphics.printf(
