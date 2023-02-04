@@ -12,6 +12,10 @@ function createPortal(x, y, next)
 		x = x,
 		y = y,
 		next = next,
+		draw = function(portal)
+			love.graphics.setColor(0, 0, 1)
+			love.graphics.rectangle("fill", portal.x, portal.y, 50, 50)
+		end,
 	}
 end
 
@@ -22,6 +26,9 @@ function createArea(npcs, color, portals)
 		draw = function(area)
 			love.graphics.setColor(color)
 			love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
+			table.foreach(area.portals, function(_, portal)
+				portal:draw()
+			end)
 		end,
 	}
 end
