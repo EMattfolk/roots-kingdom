@@ -22,6 +22,14 @@ function utf8sub(s, to)
 	return s:sub(1, (utf8.offset(s, to) or #s + 1) - 1)
 end
 
+function toScreenX(x)
+	return love.graphics.getWidth() / 1920 * x
+end
+
+function toScreenY(y)
+	return love.graphics.getHeight() / 1080 * y
+end
+
 function createPortal(x, y, next)
 	return {
 		x = x,
@@ -29,7 +37,7 @@ function createPortal(x, y, next)
 		next = next,
 		draw = function(portal)
 			love.graphics.setColor(0, 0, 1)
-			love.graphics.rectangle("fill", portal.x, portal.y, 50, 50)
+			love.graphics.ellipse("line", toScreenX(portal.x), toScreenY(portal.y), 50, 25)
 		end,
 	}
 end
@@ -122,8 +130,16 @@ function createPlayer()
 			player.y = player.y + dt * dy * player.speed
 		end,
 		draw = function(player)
-			love.graphics.setColor(1, 1, 0)
-			love.graphics.rectangle("fill", player.x, player.y, 100, 100)
+			local scale = toScreenX(2)
+			love.graphics.setColor(1, 1, 1)
+			love.graphics.draw(
+				reskantis,
+				toScreenX(player.x - reskantis:getWidth() / 2 * scale),
+				toScreenY(player.y - reskantis:getHeight() / 2 * scale),
+				0,
+				scale,
+				scale
+			)
 		end,
 		getCloseEntity = function(player, entities)
 			range = 100
@@ -147,8 +163,16 @@ function createNpc(x, y, image, dialogTree)
 		dialogTree = dialogTree,
 		update = function(npc) end,
 		draw = function(npc)
+			local scale = toScreenX(2)
 			love.graphics.setColor(1, 1, 1)
-			love.graphics.draw(image, npc.x, npc.y)
+			love.graphics.draw(
+				image,
+				toScreenX(npc.x - image:getWidth() / 2 * scale),
+				toScreenY(npc.y - image:getHeight() / 2 * scale),
+				0,
+				scale,
+				scale
+			)
 		end,
 	}
 end
@@ -366,7 +390,7 @@ function love.load()
 	reskantis = love.graphics.newImage("res/kantis.png")
 	restrattis = love.graphics.newImage("res/famly50.png")
 	resmorfar = love.graphics.newImage("res/morfar.png")
-	resfont = love.graphics.newFont("res/Chalkduster.ttf", 28)
+	resfont = love.graphics.newFont("res/Chalkduster.ttf", toScreenX(28))
 	resguard = love.graphics.newImage("res/mosh40.png")
 	resfancyfancy = love.graphics.newImage("res/fancyfancy.png", { linear = true })
 	resbackground = love.graphics.newImage("res/background.png")
