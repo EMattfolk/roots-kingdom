@@ -28,6 +28,11 @@ local resking = nil
 local resmodern = nil
 local rescastle = nil
 local resdamm = nil
+local resbigking = nil
+local resbiggrump = nil
+local resbigmorfar = nil
+local reskantarell = nil
+local resbigemo = nil
 
 local dammsystem = nil
 
@@ -734,6 +739,11 @@ end
 
 function love.load()
 	love.window.setFullscreen(true)
+	resbiggrump = love.graphics.newImage("res/grumpBIG.png")
+	resbigemo = love.graphics.newImage("res/emoBIG.png")
+	resbigking = love.graphics.newImage("res/kungenBIG.png")
+	resbigmorfar = love.graphics.newImage("res/morfarBIG.png")
+	reskantarell = love.graphics.newImage("res/kantarell.png")
 	love.graphics.setDefaultFilter("nearest", "nearest")
 	reskantis = love.graphics.newImage("res/kantis.png")
 	restrattis = love.graphics.newImage("res/famly50.png")
@@ -876,6 +886,12 @@ function love.draw()
 			love.graphics.getWidth(),
 			"center"
 		)
+		-- Utritning av karaktärer på framsidan
+		love.graphics.draw(resbigking, toScreenX(1300), toScreenY(300), 0, 0.2, 0.2)
+		love.graphics.draw(reskantarell, toScreenX(650), toScreenY(400), 0, -1, 1)
+		love.graphics.draw(resbigemo, toScreenX(1600), toScreenY(200), 0, 0.7, 0.7)
+		love.graphics.draw(resbiggrump, toScreenX(200), toScreenY(800), 0, 0.3, 0.3)
+		love.graphics.draw(resbigmorfar, toScreenX(450), toScreenY(200), 0, -0.7, 0.7)
 	elseif scene == "game" then
 		area:draw()
 		table.foreach(area.npcs, function(_, npc)
