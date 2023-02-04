@@ -22,6 +22,7 @@ local resptsd = nil
 local resblygsvamp = nil
 local resghost = nil
 local resking = nil
+local resmodern = nil
 
 function utf8sub(s, to)
 	return s:sub(1, (utf8.offset(s, to) or #s + 1) - 1)
@@ -415,11 +416,15 @@ function restart()
 	input = { interact = false }
 	choice = nil
 	areas = {
-		createArea(resfancyfancy, { npcs[1], npcs[5] }, { createPortal(100, 400, 2) }),
-		createArea(resfancyfancy, { npcs[2], npcs[3] }, { createPortal(100, 400, 3) }),
-		createArea(resbackground, { npcs[1] }, { createPortal(100, 400, 4) }),
-		createArea(resthedarkside, { npcs[4] }, { createPortal(100, 400, 5) }),
-		createArea(resfancyfancy, { npcs[1] }, { createPortal(100, 400, 1) }),
+		createArea(resfancyfancy, { npcs[1], npcs[5] }, { createPortal(100, 800, 2) }), -- Slottet
+		createArea(
+			resfancyfancy,
+			{ npcs[2], npcs[3] },
+			{ createPortal(100, 800, 1), createPortal(650, 100, 5), createPortal(1800, 750, 3) }
+		),
+		createArea(resbackground, { npcs[1] }, { createPortal(100, 750, 2), createPortal(1200, 100, 4) }),
+		createArea(resthedarkside, { npcs[4] }, { createPortal(1200, 1000, 3), createPortal(100, 300, 5) }),
+		createArea(resmodern, { npcs[1] }, { createPortal(650, 1000, 2), createPortal(1800, 300, 4) }),
 	}
 	area = areas[1]
 end
@@ -440,6 +445,7 @@ function love.load()
 	resblygsvamp = love.graphics.newImage("res/long40.png")
 	resghost = love.graphics.newImage("res/ghosty40.png")
 	resking = love.graphics.newImage("res/KONUNGEN.png")
+	resmodern = love.graphics.newImage("res/4thdimention.png")
 
 	love.graphics.setFont(resfont)
 	restart()
