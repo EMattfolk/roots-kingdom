@@ -100,6 +100,8 @@ function createArea(image, npcs, portals)
 			local yscale = love.graphics.getHeight() / image:getHeight()
 			love.graphics.setColor(1, 1, 1)
 			love.graphics.draw(image, 0, 0, 0, xscale, yscale)
+		end,
+		drawPortals = function(area)
 			table.foreach(area.portals, function(_, portal)
 				portal:draw()
 			end)
@@ -881,7 +883,7 @@ end
 
 function love.draw()
 	if scene == "menu" then
-	  love.graphics.origin()
+		love.graphics.origin()
 		love.graphics.setFont(resbigfont)
 		love.graphics.clear(0, 0.6, 0.3)
 		love.graphics.setColor(1, 1, 1)
@@ -916,10 +918,12 @@ function love.draw()
 			"center"
 		)
 	elseif scene == "game" then
-	  love.graphics.origin()
+		love.graphics.origin()
 		area:draw()
 
-	  love.graphics.scale(love.graphics.getWidth() / 1920,  love.graphics.getHeight() / 1080)
+		love.graphics.scale(love.graphics.getWidth() / 1920, love.graphics.getHeight() / 1080)
+
+    area:drawPortals()
 
 		love.graphics.setColor(1, 1, 1)
 		love.graphics.draw(dammsystem)
@@ -932,7 +936,7 @@ function love.draw()
 		end)
 		player:draw()
 
-	  love.graphics.origin()
+		love.graphics.origin()
 		if dialog ~= nil then
 			dialog:draw()
 		end
