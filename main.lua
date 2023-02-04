@@ -68,7 +68,15 @@ local vertexcode = [[
 ]]
 
 function clamp(lo, hi, x)
-  return math.min(hi, math.max(lo, x))
+	return math.min(hi, math.max(lo, x))
+end
+
+function sign(x)
+	if x >= 0 then
+		return 1
+	else
+		return -1
+	end
 end
 
 function utf8sub(s, to)
@@ -235,9 +243,9 @@ function createPlayer()
 			player.x = player.x + dt * player.vx
 			player.y = player.y + dt * player.vy
 
-      -- Walls
-      player.x = clamp(100, 1820, player.x)
-      player.y = clamp(100, 980, player.y)
+			-- Walls
+			player.x = clamp(100, 1820, player.x)
+			player.y = clamp(100, 980, player.y)
 
 			if dx < 0 then
 				player.dir = -1
@@ -263,13 +271,19 @@ function createPlayer()
 			)
 		end,
 		getCloseEntity = function(player, entities)
-			range = 100
+			range = 120
+			pushDist = 50
 			res = nil
 			table.foreach(entities, function(_, entity)
 				local dx = player.x - entity.x
 				local dy = player.y - entity.y
 				if dx * dx + dy * dy <= range * range then
 					res = entity
+				end
+
+				if entity.isNpc == true and dx * dx + dy * dy <= pushDist * pushDist then
+					player.vx = player.vx + sign(dx) * math.pow((30 - dx) / 30, 2) * 10
+					player.vy = player.vy + sign(dy) * math.pow((30 - dy) / 30, 2) * 5
 				end
 			end)
 			return res
@@ -280,6 +294,7 @@ end
 function createNpc(x, y, image, dialogTree, breathSpeed)
 	local breathSpeed = breathSpeed or 5
 	return {
+		isNpc = true,
 		x = x,
 		y = y,
 		accepted = false,
@@ -830,8 +845,8 @@ function love.load()
 	starsystemb:setColors({ 1.0, 0.7, 1.0, 0.8 }, { 1.0, 0.7, 1.0, 0.8 }, { 1.0, 0.7, 1.0, 0.0 })
 	starsystemc:setColors({ 0.7, 0.0, 1.0, 0.8 }, { 0.7, 0.0, 1.0, 0.8 }, { 1.0, 0.7, 1.0, 0.0 })
 
-  screenshader = love.graphics.newShader(vertexcode, pixelcode)
-  canvas = love.graphics.newCanvas (love.graphics.getWidth(), love.graphics.getHeight())
+	screenshader = love.graphics.newShader(vertexcode, pixelcode)
+	canvas = love.graphics.newCanvas(love.graphics.getWidth(), love.graphics.getHeight())
 
 	restart()
 end
@@ -972,10 +987,10 @@ function love.draw()
 		love.graphics.draw(resbiggrump, 100, 800, 0, 0.4, 0.4)
 		love.graphics.draw(resbigmorfar, 450, 200, 0, -0.9, 0.9)
 	elseif scene == "game" then
-    love.graphics.setCanvas(canvas)
+		love.graphics.setCanvas(canvas)
 
-    local dx = clamp(-20, 20, (1920 / 2 - player.x) / 20)
-    local dy = clamp(-20, 20, (1080 / 2 - player.y) / 20)
+		local dx = clamp(-20, 20, (1920 / 2 - player.x) / 20)
+		local dy = clamp(-20, 20, (1080 / 2 - player.y) / 20)
 		love.graphics.scale((love.graphics.getWidth() + 80) / 1920, (love.graphics.getHeight() + 80) / 1080)
 		love.graphics.translate(dx - 40, dy - 40)
 
@@ -992,15 +1007,14 @@ function love.draw()
 		end)
 		player:draw()
 
-    love.graphics.setCanvas()
-
+		love.graphics.setCanvas()
 
 		love.graphics.origin()
 
-    love.graphics.setShader(screenshader)
-    love.graphics.draw(canvas, 0, 0)
+		love.graphics.setShader(screenshader)
+		love.graphics.draw(canvas, 0, 0)
 
-    love.graphics.setShader()
+		love.graphics.setShader()
 
 		if dialog ~= nil then
 			dialog:draw()
