@@ -111,8 +111,8 @@ end
 
 function createPlayer()
 	return {
-		x = 0,
-		y = 0,
+		x = 1100,
+		y = 600,
 		dir = 1,
 		speed = 400,
 		update = function(player, dt)
@@ -366,9 +366,11 @@ function restart()
 				.choice(
 					function(dt, npc)
 						dt.index = 3
+						npc.accepted = true
 					end,
 					function(dt, npc)
 						dt.index = 3
+						npc.accepted = true
 					end,
 					"Jag ska bjuda in hela riket! Så klart att de släpper in er!",
 					"Det kommer säkert en massa barn på balen, den är till för hela riket!"
@@ -377,7 +379,8 @@ function restart()
 					"På riktigt? Nämen, oj, då måste vi ju passa på! En bal på slotten, kan du tänka dig! Tack lilla kantarell! Lycka till med ditt uppdrag så ses vi på balen. Nu har jag en massa förberedelser att stå i!",
 					4
 				)
-				.ending(4)
+				.ending(5)
+				.text("Så mycket att göra, så lite tid!", 4)
 		),
 		-- PTSD svamp
 		createNpc(
@@ -489,29 +492,33 @@ function restart()
 		),
 		-- Kungen
 		createNpc(
-			600,
-			400,
+			960,
+			300,
 			resking,
 			createDialogTree()
 				.text(
-					"Mig? På en bal? Men lilla kantarell, tror du de skulle släppa in mig med alla mina barn? Du vet att jag inte kan lämna dem ensamma och inte har jag någon som kan ta hand om dem.",
+					"Oj oj oj. Vad ska jag ta mig till? Livsträdet har äntligen fått nya rötter och det är min födelsedag! Jag vill så gärna fira…..",
 					2
 				)
-				.choice(
-					function(dt, npc)
-						dt.index = 3
-					end,
-					function(dt, npc)
-						dt.index = 3
-					end,
-					"Jag ska bjuda in hela riket! Så klart att de släpper in er!",
-					"Det kommer säkert en massa barn på balen, den är till för hela riket!"
+				.text(
+					"Allt har varit så dystert i mitt kungadöme sedan kriget. Jag vill bringa lite glädje till mina undersåtar. Men hur?! Hmmm…",
+					3
 				)
 				.text(
-					"På riktigt? Nämen, oj, då måste vi ju passa på! En bal på slotten, kan du tänka dig! Tack lilla kantarell! Lycka till med ditt uppdrag så ses vi på balen. Nu har jag en massa förberedelser att stå i!",
+					"Vad vill folket alltid ha?...... Jag har det! Så klart! Jag måste anordna en bal! Men hur ska jag kunna bjuda in folket? Jag är för gammal för att resa.",
 					4
 				)
-				.ending(4)
+				.text(
+					"*Kungen sjunker ihop och hans ögon fylls med tårar. Men plötsligt får han syn på dig och ser genast mer hoppfull ut.",
+					5
+				)
+				.text(
+					"Lilla kantarell! Skulle inte du kunna hjälpa mig? Jag vill att hela riket bjuds in till min bal ikväll! Med din eviga optimism och livsglädje borde du kunna övertyga dem att komma!",
+					6
+				)
+				.text("*Man tackar inte nej till en kung så du ger dig gladeligen iväg på ditt uppdrag.*", 7)
+				.ending(8)
+				.text("Jag hoppas det går bra med inbjudningarna, lilla kantarell", 7)
 		),
 		-- Alla vakter (8 st i princip identiska utöver att de introducerar till olika namn)
 		createNpc(
@@ -569,11 +576,12 @@ function restart()
 			createDialogTree().text("Välkommen till Farmsidan! Det är här vi sköter all vår odling!", 2).ending(1)
 		),
 	}
+	npcs[8].accepted = true -- Att kungen har accepterat sin egen inbjudan.
 	dialog = nil
 	input = { interact = false }
 	choice = nil
 	areas = {
-		createArea(resfancyfancy, { npcs[8] }, { createPortal(100, 800, 2, 100, 800) }), -- Slottet
+		createArea(resfancyfancy, { npcs[8] }, { createPortal(960, 1050, 2, 100, 800) }), -- Slottet
 		createArea(resfancyfancy, { npcs[1] }, {
 			createPortal(100, 800, 1, 100, 800),
 			createPortal(650, 100, 5, 650, 1000),
