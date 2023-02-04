@@ -190,7 +190,8 @@ function createPlayer()
 	}
 end
 
-function createNpc(x, y, image, dialogTree)
+function createNpc(x, y, image, dialogTree, breathSpeed)
+  local breathSpeed = breathSpeed or 5
 	return {
 		x = x,
 		y = y,
@@ -202,11 +203,13 @@ function createNpc(x, y, image, dialogTree)
 			love.graphics.setColor(1, 1, 1)
 			love.graphics.draw(
 				image,
-				toScreenX(npc.x - image:getWidth() / 2 * scale),
-				toScreenY(npc.y - image:getHeight() / 2 * scale),
+				toScreenX(npc.x),
+				toScreenY(npc.y),
 				0,
 				scale,
-				scale
+				scale * (1 + 0.02 * math.sin(love.timer.getTime() * breathSpeed)),
+        image:getWidth() / 2,
+        image:getHeight() / 2
 			)
 		end,
 	}
