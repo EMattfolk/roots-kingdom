@@ -93,14 +93,14 @@ function createPlayer()
 			love.graphics.setColor(1, 1, 0)
 			love.graphics.rectangle("fill", player.x, player.y, 100, 100)
 		end,
-		getCloseNpc = function(player, npcs)
+		getCloseEntity = function(player, entities)
 			range = 100
 			res = nil
-			table.foreach(npcs, function(_, npc)
-				local dx = player.x - npc.x
-				local dy = player.y - npc.y
+			table.foreach(entities, function(_, entity)
+				local dx = player.x - entity.x
+				local dy = player.y - entity.y
 				if dx * dx + dy * dy <= range * range then
-					res = npc
+					res = entity
 				end
 			end)
 			return res
@@ -214,7 +214,7 @@ function love.update(dt)
 	if isDown("q") or isDown("escape") then
 		love.event.quit()
 	end
-	closeNpc = player:getCloseNpc(area.npcs)
+	closeNpc = player:getCloseEntity(area.npcs)
 	if closeNpc ~= nil then
 		if input.space then
 			local dt = closeNpc.dialogTree
