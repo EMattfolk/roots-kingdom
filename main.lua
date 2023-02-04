@@ -114,8 +114,11 @@ function createPlayer()
 	return {
 		x = 1100,
 		y = 600,
+    vx = 0,
+    vy = 0,
 		dir = 1,
 		speed = 400,
+		acc = 650,
 		update = function(player, dt)
 			local dx = 0
 			local dy = 0
@@ -138,8 +141,17 @@ function createPlayer()
 				dy = dy / tot
 			end
 
-			player.x = player.x + dt * dx * player.speed
-			player.y = player.y + dt * dy * player.speed
+      local drag = 0.01
+      player.vx = math.pow(drag, dt) * player.vx + dt * dx * player.acc
+      player.vy = math.pow(drag, dt) * player.vy + dt * dy * player.acc
+
+      local vlen = math.sqrt(player.vx * player.vx + player.vy * player.vy)
+      local speedScale = vlen / math.max(vlen, player.speed)
+      player.vx = player.vx + dt * dx * player.acc
+      player.vy = player.vy + dt * dy * player.acc
+
+			player.x = player.x + dt * player.vx
+			player.y = player.y + dt * player.vy
 
 			if dx < 0 then
 				player.dir = -1
