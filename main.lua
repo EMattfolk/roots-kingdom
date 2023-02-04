@@ -8,6 +8,7 @@ local choice = nil
 local areas = nil
 local area = nil
 local scene = nil
+local transition = nil
 
 -- Bilder för NPCs
 local reskantis = nil
@@ -40,6 +41,44 @@ end
 
 function toScreenY(y)
 	return love.graphics.getHeight() / 1080 * y
+end
+
+function createTransition(dir, onTransition)
+	return {
+		progress = 0,
+		transitioned = false,
+		draw = function(tr)
+			local xdir = dir.x
+			local ydir = dir.y
+			love.graphics.setColor(0, 0, 0)
+			if tr.transitioned then
+				love.graphics.rectangle(
+					"fill",
+					xdir * tr.progress * love.graphics.getWidth(),
+					ydir * tr.progress * love.graphics.getHeight(),
+					love.graphics.getWidth(),
+					love.graphics.getHeight()
+				)
+			else
+				love.graphics.rectangle(
+					"fill",
+					love.graphics.getWidth() * -xdir + xdir * tr.progress * love.graphics.getWidth(),
+					love.graphics.getWidth() * -ydir + ydir * tr.progress * love.graphics.getHeight(),
+					love.graphics.getWidth(),
+					love.graphics.getHeight()
+				)
+			end
+		end,
+		update = function(tr, delta)
+			local speed = 2
+			tr.progress = math.min(1, tr.progress + delta * speed)
+			if not tr.transitioned and tr.progress == 1 then
+				tr.transitioned = true
+				tr.progress = 0
+				onTransition()
+			end
+		end,
+	}
 end
 
 function createPortal(x, y, next, newX, newY)
@@ -688,6 +727,7 @@ function restart()
 	}
 	area = areas[1]
 	scene = "menu"
+	transition = nil
 end
 
 function love.load()
@@ -751,11 +791,13 @@ function love.update(dt)
 		elseif isDown("down") then
 			choice = false
 		end
-		closePortal = player:getCloseEntity(area.portals)
+		local closePortal = player:getCloseEntity(area.portals)
 		if closePortal ~= nil and input.interact then
-			area = areas[closePortal.next]
-			player.x = closePortal.newX
-			player.y = closePortal.newY
+			transition = createTransition({ x = 1, y = 0 }, function()
+				area = areas[closePortal.next]
+				player.x = closePortal.newX
+				player.y = closePortal.newY
+			end)
 		end
 		closeNpc = player:getCloseEntity(area.npcs)
 		if closeNpc ~= nil then
@@ -773,6 +815,10 @@ function love.update(dt)
 			end
 		else
 			dialog = nil
+		end
+
+		if transition ~= nil then
+			transition:update(dt)
 		end
 
 		input.interact = false
@@ -828,6 +874,9 @@ function love.draw()
 		player:draw()
 		if dialog ~= nil then
 			dialog:draw()
+		end
+		if transition ~= nil then
+			transition:draw()
 		end
 	end
 end
