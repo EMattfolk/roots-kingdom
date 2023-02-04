@@ -351,7 +351,36 @@ function restart()
 					6
 				)
 				.text("Precis! Inga! Moses var inte på arken, det var Noah. Jag antar att detta innebär fest för mig!", 6)
-				.ending(6)
+				.ending(7)
+				.text("Vad väger mest, ett kilo bomull eller ett kilo bly?", 8)
+				.choice(function(dt, npc)
+					dt.index = 9
+				end, function(dt, npc)
+					dt.index = 9
+				end, "Bomull", "Bly")
+				.text(
+					"Fel svar, min lilla! Ett kilo bomull och ett kilo bly väger lika mycket! Du har ärvt din mors intellekt hör jag. Men det är okej, man kan inte vara bra på allt.",
+					10
+				)
+				.ending(11)
+				.text("Varför kan en svamp inte gifta sig med sin änkas syster?", 12)
+				.choice(function(dt, npc)
+					dt.index = 13
+				end, function(dt, npc)
+					dt.index = 13
+				end, "Olagligt", "Omoraliskt")
+				.text("Fel svar! Man kan väl inte gifta sig om man är död!", 14)
+				.ending(15)
+				.text("Hur många äpplen växer på ett träd?", 16)
+				.choice(function(dt, npc)
+					dt.index = 17
+				end, function(dt, npc)
+					dt.index = 18
+				end, "Alla", "Inga")
+				.text("Fel svar! Äpplen växer väl ändå på äppelträd?", 19)
+				.text("Fel svar! Alla äpplen växer väl på träd?", 19)
+				.ending(20)
+				.text("När var det partajet började, min lilla kantarell?", 19)
 		),
 		-- Trattis mamma
 		createNpc(
