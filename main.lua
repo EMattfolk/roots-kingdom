@@ -114,8 +114,11 @@ function createPlayer()
 	return {
 		x = 1100,
 		y = 600,
+    vx = 0,
+    vy = 0,
 		dir = 1,
 		speed = 400,
+		acc = 850,
 		update = function(player, dt)
 			local dx = 0
 			local dy = 0
@@ -138,8 +141,17 @@ function createPlayer()
 				dy = dy / tot
 			end
 
-			player.x = player.x + dt * dx * player.speed
-			player.y = player.y + dt * dy * player.speed
+      local drag = 0.001
+      player.vx = math.pow(drag, dt) * player.vx + dt * dx * player.acc
+      player.vy = math.pow(drag, dt) * player.vy + dt * dy * player.acc
+
+      local vlen = math.sqrt(player.vx * player.vx + player.vy * player.vy)
+      local speedScale = vlen / math.max(vlen, player.speed)
+      player.vx = player.vx + dt * dx * player.acc
+      player.vy = player.vy + dt * dy * player.acc
+
+			player.x = player.x + dt * player.vx
+			player.y = player.y + dt * player.vy
 
 			if dx < 0 then
 				player.dir = -1
@@ -148,15 +160,19 @@ function createPlayer()
 			end
 		end,
 		draw = function(player)
+      local vlen = math.sqrt(player.vx * player.vx + player.vy * player.vy)
+      local wiggle = 2 * (math.sqrt(vlen) / 500) * math.sin(love.timer.getTime() * 10)
 			local scale = toScreenX(2)
 			love.graphics.setColor(1, 1, 1)
 			love.graphics.draw(
 				reskantis,
-				toScreenX(player.x - reskantis:getWidth() / 2 * -player.dir * scale),
-				toScreenY(player.y - reskantis:getHeight() / 2 * scale),
-				0,
+				toScreenX(player.x),
+				toScreenY(player.y),
+				wiggle,
 				-player.dir * scale,
-				scale
+				scale,
+        reskantis:getWidth() / 2,
+        reskantis:getHeight() / 2
 			)
 		end,
 		getCloseEntity = function(player, entities)
@@ -548,9 +564,12 @@ function restart()
 				)
 				.choice(function(dt, npc)
 					dt.index = 7
+					npc.accepted = true -- Att kungen har accepterat sin egen inbjudan.
+					table.insert(areas[1].portals, createPortal(960, 1050, 2, 100, 800))
 				end, function(dt, npc)
 					dt.index = 7
 					npc.accepted = true -- Att kungen har accepterat sin egen inbjudan.
+					table.insert(areas[1].portals, createPortal(960, 1050, 2, 100, 800))
 				end, "Ja!", "Självklart!")
 				.text("*Man tackar inte nej till en kung så du accepterar gladeligen ditt uppdrag.*", 8)
 				.text("Underbart! Se så, skynda iväg och bjud in ALLA!", 9)
@@ -618,7 +637,7 @@ function restart()
 	input = { interact = false }
 	choice = nil
 	areas = {
-		createArea(rescastle, { npcs[8] }, { createPortal(960, 1050, 2, 100, 800) }), -- Slottet
+		createArea(rescastle, { npcs[8] }, {}), -- Slottet
 		createArea(resfancyfancy, { npcs[1] }, {
 			createPortal(100, 800, 1, 100, 800),
 			createPortal(650, 100, 5, 650, 1000),
