@@ -8,6 +8,11 @@ local choice = nil
 local areas = nil
 local area = nil
 
+-- Bilder för NPCs
+local reskantis = nil
+local restrattis = nil
+local resmorfar = nil
+
 function utf8sub(s, to)
 	return s:sub(1, (utf8.offset(s, to) or #s + 1) - 1)
 end
@@ -128,15 +133,15 @@ function createPlayer()
 	}
 end
 
-function createNpc(x, y, dialogTree)
+function createNpc(x, y, image, dialogTree)
 	return {
 		x = x,
 		y = y,
 		dialogTree = dialogTree,
 		update = function(npc) end,
 		draw = function(npc)
-			love.graphics.setColor(0, 1, 0)
-			love.graphics.rectangle("fill", npc.x, npc.y, 100, 100)
+			love.graphics.setColor(1, 1, 1)
+			love.graphics.draw(image, npc.x, npc.y)
 		end,
 	}
 end
@@ -206,9 +211,12 @@ end
 function restart()
 	player = createPlayer()
 	npcs = {
+
+		-- Den rika änkan
 		createNpc(
 			400,
 			300,
+			reskantis,
 			createDialogTree()
 				.text(
 					"Och varför skulle jag vilja gå på en sådan tillställning? Där alla de andra snofsiga svamparna kommer prata illa om mig bakom min rygg?",
@@ -261,20 +269,74 @@ function restart()
 				)
 				.ending(10)
 		),
-		createNpc(700, 300, createDialogTree().text("Wow", 2).text("Such text", 1)),
+
+		-- Morfar
+		createNpc(
+			700,
+			300,
+			resmorfar,
+			createDialogTree()
+				.text(
+					"Hejsan, min lilla kantarell. Är du ute på uppdrag åt kungen? Jag har ju sagt till din mor att du borde vara här på gården med mig. Men men… en bal säger du? Hmm… det var länge sedan jag var på fest. Du skulle ha sett mig i mina glansdagar! Jag var bäst på fest!",
+					2
+				)
+				.text(
+					"Vi gör så här: Om du kan lösa min gåta så går jag med dig på balen. Hur många av varje djurart tog Moses med sig på arken?",
+					3
+				)
+				.choice(function(dt, npc)
+					dt.index = 4
+				end, function(dt, npc)
+					dt.index = 5
+				end, "Två", "Inga")
+				.text(
+					"Två? Nej inga! Moses var inte på arken, det var Noah. Du behöver studera dina bibelverser, min lilla kantarell. Du vill inte att prästen hör dig svara sådär.",
+					6
+				)
+				.text("Precis! Inga! Moses var inte på arken, det var Noah. Jag antar att detta innebär fest för mig!", 6)
+				.ending(6)
+		),
+		createNpc(
+			600,
+			400,
+			restrattis,
+			createDialogTree()
+				.text(
+					"Mig? På en bal? Men lilla kantarell, tror du de skulle släppa in mig med alla mina barn? Du vet att jag inte kan lämna dem ensamma och inte har jag någon som kan ta hand om dem.",
+					2
+				)
+				.choice(
+					function(dt, npc)
+						dt.index = 3
+					end,
+					function(dt, npc)
+						dt.index = 3
+					end,
+					"Jag ska bjuda in hela riket! Så klart att de släpper in er!",
+					"Det kommer säkert en massa barn på balen, den är till för hela riket!"
+				)
+				.text(
+					"På riktigt? Nämen, oj, då måste vi ju passa på! En bal på slotten, kan du tänka dig! Tack lilla kantarell! Lycka till med ditt uppdrag så ses vi på balen. Nu har jag en massa förberedelser att stå i!",
+					4
+				)
+				.ending(4)
+		),
 	}
 	dialog = nil
 	input = { interact = false }
 	choice = nil
 	areas = {
-		createArea({ npcs[1], npcs[2] }, { 0, 0.5, 0 }, { createPortal(100, 400, 2) }),
-		createArea({}, { 0.5, 0, 0 }, { createPortal(100, 400, 1) }),
+		createArea({ npcs[1] }, { 0, 0.5, 0 }, { createPortal(100, 400, 2) }),
+		createArea({ npcs[2], npcs[3] }, { 0.5, 0, 0 }, { createPortal(100, 400, 1) }),
 	}
 	area = areas[1]
 end
 
 function love.load()
 	love.window.setFullscreen(true)
+	reskantis = love.graphics.newImage("res/kantis.png")
+	restrattis = love.graphics.newImage("res/famly50.png")
+	resmorfar = love.graphics.newImage("res/morfar.png")
 	restart()
 end
 
