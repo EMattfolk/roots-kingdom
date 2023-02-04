@@ -135,10 +135,11 @@ function createPortal(x, y, next, newX, newY)
 	}
 end
 
-function createArea(image, npcs, portals)
+function createArea(image, npcs, portals, walls)
 	return {
 		npcs = npcs,
 		portals = portals,
+		walls = walls or {},
 		draw = function(area)
 			local xscale = 1920 / image:getWidth()
 			local yscale = 1080 / image:getHeight()
@@ -148,6 +149,11 @@ function createArea(image, npcs, portals)
 			table.foreach(area.portals, function(_, portal)
 				portal:draw()
 			end)
+      
+			love.graphics.setColor(1, 0, 1)
+			table.foreach(area.walls, function(_, p)
+        love.graphics.ellipse("line", p.x, p.y, 50, 50)
+    end)
 		end,
 	}
 end
@@ -205,20 +211,20 @@ function createPlayer()
 		update = function(player, dt, allowInput)
 			local dx = 0
 			local dy = 0
-      if allowInput then
-        if isDown("up") then
-          dy = -1
-        end
-        if isDown("down") then
-          dy = 1
-        end
-        if isDown("left") then
-          dx = -1
-        end
-        if isDown("right") then
-          dx = 1
-        end
-      end
+			if allowInput then
+				if isDown("up") then
+					dy = -1
+				end
+				if isDown("down") then
+					dy = 1
+				end
+				if isDown("left") then
+					dx = -1
+				end
+				if isDown("right") then
+					dx = 1
+				end
+			end
 
 			local tot = math.sqrt(dx * dx + dy * dy)
 			if tot ~= 0 then
@@ -285,14 +291,14 @@ function createPlayer()
 			end)
 			return res
 		end,
-		nudgeAwayFrom = function(player, entities)
-			pushDist = 50
+		nudgeAwayFrom = function(player, entities, pushDist)
+			pushDist = pushDist or 30
 			table.foreach(entities, function(_, entity)
 				local dx = player.x - entity.x
 				local dy = player.y - entity.y
-				if entity.isNpc == true and dx * dx + dy * dy <= pushDist * pushDist then
-					player.vx = player.vx + sign(dx) * math.pow((30 - dx) / 30, 2) * 10
-					player.vy = player.vy + sign(dy) * math.pow((30 - dy) / 30, 2) * 5
+				if dx * dx + dy * dy <= pushDist * pushDist then
+					player.vx = player.vx + sign(dx) * math.pow((pushDist - dx) / pushDist, 2) * 10
+					player.vy = player.vy + sign(dy) * math.pow((pushDist - dy) / pushDist, 2) * 5
 				end
 			end)
 		end,
@@ -316,12 +322,13 @@ function createNpc(x, y, image, dialogTree, breathSpeed)
 		end,
 		draw = function(npc)
 			local scale = 2
+      local r = math.sin(love.timer.getTime() * 2) * 0.03
 			love.graphics.setColor(1, 1, 1)
 			love.graphics.draw(
 				image,
 				npc.x,
 				npc.y,
-				0,
+				r,
 				scale,
 				scale * (1 + 0.02 * math.sin(love.timer.getTime() * breathSpeed)),
 				image:getWidth() / 2,
@@ -771,7 +778,19 @@ function restart()
 	input = { interact = false }
 	choice = nil
 	areas = {
-		createArea(rescastle, { npcs[8] }, {}), -- Slottet
+		createArea(
+			rescastle,
+			{ npcs[8] },
+			{},
+			{
+				{ x = 1160, y = 523 },
+				{ x = 760, y = 527 },
+				{ x = 760, y = 980 },
+				{ x = 1160, y = 980 },
+				{ x = 430, y = 205 },
+				{ x = 1475, y = 195 },
+			}
+		), -- Slottet
 		createArea(resfancyfancy, { npcs[1], npcs[9], npcs[10], npcs[11] }, {
 			createPortal(100, 800, 1, 960, 1050),
 			createPortal(650, 100, 5, 650, 1000),
@@ -843,7 +862,7 @@ function love.load()
 	starsystema:setSizes(1, 1, 3)
 	starsystema:setRotation(0, 6)
 	starsystema:setSpinVariation(0.3)
-	starsystema:setSpeed(500, 1000)
+	starsystema:setSpeed(200, 300)
 	starsystema:setParticleLifetime(3.0, 5.0)
 
 	starsystemb = starsystema:clone()
@@ -886,7 +905,7 @@ function love.update(dt)
 			scene = "game"
 		end
 	elseif scene == "game" then
-    player:update(dt, dialog == nil)
+		player:update(dt, dialog == nil)
 		if dialog ~= nil then
 			dialog:update(dt)
 		end
@@ -917,6 +936,7 @@ function love.update(dt)
 		end
 		local closeNpc = player:getCloseEntity(area.npcs)
 		player:nudgeAwayFrom(area.npcs)
+		player:nudgeAwayFrom(area.walls, 50)
 		if closeNpc ~= nil and transition == nil then
 			if input.interact then
 				local dt = closeNpc.dialogTree
