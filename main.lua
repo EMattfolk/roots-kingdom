@@ -707,7 +707,7 @@ function restart()
 	areas = {
 		createArea(rescastle, { npcs[8] }, {}), -- Slottet
 		createArea(resfancyfancy, { npcs[1], npcs[9], npcs[10], npcs[11] }, {
-			createPortal(100, 800, 1, 100, 800),
+			createPortal(100, 800, 1, 960, 1050),
 			createPortal(650, 100, 5, 650, 1000),
 			createPortal(1800, 750, 3, 100, 750),
 		}),
