@@ -177,6 +177,7 @@ function createNpc(x, y, image, dialogTree)
 	return {
 		x = x,
 		y = y,
+		accepted = false,
 		dialogTree = dialogTree,
 		update = function(npc) end,
 		draw = function(npc)
