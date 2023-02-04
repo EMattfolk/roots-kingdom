@@ -368,7 +368,36 @@ function restart()
 		-- PTSD svamp
 
 		-- EMO svamp
-
+		createNpc(
+			600,
+			400,
+			resemo,
+			createDialogTree()
+				.text(
+					"En bal? Usch va tråkigt! Det är säkert bara en massa Basic Bitch musik som Ted Gärdestad och Selena Gomez! Nej tack! De andra svamparna förstår inte min utsökta musiksmak. De skulle inte förstå sig på de fantastiska verken av Bill Kaulitz och resten i Tokio Hotel. Jag skulle inte passa in.
+					",
+					2
+				)
+				.choice(
+					function(dt, npc)
+						dt.index = 3
+					end,
+					function(dt, npc)
+						dt.index = 4
+					end,
+					"Du har rätt. Stanna här i din och lyssna på din udda musik. Det är nog bäst.",
+					"Jag har hört att det kommer finnas en DJ som tar önskemål! Och du hittar säkert några andra som gillar samma sort som dig! Du skulle passa in perfekt!"
+				)
+				.text(
+					"Eller hur. Jag stannar mycket hellre här och lyssnar på Tokio Hotel… *nynnar* I'm staring at a broken door…. There's nothing left here anymore…My room is cold, it's making me insane…*mhmm*",
+					5
+				)
+				.text(
+					"Lilla kantarell, tror du på riktigt att det är något för mig? Hmm, antar att det inte skulle skada att gå dit en stund.",
+					5
+				)
+				.ending(5)
+		),
 		-- Ghost
 
 		-- Long
@@ -380,17 +409,17 @@ function restart()
 			900,
 			400,
 			resguard,
-			createDialogTree().text("Välkommen till Farmsidan! Det är här vi sköter all vår odling!", 2).ending(2)
+			createDialogTree().text("Välkommen till Farmsidan! Det är här vi sköter all vår odling!", 2).ending(1)
 		),
 	}
 	dialog = nil
 	input = { interact = false }
 	choice = nil
 	areas = {
-		createArea(resfancyfancy, { npcs[1], npcs[4] }, { createPortal(100, 400, 2) }),
+		createArea(resfancyfancy, { npcs[1], npcs[5] }, { createPortal(100, 400, 2) }),
 		createArea(resfancyfancy, { npcs[2], npcs[3] }, { createPortal(100, 400, 3) }),
 		createArea(resbackground, { npcs[1] }, { createPortal(100, 400, 4) }),
-		createArea(resthedarkside, { npcs[1] }, { createPortal(100, 400, 5) }),
+		createArea(resthedarkside, { npcs[4] }, { createPortal(100, 400, 5) }),
 		createArea(resfancyfancy, { npcs[1] }, { createPortal(100, 400, 1) }),
 	}
 	area = areas[1]
