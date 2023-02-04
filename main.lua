@@ -114,8 +114,8 @@ function createPlayer()
 	return {
 		x = 1100,
 		y = 600,
-    vx = 0,
-    vy = 0,
+		vx = 0,
+		vy = 0,
 		dir = 1,
 		speed = 400,
 		acc = 850,
@@ -141,14 +141,14 @@ function createPlayer()
 				dy = dy / tot
 			end
 
-      local drag = 0.001
-      player.vx = math.pow(drag, dt) * player.vx + dt * dx * player.acc
-      player.vy = math.pow(drag, dt) * player.vy + dt * dy * player.acc
+			local drag = 0.001
+			player.vx = math.pow(drag, dt) * player.vx + dt * dx * player.acc
+			player.vy = math.pow(drag, dt) * player.vy + dt * dy * player.acc
 
-      local vlen = math.sqrt(player.vx * player.vx + player.vy * player.vy)
-      local speedScale = vlen / math.max(vlen, player.speed)
-      player.vx = player.vx + dt * dx * player.acc
-      player.vy = player.vy + dt * dy * player.acc
+			local vlen = math.sqrt(player.vx * player.vx + player.vy * player.vy)
+			local speedScale = vlen / math.max(vlen, player.speed)
+			player.vx = player.vx + dt * dx * player.acc
+			player.vy = player.vy + dt * dy * player.acc
 
 			player.x = player.x + dt * player.vx
 			player.y = player.y + dt * player.vy
@@ -160,9 +160,9 @@ function createPlayer()
 			end
 		end,
 		draw = function(player)
-      local vlen = math.sqrt(player.vx * player.vx + player.vy * player.vy)
-      local speedSquash = math.sqrt(vlen) / 500
-      local wiggle = 2 * (math.sqrt(vlen) / 500) * math.sin(love.timer.getTime() * 10)
+			local vlen = math.sqrt(player.vx * player.vx + player.vy * player.vy)
+			local speedSquash = math.sqrt(vlen) / 500
+			local wiggle = 2 * (math.sqrt(vlen) / 500) * math.sin(love.timer.getTime() * 10)
 			local scale = toScreenX(2)
 			love.graphics.setColor(1, 1, 1)
 			love.graphics.draw(
@@ -172,8 +172,8 @@ function createPlayer()
 				wiggle,
 				-player.dir * scale,
 				scale * (1 + 0.03 * math.sin(love.timer.getTime() * 7 + 2)) * (1 - speedSquash),
-        reskantis:getWidth() / 2,
-        reskantis:getHeight() / 2
+				reskantis:getWidth() / 2,
+				reskantis:getHeight() / 2
 			)
 		end,
 		getCloseEntity = function(player, entities)
@@ -192,7 +192,7 @@ function createPlayer()
 end
 
 function createNpc(x, y, image, dialogTree, breathSpeed)
-  local breathSpeed = breathSpeed or 5
+	local breathSpeed = breathSpeed or 5
 	return {
 		x = x,
 		y = y,
@@ -209,8 +209,8 @@ function createNpc(x, y, image, dialogTree, breathSpeed)
 				0,
 				scale,
 				scale * (1 + 0.02 * math.sin(love.timer.getTime() * breathSpeed)),
-        image:getWidth() / 2,
-        image:getHeight() / 2
+				image:getWidth() / 2,
+				image:getHeight() / 2
 			)
 		end,
 	}
@@ -474,8 +474,9 @@ function restart()
 					end,
 					function(dt, npc)
 						dt.index = 4
+						npc.accepted = true
 					end,
-					"Du har rätt. Stanna här i din och lyssna på din udda musik. Det är nog bäst.",
+					"Du har rätt. Stanna här och lyssna på din udda musik. Det är nog bäst.",
 					"Jag har hört att det kommer finnas en DJ som tar önskemål! Och du hittar säkert några andra som gillar samma sort som dig! Du skulle passa in perfekt!"
 				)
 				.text(
@@ -484,9 +485,15 @@ function restart()
 				)
 				.text(
 					"Lilla kantarell, tror du på riktigt att det är något för mig? Hmm, antar att det inte skulle skada att gå dit en stund.",
+					6
+				)
+				.ending(7)
+				.ending(8)
+				.text(
+					"Running through the monsoon..... Beyond the world... Til' the end of time...Where the rain won't hurt",
 					5
 				)
-				.ending(5)
+				.text("Vi ses väl på balen senare då. Eller nåt'.", 6)
 		),
 		-- Ghost
 		createNpc(
@@ -547,7 +554,7 @@ function restart()
 			resking,
 			createDialogTree()
 				.text(
-					"Oj oj oj. Vad ska jag ta mig till? Livsträdet har äntligen fått nya rötter och det är min födelsedag! Jag vill så gärna fira…..",
+					"Oj oj oj. Vad ska jag ta mig till? Livsträdet har äntligen fått nya rötter och det är min f������������delsedag! Jag vill så gärna fira…..",
 					2
 				)
 				.text(
@@ -559,7 +566,7 @@ function restart()
 					4
 				)
 				.text(
-					"*Kungen sjunker ihop och hans ögon fylls med tårar. Men plötsligt får han syn på dig och ser genast mer hoppfull ut.",
+					"*Kungen sjunker ihop och hans ögon fylls med tårar. Men plötsligt får han syn på dig och ser genast mer hoppfull ut.*",
 					5
 				)
 				.text(
