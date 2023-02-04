@@ -190,7 +190,10 @@ function restart()
 	dialog = nil
 	input = { space = false }
 	choice = nil
-	areas = { createArea({ npcs[1], npcs[2] }, { 0, 0.5, 0 }, { createPortal(100, 400, 2) }) }
+	areas = {
+		createArea({ npcs[1], npcs[2] }, { 0, 0.5, 0 }, { createPortal(100, 400, 2) }),
+		createArea({}, { 0.5, 0, 0 }, { createPortal(100, 400, 1) }),
+	}
 	area = areas[1]
 end
 
@@ -222,6 +225,10 @@ function love.update(dt)
 	end
 	if isDown("q") or isDown("escape") then
 		love.event.quit()
+	end
+	closePortal = player:getCloseEntity(area.portals)
+	if closePortal ~= nil and input.space then
+		area = areas[closePortal.next]
 	end
 	closeNpc = player:getCloseEntity(area.npcs)
 	if closeNpc ~= nil then
