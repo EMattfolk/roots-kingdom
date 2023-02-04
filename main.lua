@@ -280,13 +280,19 @@ function createPlayer()
 				if dx * dx + dy * dy <= range * range then
 					res = entity
 				end
-
+			end)
+			return res
+		end,
+		nudgeAwayFrom = function(player, entities)
+			pushDist = 50
+			table.foreach(entities, function(_, entity)
+				local dx = player.x - entity.x
+				local dy = player.y - entity.y
 				if entity.isNpc == true and dx * dx + dy * dy <= pushDist * pushDist then
 					player.vx = player.vx + sign(dx) * math.pow((30 - dx) / 30, 2) * 10
 					player.vy = player.vy + sign(dy) * math.pow((30 - dy) / 30, 2) * 5
 				end
 			end)
-			return res
 		end,
 	}
 end
@@ -909,6 +915,7 @@ function love.update(dt)
 			end)
 		end
 		local closeNpc = player:getCloseEntity(area.npcs)
+		player:nudgeAwayFrom(area.npcs)
 		if closeNpc ~= nil and transition == nil then
 			if input.interact then
 				local dt = closeNpc.dialogTree
