@@ -253,11 +253,11 @@ function createNpc(x, y, image, dialogTree, breathSpeed)
 		wasAccepted = false,
 		dialogTree = dialogTree,
 		update = function(npc)
-      if npc.wasAccepted ~= npc.accepted then
-        emitSuccessParticles(toScreenX(npc.x), toScreenY(npc.y))
-      end
-      npc.wasAccepted = npc.accepted
-    end,
+			if npc.wasAccepted ~= npc.accepted then
+				emitSuccessParticles(toScreenX(npc.x), toScreenY(npc.y))
+			end
+			npc.wasAccepted = npc.accepted
+		end,
 		draw = function(npc)
 			local scale = toScreenX(2)
 			love.graphics.setColor(1, 1, 1)
@@ -774,24 +774,23 @@ function love.load()
 	dammsystem:setParticleLifetime(0.1, 0.5)
 	dammsystem:setEmissionRate(15)
 
-  starsystema = love.graphics.newParticleSystem(resstar)
-  starsystema:setPosition(700, 700)
-  starsystema:setDirection(-math.pi / 2)
-  starsystema:setSpread(0.5)
-  starsystema:setLinearAcceleration(0, 200, 0, 400)
-  starsystema:setSizes(1, 1, 3)
-  starsystema:setRotation(0, 6)
-  starsystema:setSpinVariation(0.3)
-  starsystema:setSpeed(500, 1000)
-  starsystema:setParticleLifetime(3.0, 5.0)
+	starsystema = love.graphics.newParticleSystem(resstar)
+	starsystema:setPosition(700, 700)
+	starsystema:setDirection(-math.pi / 2)
+	starsystema:setSpread(0.5)
+	starsystema:setLinearAcceleration(0, 200, 0, 400)
+	starsystema:setSizes(1, 1, 3)
+	starsystema:setRotation(0, 6)
+	starsystema:setSpinVariation(0.3)
+	starsystema:setSpeed(500, 1000)
+	starsystema:setParticleLifetime(3.0, 5.0)
 
-  starsystemb = starsystema:clone()
-  starsystemc = starsystema:clone()
+	starsystemb = starsystema:clone()
+	starsystemc = starsystema:clone()
 
-  starsystema:setColors({ 1.0, 1.0, 0.3, 0.8 }, { 1.0, 1.0, 0.3, 0.8 }, { 1.0, 1.0, 0.3, 0.0 })
-  starsystemb:setColors({ 1.0, 0.7, 1.0, 0.8 }, { 1.0, 0.7, 1.0, 0.8 }, { 1.0, 0.7, 1.0, 0.0 })
-  starsystemc:setColors({ 0.7, 0.0, 1.0, 0.8 }, { 0.7, 0.0, 1.0, 0.8 }, { 1.0, 0.7, 1.0, 0.0 })
-
+	starsystema:setColors({ 1.0, 1.0, 0.3, 0.8 }, { 1.0, 1.0, 0.3, 0.8 }, { 1.0, 1.0, 0.3, 0.0 })
+	starsystemb:setColors({ 1.0, 0.7, 1.0, 0.8 }, { 1.0, 0.7, 1.0, 0.8 }, { 1.0, 0.7, 1.0, 0.0 })
+	starsystemc:setColors({ 0.7, 0.0, 1.0, 0.8 }, { 0.7, 0.0, 1.0, 0.8 }, { 1.0, 0.7, 1.0, 0.0 })
 
 	restart()
 end
@@ -803,20 +802,20 @@ function love.keypressed(key)
 end
 
 function emitSuccessParticles(x, y)
-  local t = 2.0
-  starsystema:setPosition(x, y)
-  starsystema:emit(50)
-  starsystemb:setPosition(x, y)
-  starsystemb:emit(50)
-  starsystemc:setPosition(x, y)
-  starsystemc:emit(50)
+	local t = 2.0
+	starsystema:setPosition(x, y)
+	starsystema:emit(50)
+	starsystemb:setPosition(x, y)
+	starsystemb:emit(50)
+	starsystemc:setPosition(x, y)
+	starsystemc:emit(50)
 end
 
 function love.update(dt)
-  dammsystem:update(dt)
-  starsystema:update(dt)
-  starsystemb:update(dt)
-  starsystemc:update(dt)
+	dammsystem:update(dt)
+	starsystema:update(dt)
+	starsystemb:update(dt)
+	starsystemc:update(dt)
 
 	if scene == "menu" then
 		if input.interact then
