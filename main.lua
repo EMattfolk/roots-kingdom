@@ -17,6 +17,11 @@ local resguard = nil
 local resfancyfancy = nil
 local resbackground = nil
 local resthedarkside = nil
+local resemo = nil
+local resptsd = nil
+local resblygsvamp = nil
+local resghost = nil
+local resking = nil
 
 function utf8sub(s, to)
 	return s:sub(1, (utf8.offset(s, to) or #s + 1) - 1)
@@ -395,6 +400,12 @@ function love.load()
 	resfancyfancy = love.graphics.newImage("res/fancyfancy.png", { linear = true })
 	resbackground = love.graphics.newImage("res/background.png")
 	resthedarkside = love.graphics.newImage("res/thedarkside.png")
+	resemo = love.graphics.newImage("res/emo.png")
+	resptsd = love.graphics.newImage("res/angry40.png")
+	resblygsvamp = love.graphics.newImage("res/long40.png")
+	resghost = love.graphics.newImage("res/ghosty40.png")
+	resking = love.graphics.newImage("res/KONUNGEN.png")
+
 	love.graphics.setFont(resfont)
 	restart()
 end
