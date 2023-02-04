@@ -4,6 +4,19 @@ local npcs = nil
 local dialog = nil
 local input = nil
 local choice = nil
+local areas = nil
+local area = nil
+
+function createArea(npcs)
+	return {
+		npcs = npcs,
+		portals = {},
+		draw = function(area)
+			love.graphics.setColor(0, 0.5, 0)
+			love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
+		end,
+	}
+end
 
 function createDialogTree()
 	local dt = nil
@@ -169,6 +182,8 @@ function restart()
 	dialog = nil
 	input = { space = false }
 	choice = nil
+	areas = { createArea({ npcs[1], npcs[2] }) }
+	area = areas[1]
 end
 
 function love.load()
@@ -221,7 +236,7 @@ function love.update(dt)
 end
 
 function love.draw()
-	love.graphics.print("Hello World!", 400, 300)
+	area:draw()
 	table.foreach(npcs, function(_, npc)
 		npc:draw()
 	end)
