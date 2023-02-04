@@ -217,7 +217,7 @@ function restart()
 		createNpc(700, 300, createDialogTree().text("Wow", 2).text("Such text", 1)),
 	}
 	dialog = nil
-	input = { space = false }
+	input = { interact = false }
 	choice = nil
 	areas = {
 		createArea({ npcs[1], npcs[2] }, { 0, 0.5, 0 }, { createPortal(100, 400, 2) }),
@@ -232,8 +232,8 @@ function love.load()
 end
 
 function love.keypressed(key)
-	if key == "space" then
-		input.space = true
+	if key == "space" or key == "return" then
+		input.interact = true
 	end
 end
 
@@ -258,12 +258,12 @@ function love.update(dt)
 		love.event.quit()
 	end
 	closePortal = player:getCloseEntity(area.portals)
-	if closePortal ~= nil and input.space then
+	if closePortal ~= nil and input.interact then
 		area = areas[closePortal.next]
 	end
 	closeNpc = player:getCloseEntity(area.npcs)
 	if closeNpc ~= nil then
-		if input.space then
+		if input.interact then
 			local dt = closeNpc.dialogTree
 			if dialog ~= nil then
 				dt.advance(choice, closeNpc)
@@ -279,7 +279,7 @@ function love.update(dt)
 		dialog = nil
 	end
 
-	input.space = false
+	input.interact = false
 end
 
 function love.draw()
