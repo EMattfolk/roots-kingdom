@@ -3,6 +3,7 @@ local player = nil
 local npcs = nil
 local dialog = nil
 local input = nil
+local choice = nil
 
 function createDialogTree()
 	local dt = nil
@@ -20,6 +21,21 @@ function createDialogTree()
 				noText = noText,
 			})
 			return dt
+		end,
+		ending = function(next)
+			table.insert(dt.data, { type = "end", next = next })
+			return dt
+		end,
+		advance = function(choseYes, npc)
+			if dt.get().type == "text" or dt.get().type == "end" then
+				dt.index = dt.get().next
+			elseif dt.get().type == "choice" then
+				if choseYes then
+					dt.get().yes(dt, npc)
+				else
+					dt.get().no(dt, npc)
+				end
+			end
 		end,
 		index = 1,
 		data = {},
@@ -93,6 +109,9 @@ function createNpc(x, y, dialogTree)
 end
 
 function createDialog(node)
+	if node.type == "end" then
+		return nil
+	end
 	return {
 		draw = function()
 			local dialogHeight = love.graphics.getHeight() / 4
@@ -104,7 +123,7 @@ function createDialog(node)
 			love.graphics.setColor(0.5, 0.5, 0.5)
 			love.graphics.rectangle("fill", 0, dialogY, dialogWidth, dialogHeight)
 			love.graphics.setColor(1, 1, 1)
-			if true then
+			if node.type == "text" then
 				love.graphics.printf(
 					node.text,
 					padding,
@@ -114,6 +133,16 @@ function createDialog(node)
 					0,
 					scale
 				)
+			elseif node.type == "choice" then
+				local yt = node.yesText
+				local nt = node.noText
+				if choice then
+					yt = yt .. " <-"
+				else
+					nt = nt .. " <-"
+				end
+				love.graphics.printf(yt, padding, dialogY + padding, (npcStart - padding) / scale, "left", 0, scale)
+				love.graphics.printf(nt, padding, dialogY + 3 * padding, (npcStart - padding) / scale, "left", 0, scale)
 			end
 		end,
 	}
@@ -127,13 +156,19 @@ function restart()
 			300,
 			createDialogTree()
 				.text("Hello", 2)
-				.text("there.", 1)
-				.choice(function(dt) end, function(dt) end, "yes", "no")
+				.text("there.", 3)
+				.choice(function(dt, npc)
+					dt.index = 1
+				end, function(dt, npc)
+					dt.index = 4
+				end, "yes", "no")
+				.ending(1)
 		),
 		createNpc(700, 300, createDialogTree().text("Wow", 2).text("Such text", 1)),
 	}
 	dialog = nil
 	input = { space = false }
+	choice = nil
 end
 
 function love.load()
@@ -147,10 +182,17 @@ function love.keypressed(key)
 end
 
 function love.update(dt)
-	player:update(dt)
+	if dialog == nil then
+		player:update(dt)
+	end
 	table.foreach(npcs, function(_, npc)
 		npc:update()
 	end)
+	if isDown("up") then
+		choice = true
+	elseif isDown("down") then
+		choice = false
+	end
 	if isDown("r") then
 		restart()
 	end
@@ -160,10 +202,16 @@ function love.update(dt)
 	closeNpc = player:getCloseNpc(npcs)
 	if closeNpc ~= nil then
 		if input.space then
+			local dt = closeNpc.dialogTree
 			if dialog ~= nil then
-				closeNpc.dialogTree.index = closeNpc.dialogTree.get().next
+				dt.advance(choice, closeNpc)
+				choice = true
 			end
-			dialog = createDialog(closeNpc.dialogTree.get())
+			dialog = createDialog(dt.get())
+			if dialog == nil then -- We arrived at ending
+				dt.advance(choice, closeNpc) -- Args not needed here
+				choice = true
+			end
 		end
 	else
 		dialog = nil
