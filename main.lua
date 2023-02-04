@@ -67,6 +67,10 @@ local vertexcode = [[
   }
 ]]
 
+function clamp(lo, hi, x)
+  return math.min(hi, math.max(lo, x))
+end
+
 function utf8sub(s, to)
 	return s:sub(1, (utf8.offset(s, to) or #s + 1) - 1)
 end
@@ -128,12 +132,11 @@ function createArea(image, npcs, portals)
 		npcs = npcs,
 		portals = portals,
 		draw = function(area)
-			local xscale = love.graphics.getWidth() / image:getWidth()
-			local yscale = love.graphics.getHeight() / image:getHeight()
+			local xscale = 1920 / image:getWidth()
+			local yscale = 1080 / image:getHeight()
 			love.graphics.setColor(1, 1, 1)
 			love.graphics.draw(image, 0, 0, 0, xscale, yscale)
-		end,
-		drawPortals = function(area)
+
 			table.foreach(area.portals, function(_, portal)
 				portal:draw()
 			end)
@@ -967,12 +970,12 @@ function love.draw()
 	elseif scene == "game" then
     love.graphics.setCanvas(canvas)
 
-		love.graphics.origin()
+    local dx = clamp(-20, 20, (1920 / 2 - player.x) / 20)
+    local dy = clamp(-20, 20, (1080 / 2 - player.y) / 20)
+		love.graphics.scale((love.graphics.getWidth() + 80) / 1920, (love.graphics.getHeight() + 80) / 1080)
+		love.graphics.translate(dx - 40, dy - 40)
+
 		area:draw()
-
-		love.graphics.scale(love.graphics.getWidth() / 1920, love.graphics.getHeight() / 1080)
-
-		area:drawPortals()
 
 		love.graphics.setColor(1, 1, 1)
 		love.graphics.draw(dammsystem)
