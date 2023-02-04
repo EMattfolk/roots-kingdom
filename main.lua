@@ -11,15 +11,13 @@ function createDialogTree()
 			table.insert(dt.data, { type = "text", text = t, next = next })
 			return dt
 		end,
-		choice = function(yes, no, yesText, noText, yesNext, noNext)
+		choice = function(yes, no, yesText, noText)
 			table.insert(dt.data, {
 				type = "choice",
 				yes = yes,
 				no = no,
 				yesText = yesText,
 				noText = noText,
-				yesNext = yesNext,
-				noNext = noNext,
 			})
 			return dt
 		end,
@@ -94,9 +92,9 @@ function createNpc(x, y, dialogTree)
 	}
 end
 
-function createDialog(text)
+function createDialog(node)
 	return {
-		draw = function(dialog)
+		draw = function()
 			local dialogHeight = love.graphics.getHeight() / 4
 			local dialogWidth = love.graphics.getWidth()
 			local dialogY = love.graphics.getHeight() - dialogHeight
@@ -106,7 +104,17 @@ function createDialog(text)
 			love.graphics.setColor(0.5, 0.5, 0.5)
 			love.graphics.rectangle("fill", 0, dialogY, dialogWidth, dialogHeight)
 			love.graphics.setColor(1, 1, 1)
-			love.graphics.printf(text, padding, dialogY + padding, (npcStart - padding) / scale, "left", 0, scale)
+			if true then
+				love.graphics.printf(
+					node.text,
+					padding,
+					dialogY + padding,
+					(npcStart - padding) / scale,
+					"left",
+					0,
+					scale
+				)
+			end
 		end,
 	}
 end
@@ -114,8 +122,15 @@ end
 function restart()
 	player = createPlayer()
 	npcs = {
-		createNpc(400, 300, createDialogTree().text("Hello", 2).text("there.", 1)),
-		createNpc(700, 300, createDialogTree().text("There", 1)),
+		createNpc(
+			400,
+			300,
+			createDialogTree()
+				.text("Hello", 2)
+				.text("there.", 1)
+				.choice(function(dt) end, function(dt) end, "yes", "no")
+		),
+		createNpc(700, 300, createDialogTree().text("Wow", 2).text("Such text", 1)),
 	}
 	dialog = nil
 	input = { space = false }
@@ -148,7 +163,7 @@ function love.update(dt)
 			if dialog ~= nil then
 				closeNpc.dialogTree.index = closeNpc.dialogTree.get().next
 			end
-			dialog = createDialog(closeNpc.dialogTree.get().text)
+			dialog = createDialog(closeNpc.dialogTree.get())
 		end
 	else
 		dialog = nil
