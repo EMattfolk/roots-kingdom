@@ -39,8 +39,10 @@ function createArea(image, npcs, portals)
 		npcs = npcs,
 		portals = portals,
 		draw = function(area)
+			local xscale = love.graphics.getWidth() / image:getWidth()
+			local yscale = love.graphics.getHeight() / image:getHeight()
 			love.graphics.setColor(1, 1, 1)
-			love.graphics.draw(image, 0, 0, 0, 5, 5)
+			love.graphics.draw(image, 0, 0, 0, xscale, yscale)
 			table.foreach(area.portals, function(_, portal)
 				portal:draw()
 			end)
