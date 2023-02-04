@@ -205,14 +205,56 @@ function restart()
 			400,
 			300,
 			createDialogTree()
-				.text("Hello", 2)
-				.text("there.", 3)
-				.choice(function(dt, npc)
-					dt.index = 1
-				end, function(dt, npc)
-					dt.index = 4
-				end, "yes", "no")
-				.ending(1)
+				.text(
+					"Och varför skulle jag vilja gå på en sådan tillställning? Där alla de andra snofsiga svamparna kommer prata illa om mig bakom min rygg?",
+					2
+				)
+				.choice(
+					function(dt, npc)
+						dt.index = 4
+					end,
+					function(dt, npc)
+						dt.index = 10
+					end,
+					"Jag tror inte att någon skulle prata illa om dig!",
+					"Sant, det låter inte så trevligt att gå dit."
+				)
+				-- Om de väljer alternativet där de förlorar NPCn i val 1
+				.text("Nej, exakt! Så om du ursäktar har jag ett glas daggdroppar som väntar på mig.", 10)
+				-- Om spelaren väljer alternativet där de fortfarande kan vinna NPCn i val 1
+				.text(
+					"Åh, så naiv du är! Det är klart att de kommer göra det, de har det gjort ända sedan mitt giftermål till min älskade Gerald… Du förstår, jag var en fattig liten svamp när jag träffade min man för första gången. Ingen familj kvar efter kriget. Min man, Bertil, var i militären och försvann. Det var en ensam tillvaro… Men sen kom Gerald.",
+					5
+				)
+				.text(
+					"Han gav mig hopp om livet och vi gifte oss. Jag trodde att mitt liv äntligen vänt. Han blev min bästa vän och vår tid tillsammans var underbar... *suckar och ser drömmande ut*",
+					6
+				)
+				.text(
+					"Men… alla andra trodde att jag gifte mig för pengarna och sedan dess har de andra aristokraterna alltid sett ner på mig. Det var svårt att få vänner. *hennes uppsyn blir mer och mer bister igen* Och inte blev det bättre när min älskade gick bort. Jag har varit helt ensam sedan dess. Men hellre ensam än i ett rum med dömande och tråkiga svampar!!",
+					7
+				)
+				.choice(
+					function(dt, npc)
+						dt.index = 8
+					end,
+					function(dt, npc)
+						dt.index = 9
+					end,
+					"Du inbillar dig säkert bara! Jag tror alla tycker om dig!",
+					"Jag ska bjuda alla, du kommer säkert hitta nya vänner! Då blir du inte lika ensam längre."
+				)
+				-- Förlorar karaktären
+				.text(
+					"Inbillning? Det tror jag knappast! Nej nu är det bäst att du springer vidare lilla svamp, jag har viktigare saker för mig.",
+					10
+				)
+				-- Vinner karaktären
+				.text(
+					"Verkligen? Hmm... Det kanske, fast nej… eller okej. Det vore trevligt att få umgås med vanligt folk igen… Jag gör det, lilla kantarell. Vi ses på balen!",
+					10
+				)
+				.ending(10)
 		),
 		createNpc(700, 300, createDialogTree().text("Wow", 2).text("Such text", 1)),
 	}
