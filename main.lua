@@ -13,6 +13,7 @@ local reskantis = nil
 local restrattis = nil
 local resmorfar = nil
 local resfont = nil
+local resguard = nil
 
 function utf8sub(s, to)
 	return s:sub(1, (utf8.offset(s, to) or #s + 1) - 1)
@@ -297,6 +298,7 @@ function restart()
 				.text("Precis! Inga! Moses var inte på arken, det var Noah. Jag antar att detta innebär fest för mig!", 6)
 				.ending(6)
 		),
+		-- Trattis mamma
 		createNpc(
 			600,
 			400,
@@ -322,12 +324,29 @@ function restart()
 				)
 				.ending(4)
 		),
+		-- PTSD svamp
+
+		-- EMO svamp
+
+		-- Ghost
+
+		-- Long
+
+		-- Kungen
+
+		-- Alla vakter (8 st i princip identiska utöver att de introducerar till olika namn)
+		createNpc(
+			900,
+			400,
+			resguard,
+			createDialogTree().text("Välkommen till Farmsidan! Det är här vi sköter all vår odling!", 2).ending(2)
+		),
 	}
 	dialog = nil
 	input = { interact = false }
 	choice = nil
 	areas = {
-		createArea({ npcs[1] }, { 0, 0.5, 0 }, { createPortal(100, 400, 2) }),
+		createArea({ npcs[1], npcs[4] }, { 0, 0.5, 0 }, { createPortal(100, 400, 2) }),
 		createArea({ npcs[2], npcs[3] }, { 0.5, 0, 0 }, { createPortal(100, 400, 1) }),
 	}
 	area = areas[1]
@@ -339,6 +358,7 @@ function love.load()
 	restrattis = love.graphics.newImage("res/famly50.png")
 	resmorfar = love.graphics.newImage("res/morfar.png")
 	resfont = love.graphics.newFont("res/Chalkduster.ttf", 28)
+	resguard = love.graphics.newImage("res/mosh40.png")
 	love.graphics.setFont(resfont)
 	restart()
 end
