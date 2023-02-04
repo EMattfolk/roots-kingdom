@@ -251,10 +251,15 @@ function createDialog(node)
 			elseif node.type == "choice" then
 				local yt = node.yesText
 				local nt = node.noText
+        local arrow = " <-"
+        local _, frac = math.modf(love.timer.getTime())
+        if frac > 0.5 then
+          arrow = "  <-"
+        end
 				if choice then
-					yt = yt .. " <-"
+					yt = yt .. arrow
 				else
-					nt = nt .. " <-"
+					nt = nt .. arrow
 				end
 				love.graphics.printf(
 					utf8sub(yt, charactersShown),
