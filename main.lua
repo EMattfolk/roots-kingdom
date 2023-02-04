@@ -608,7 +608,7 @@ function restart()
 			resking,
 			createDialogTree()
 				.text(
-					"Oj oj oj. Vad ska jag ta mig till? Livsträdet har äntligen fått nya rötter och det är min f������������delsedag! Jag vill så gärna fira…..",
+					"Oj oj oj. Vad ska jag ta mig till? Livsträdet har äntligen fått nya rötter och det är min födelsedag! Jag vill så gärna fira…..",
 					2
 				)
 				.text(
@@ -641,60 +641,63 @@ function restart()
 				.ending(10)
 				.text("Jag hoppas det går bra med inbjudningarna, lilla kantarell", 9)
 		),
-		-- Alla vakter (8 st i princip identiska utöver att de introducerar till olika namn)
+		-- Alla vakter (9 st i princip identiska utöver att de introducerar till olika namn)
+		-- Vakterna på Solsidan
+		createNpc(100, 850, resguard, createDialogTree().text("Välkommen till Slottet!", 2).ending(1)),
 		createNpc(
-			900,
-			400,
+			1800,
+			800,
 			resguard,
 			createDialogTree().text("Välkommen till Farmsidan! Det är här vi sköter all vår odling!", 2).ending(1)
 		),
 		createNpc(
-			900,
-			400,
+			700,
+			100,
+			resguard,
+			createDialogTree().text("Välkommen till Framsidan! Det är här våra ingenjörer bor.", 2).ending(1)
+		),
+		-- Vakter på Farmsidan
+		createNpc(
+			100,
+			800,
+			resguard,
+			createDialogTree().text("Välkommen till Solsidan! Vårt finaste stadskvarter!", 2).ending(1)
+		),
+		createNpc(
+			1100,
+			100,
+			resguard,
+			createDialogTree()
+				.text("Var försiktig när du går till Skuggsidan! Den är nära gränsen till ", 2)
+				.ending(1)
+		),
+		-- Vakter på Skuggsidan
+		createNpc(
+			1100,
+			1000,
 			resguard,
 			createDialogTree().text("Välkommen till Farmsidan! Det är här vi sköter all vår odling!", 2).ending(1)
 		),
 		createNpc(
-			900,
+			100,
 			400,
 			resguard,
-			createDialogTree().text("Välkommen till Farmsidan! Det är här vi sköter all vår odling!", 2).ending(1)
+			createDialogTree().text("Välkommen till Framsidan! Det är här våra ingenjörer bor.", 2).ending(1)
+		),
+		-- Vakter på Framsidan
+		createNpc(
+			1800,
+			400,
+			resguard,
+			createDialogTree()
+				.text("Var försiktig när du går till Skuggsidan! Den är nära gränsen till ", 2)
+				.ending(1)
 		),
 		createNpc(
+			600,
 			900,
-			400,
 			resguard,
-			createDialogTree().text("Välkommen till Farmsidan! Det är här vi sköter all vår odling!", 2).ending(1)
-		),
-		createNpc(
-			900,
-			400,
-			resguard,
-			createDialogTree().text("Välkommen till Farmsidan! Det är här vi sköter all vår odling!", 2).ending(1)
-		),
-		createNpc(
-			900,
-			400,
-			resguard,
-			createDialogTree().text("Välkommen till Farmsidan! Det är här vi sköter all vår odling!", 2).ending(1)
-		),
-		createNpc(
-			900,
-			400,
-			resguard,
-			createDialogTree().text("Välkommen till Farmsidan! Det är här vi sköter all vår odling!", 2).ending(1)
-		),
-		createNpc(
-			900,
-			400,
-			resguard,
-			createDialogTree().text("Välkommen till Farmsidan! Det är här vi sköter all vår odling!", 2).ending(1)
-		),
-		createNpc(
-			900,
-			400,
-			resguard,
-			createDialogTree().text("Välkommen till Farmsidan! Det är här vi sköter all vår odling!", 2).ending(1)
+			createDialogTree().text("Välkommen till Solsidan! Vårt finaste stadskvarter!", 2).ending(1)
 		),
 	}
 
@@ -703,24 +706,24 @@ function restart()
 	choice = nil
 	areas = {
 		createArea(rescastle, { npcs[8] }, {}), -- Slottet
-		createArea(resfancyfancy, { npcs[1] }, {
+		createArea(resfancyfancy, { npcs[1], npcs[9], npcs[10], npcs[11] }, {
 			createPortal(100, 800, 1, 100, 800),
 			createPortal(650, 100, 5, 650, 1000),
 			createPortal(1800, 750, 3, 100, 750),
 		}),
 		createArea(
 			resbackground,
-			{ npcs[2], npcs[3] },
+			{ npcs[2], npcs[3], npcs[12], npcs[13] },
 			{ createPortal(100, 750, 2, 1800, 750), createPortal(1200, 100, 4, 1200, 1000) }
 		),
 		createArea(
 			resthedarkside,
-			{ npcs[4], npcs[5] },
+			{ npcs[4], npcs[5], npcs[14], npcs[15] },
 			{ createPortal(1200, 1000, 3, 1200, 100), createPortal(100, 300, 5, 1800, 300) }
 		),
 		createArea(
 			resmodern,
-			{ npcs[6], npcs[7] },
+			{ npcs[6], npcs[7], npcs[16], npcs[17] },
 			{ createPortal(650, 1000, 2, 650, 100), createPortal(1800, 300, 4, 100, 300) }
 		),
 	}
