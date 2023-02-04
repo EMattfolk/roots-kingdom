@@ -1,3 +1,4 @@
+local utf8 = require("utf8")
 local isDown = love.keyboard.isDown
 local player = nil
 local npcs = nil
@@ -6,6 +7,10 @@ local input = nil
 local choice = nil
 local areas = nil
 local area = nil
+
+function utf8sub(s, to)
+	return s:sub(1, (utf8.offset(s, to) or #s + 1) - 1)
+end
 
 function createPortal(x, y, next)
 	return {
@@ -159,7 +164,7 @@ function createDialog(node)
 			love.graphics.setColor(1, 1, 1)
 			if node.type == "text" then
 				love.graphics.printf(
-					node.text:sub(1, charactersShown),
+					utf8sub(node.text, charactersShown),
 					padding,
 					dialogY + padding,
 					(npcStart - padding) / scale,
@@ -176,7 +181,7 @@ function createDialog(node)
 					nt = nt .. " <-"
 				end
 				love.graphics.printf(
-					yt:sub(1, charactersShown),
+					utf8sub(yt, charactersShown),
 					padding,
 					dialogY + padding,
 					(npcStart - padding) / scale,
@@ -185,7 +190,7 @@ function createDialog(node)
 					scale
 				)
 				love.graphics.printf(
-					nt:sub(1, charactersShown),
+					utf8sub(nt, charactersShown),
 					padding,
 					dialogY + 3 * padding,
 					(npcStart - padding) / scale,
