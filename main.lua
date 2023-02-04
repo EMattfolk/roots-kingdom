@@ -828,7 +828,7 @@ function love.update(dt)
 			choice = false
 		end
 		local closePortal = player:getCloseEntity(area.portals)
-		if closePortal ~= nil and input.interact then
+		if closePortal ~= nil and input.interact and transition == nil then
 			local xdir = 0
 			local ydir = 0
 			if closePortal.x < 300 or 1600 < closePortal.x then
@@ -845,7 +845,7 @@ function love.update(dt)
 			end)
 		end
 		local closeNpc = player:getCloseEntity(area.npcs)
-		if closeNpc ~= nil then
+		if closeNpc ~= nil and transition == nil then
 			if input.interact then
 				local dt = closeNpc.dialogTree
 				if dialog ~= nil then
@@ -864,6 +864,9 @@ function love.update(dt)
 
 		if transition ~= nil then
 			transition:update(dt)
+			if transition.progress == 1 and transition.transitioned then
+				transition = nil
+			end
 		end
 
 		input.interact = false
