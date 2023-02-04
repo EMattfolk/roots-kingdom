@@ -141,19 +141,25 @@ function createDialog(node)
 		return nil
 	end
 	return {
-		draw = function()
+		time = 0,
+		update = function(dialog, delta)
+			dialog.time = dialog.time + delta
+		end,
+		draw = function(dialog)
 			local dialogHeight = love.graphics.getHeight() / 4
 			local dialogWidth = love.graphics.getWidth()
 			local dialogY = love.graphics.getHeight() - dialogHeight
 			local padding = love.graphics.getHeight() / 20
 			local npcStart = love.graphics.getWidth() * 3 / 4
 			local scale = 2
+			local typingSpeed = 50
+			local charactersShown = math.max(1, math.floor(dialog.time * typingSpeed))
 			love.graphics.setColor(0.5, 0.5, 0.5, 0.8)
 			love.graphics.rectangle("fill", 0, dialogY, dialogWidth, dialogHeight)
 			love.graphics.setColor(1, 1, 1)
 			if node.type == "text" then
 				love.graphics.printf(
-					node.text,
+					node.text:sub(1, charactersShown),
 					padding,
 					dialogY + padding,
 					(npcStart - padding) / scale,
@@ -169,8 +175,24 @@ function createDialog(node)
 				else
 					nt = nt .. " <-"
 				end
-				love.graphics.printf(yt, padding, dialogY + padding, (npcStart - padding) / scale, "left", 0, scale)
-				love.graphics.printf(nt, padding, dialogY + 3 * padding, (npcStart - padding) / scale, "left", 0, scale)
+				love.graphics.printf(
+					yt:sub(1, charactersShown),
+					padding,
+					dialogY + padding,
+					(npcStart - padding) / scale,
+					"left",
+					0,
+					scale
+				)
+				love.graphics.printf(
+					nt:sub(1, charactersShown),
+					padding,
+					dialogY + 3 * padding,
+					(npcStart - padding) / scale,
+					"left",
+					0,
+					scale
+				)
 			end
 		end,
 	}
@@ -218,6 +240,8 @@ end
 function love.update(dt)
 	if dialog == nil then
 		player:update(dt)
+	else
+		dialog:update(dt)
 	end
 	table.foreach(area.npcs, function(_, npc)
 		npc:update()
