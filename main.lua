@@ -161,6 +161,7 @@ function createPlayer()
 		end,
 		draw = function(player)
       local vlen = math.sqrt(player.vx * player.vx + player.vy * player.vy)
+      local speedSquash = math.sqrt(vlen) / 500
       local wiggle = 2 * (math.sqrt(vlen) / 500) * math.sin(love.timer.getTime() * 10)
 			local scale = toScreenX(2)
 			love.graphics.setColor(1, 1, 1)
@@ -170,7 +171,7 @@ function createPlayer()
 				toScreenY(player.y),
 				wiggle,
 				-player.dir * scale,
-				scale,
+				scale * (1 + 0.03 * math.sin(love.timer.getTime() * 7 + 2)) * (1 - speedSquash),
         reskantis:getWidth() / 2,
         reskantis:getHeight() / 2
 			)
