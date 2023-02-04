@@ -852,7 +852,7 @@ function love.update(dt)
 				player.y = closePortal.newY
 			end)
 		end
-		closeNpc = player:getCloseEntity(area.npcs)
+		local closeNpc = player:getCloseEntity(area.npcs)
 		if closeNpc ~= nil then
 			if input.interact then
 				local dt = closeNpc.dialogTree
