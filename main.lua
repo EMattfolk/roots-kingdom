@@ -7,12 +7,12 @@ local choice = nil
 local areas = nil
 local area = nil
 
-function createArea(npcs)
+function createArea(npcs, color)
 	return {
 		npcs = npcs,
 		portals = {},
 		draw = function(area)
-			love.graphics.setColor(0, 0.5, 0)
+			love.graphics.setColor(color)
 			love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
 		end,
 	}
@@ -133,7 +133,7 @@ function createDialog(node)
 			local padding = love.graphics.getHeight() / 20
 			local npcStart = love.graphics.getWidth() * 3 / 4
 			local scale = 2
-			love.graphics.setColor(0.5, 0.5, 0.5)
+			love.graphics.setColor(0.5, 0.5, 0.5, 0.8)
 			love.graphics.rectangle("fill", 0, dialogY, dialogWidth, dialogHeight)
 			love.graphics.setColor(1, 1, 1)
 			if node.type == "text" then
@@ -182,7 +182,7 @@ function restart()
 	dialog = nil
 	input = { space = false }
 	choice = nil
-	areas = { createArea({ npcs[1], npcs[2] }) }
+	areas = { createArea({ npcs[1], npcs[2] }, { 0, 0.5, 0 }) }
 	area = areas[1]
 end
 
@@ -200,7 +200,7 @@ function love.update(dt)
 	if dialog == nil then
 		player:update(dt)
 	end
-	table.foreach(npcs, function(_, npc)
+	table.foreach(area.npcs, function(_, npc)
 		npc:update()
 	end)
 	if isDown("up") then
@@ -214,7 +214,7 @@ function love.update(dt)
 	if isDown("q") or isDown("escape") then
 		love.event.quit()
 	end
-	closeNpc = player:getCloseNpc(npcs)
+	closeNpc = player:getCloseNpc(area.npcs)
 	if closeNpc ~= nil then
 		if input.space then
 			local dt = closeNpc.dialogTree
@@ -237,7 +237,7 @@ end
 
 function love.draw()
 	area:draw()
-	table.foreach(npcs, function(_, npc)
+	table.foreach(area.npcs, function(_, npc)
 		npc:draw()
 	end)
 	player:draw()
