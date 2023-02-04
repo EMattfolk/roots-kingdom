@@ -265,8 +265,8 @@ function restart()
 
 		-- Den rika änkan
 		createNpc(
-			400,
-			300,
+			1250,
+			350,
 			reskantis,
 			createDialogTree()
 				.text(
@@ -415,7 +415,7 @@ function restart()
 		-- PTSD svamp
 		createNpc(
 			600,
-			400,
+			500,
 			resptsd,
 			createDialogTree()
 				.text(
@@ -440,8 +440,8 @@ function restart()
 		),
 		-- EMO svamp
 		createNpc(
-			600,
-			400,
+			1200,
+			300,
 			resemo,
 			createDialogTree()
 				.text(
@@ -470,8 +470,8 @@ function restart()
 		),
 		-- Ghost
 		createNpc(
-			600,
-			400,
+			1200,
+			700,
 			resghost,
 			createDialogTree()
 				.text(
@@ -497,7 +497,7 @@ function restart()
 		-- Long
 		createNpc(
 			600,
-			400,
+			300,
 			resblygsvamp,
 			createDialogTree()
 				.text(
