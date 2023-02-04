@@ -33,19 +33,15 @@ local resbiggrump = nil
 local resbigmorfar = nil
 local reskantarell = nil
 local resbigemo = nil
+local resstar = nil
 
 local dammsystem = nil
+local starsystema = nil
+local starsystemb = nil
+local starsystemc = nil
 
 function utf8sub(s, to)
 	return s:sub(1, (utf8.offset(s, to) or #s + 1) - 1)
-end
-
-function toScreenX(x)
-	return love.graphics.getWidth() / 1920 * x
-end
-
-function toScreenY(y)
-	return love.graphics.getHeight() / 1080 * y
 end
 
 function createTransition(dir, onTransition)
@@ -95,7 +91,7 @@ function createPortal(x, y, next, newX, newY)
 		newY = newY,
 		draw = function(portal)
 			love.graphics.setColor(0, 0, 1)
-			love.graphics.ellipse("line", toScreenX(portal.x), toScreenY(portal.y), 50, 25)
+			love.graphics.ellipse("line", portal.x, portal.y, 50, 25)
 		end,
 	}
 end
@@ -109,6 +105,8 @@ function createArea(image, npcs, portals)
 			local yscale = love.graphics.getHeight() / image:getHeight()
 			love.graphics.setColor(1, 1, 1)
 			love.graphics.draw(image, 0, 0, 0, xscale, yscale)
+		end,
+		drawPortals = function(area)
 			table.foreach(area.portals, function(_, portal)
 				portal:draw()
 			end)
@@ -189,7 +187,7 @@ function createPlayer()
 
 				local dir = math.atan2(-player.vy, -player.vx)
 				dammsystem:setDirection(dir)
-				dammsystem:setPosition(toScreenX(player.x), toScreenY(player.y + reskantis:getHeight() / 2))
+				dammsystem:setPosition(player.x, player.y + reskantis:getHeight() / 2)
 				dammsystem:start()
 			else
 				dammsystem:pause()
@@ -217,12 +215,12 @@ function createPlayer()
 			local vlen = math.sqrt(player.vx * player.vx + player.vy * player.vy)
 			local speedSquash = math.sqrt(vlen) / 500
 			local wiggle = 2 * (math.sqrt(vlen) / 500) * math.sin(love.timer.getTime() * 10)
-			local scale = toScreenX(2)
+			local scale = 2
 			love.graphics.setColor(1, 1, 1)
 			love.graphics.draw(
 				reskantis,
-				toScreenX(player.x),
-				toScreenY(player.y),
+				player.x,
+				player.y,
 				wiggle,
 				-player.dir * scale,
 				scale * (1 + 0.03 * math.sin(love.timer.getTime() * 7 + 2)) * (1 - speedSquash),
@@ -251,15 +249,21 @@ function createNpc(x, y, image, dialogTree, breathSpeed)
 		x = x,
 		y = y,
 		accepted = false,
+		wasAccepted = false,
 		dialogTree = dialogTree,
-		update = function(npc) end,
+		update = function(npc)
+			if npc.wasAccepted ~= npc.accepted then
+				emitSuccessParticles(npc.x, npc.y)
+			end
+			npc.wasAccepted = npc.accepted
+		end,
 		draw = function(npc)
-			local scale = toScreenX(2)
+			local scale = 2
 			love.graphics.setColor(1, 1, 1)
 			love.graphics.draw(
 				image,
-				toScreenX(npc.x),
-				toScreenY(npc.y),
+				npc.x,
+				npc.y,
 				0,
 				scale,
 				scale * (1 + 0.02 * math.sin(love.timer.getTime() * breathSpeed)),
@@ -748,8 +752,8 @@ function love.load()
 	reskantis = love.graphics.newImage("res/kantis.png")
 	restrattis = love.graphics.newImage("res/famly50.png")
 	resmorfar = love.graphics.newImage("res/morfar.png")
-	resfont = love.graphics.newFont("res/Chalkduster.ttf", toScreenX(28))
-	resbigfont = love.graphics.newFont("res/Chalkduster.ttf", toScreenX(72))
+	resfont = love.graphics.newFont("res/Chalkduster.ttf", 28)
+	resbigfont = love.graphics.newFont("res/Chalkduster.ttf", 72)
 	resguard = love.graphics.newImage("res/mosh40.png")
 	resfancyfancy = love.graphics.newImage("res/fancyfancy.png", { linear = true })
 	resbackground = love.graphics.newImage("res/background.png")
@@ -762,6 +766,7 @@ function love.load()
 	resmodern = love.graphics.newImage("res/4thdimention.png")
 	rescastle = love.graphics.newImage("res/castleinthesky.png")
 	resdamm = love.graphics.newImage("res/damm.png")
+	resstar = love.graphics.newImage("res/star.png")
 
 	dammsystem = love.graphics.newParticleSystem(resdamm)
 	dammsystem:setSizes(2, 2, 3)
@@ -773,6 +778,24 @@ function love.load()
 	dammsystem:setParticleLifetime(0.1, 0.5)
 	dammsystem:setEmissionRate(15)
 
+	starsystema = love.graphics.newParticleSystem(resstar)
+	starsystema:setPosition(700, 700)
+	starsystema:setDirection(-math.pi / 2)
+	starsystema:setSpread(0.5)
+	starsystema:setLinearAcceleration(0, 200, 0, 400)
+	starsystema:setSizes(1, 1, 3)
+	starsystema:setRotation(0, 6)
+	starsystema:setSpinVariation(0.3)
+	starsystema:setSpeed(500, 1000)
+	starsystema:setParticleLifetime(3.0, 5.0)
+
+	starsystemb = starsystema:clone()
+	starsystemc = starsystema:clone()
+
+	starsystema:setColors({ 1.0, 1.0, 0.3, 0.8 }, { 1.0, 1.0, 0.3, 0.8 }, { 1.0, 1.0, 0.3, 0.0 })
+	starsystemb:setColors({ 1.0, 0.7, 1.0, 0.8 }, { 1.0, 0.7, 1.0, 0.8 }, { 1.0, 0.7, 1.0, 0.0 })
+	starsystemc:setColors({ 0.7, 0.0, 1.0, 0.8 }, { 0.7, 0.0, 1.0, 0.8 }, { 1.0, 0.7, 1.0, 0.0 })
+
 	restart()
 end
 
@@ -782,8 +805,22 @@ function love.keypressed(key)
 	end
 end
 
+function emitSuccessParticles(x, y)
+	local t = 2.0
+	starsystema:setPosition(x, y)
+	starsystema:emit(50)
+	starsystemb:setPosition(x, y)
+	starsystemb:emit(50)
+	starsystemc:setPosition(x, y)
+	starsystemc:emit(50)
+end
+
 function love.update(dt)
 	dammsystem:update(dt)
+	starsystema:update(dt)
+	starsystemb:update(dt)
+	starsystemc:update(dt)
+
 	if scene == "menu" then
 		if input.interact then
 			scene = "game"
@@ -803,7 +840,7 @@ function love.update(dt)
 			choice = false
 		end
 		local closePortal = player:getCloseEntity(area.portals)
-		if closePortal ~= nil and input.interact then
+		if closePortal ~= nil and input.interact and transition == nil then
 			local xdir = 0
 			local ydir = 0
 			if closePortal.x < 300 or 1600 < closePortal.x then
@@ -819,8 +856,8 @@ function love.update(dt)
 				player.y = closePortal.newY
 			end)
 		end
-		closeNpc = player:getCloseEntity(area.npcs)
-		if closeNpc ~= nil then
+		local closeNpc = player:getCloseEntity(area.npcs)
+		if closeNpc ~= nil and transition == nil then
 			if input.interact then
 				local dt = closeNpc.dialogTree
 				if dialog ~= nil then
@@ -839,6 +876,9 @@ function love.update(dt)
 
 		if transition ~= nil then
 			transition:update(dt)
+			if transition.progress == 1 and transition.transitioned then
+				transition = nil
+			end
 		end
 
 		input.interact = false
@@ -853,6 +893,7 @@ end
 
 function love.draw()
 	if scene == "menu" then
+		love.graphics.origin()
 		love.graphics.setFont(resbigfont)
 		love.graphics.clear(0, 0.6, 0.3)
 		love.graphics.setColor(1, 1, 1)
@@ -893,12 +934,25 @@ function love.draw()
 		love.graphics.draw(resbiggrump, toScreenX(200), toScreenY(800), 0, 0.3, 0.3)
 		love.graphics.draw(resbigmorfar, toScreenX(450), toScreenY(200), 0, -0.7, 0.7)
 	elseif scene == "game" then
+		love.graphics.origin()
 		area:draw()
+
+		love.graphics.scale(love.graphics.getWidth() / 1920, love.graphics.getHeight() / 1080)
+
+		area:drawPortals()
+
+		love.graphics.setColor(1, 1, 1)
+		love.graphics.draw(dammsystem)
+		love.graphics.draw(starsystema)
+		love.graphics.draw(starsystemb)
+		love.graphics.draw(starsystemc)
+
 		table.foreach(area.npcs, function(_, npc)
 			npc:draw()
 		end)
-		love.graphics.draw(dammsystem)
 		player:draw()
+
+		love.graphics.origin()
 		if dialog ~= nil then
 			dialog:draw()
 		end
