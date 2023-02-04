@@ -44,21 +44,20 @@ local canvas = nil
 local screenshader = nil
 
 local pixelcode = [[
-    vec4 effect(vec4 c, Image tex, vec2 tc, vec2 _)
-    {
-
-      number radius = 0.99;
-      number softness = 0.2;
-      number opacity = 0.2;
-      vec4 color = vec4(0.0, 0.0, 0.0, 1.0);
-
-      number aspect = love_ScreenSize.x / love_ScreenSize.y;
-      aspect = max(aspect, 1.0 / aspect); // use different aspect when in portrait mode
-      number v = 1.0 - smoothstep(radius, radius-softness,
-                                  length((tc - vec2(0.5)) * aspect));
-      return mix(Texel(tex, tc), color, v*opacity);
-    }
-]]
+vec4 effect(vec4 color, Image texture, vec2 tc, vec2 _) {
+  number s = 0.0004;
+  number radius = 3.0;
+  vec4 c = vec4(0.0);
+  for (float i = -radius; i <= radius; i += 1.0)
+  {
+    c += Texel(texture, tc + i * vec2(0.0, s));
+  }
+  for (float i = -radius; i <= radius; i += 1.0)
+  {
+    c += Texel(texture, tc + i * vec2(s, 0.0));
+  }
+  return c / (4.0 * radius + 2.0) * color;
+}]]
 
 local vertexcode = [[
   vec4 position( mat4 transform_projection, vec4 vertex_position )
