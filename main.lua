@@ -40,6 +40,33 @@ local starsystema = nil
 local starsystemb = nil
 local starsystemc = nil
 
+local canvas = nil
+local screenshader = nil
+
+local pixelcode = [[
+    vec4 effect(vec4 c, Image tex, vec2 tc, vec2 _)
+    {
+
+      number radius = 0.9;
+      number softness = 0.2;
+      number opacity = 0.2;
+      vec4 color = vec4(0.0, 0.0, 0.0, 1.0);
+
+      number aspect = love_ScreenSize.x / love_ScreenSize.y;
+      aspect = max(aspect, 1.0 / aspect); // use different aspect when in portrait mode
+      number v = 1.0 - smoothstep(radius, radius-softness,
+                                  length((tc - vec2(0.5)) * aspect));
+      return mix(Texel(tex, tc), color, v*opacity);
+    }
+]]
+
+local vertexcode = [[
+  vec4 position( mat4 transform_projection, vec4 vertex_position )
+  {
+    return transform_projection * vertex_position;
+  }
+]]
+
 function utf8sub(s, to)
 	return s:sub(1, (utf8.offset(s, to) or #s + 1) - 1)
 end
@@ -796,6 +823,9 @@ function love.load()
 	starsystemb:setColors({ 1.0, 0.7, 1.0, 0.8 }, { 1.0, 0.7, 1.0, 0.8 }, { 1.0, 0.7, 1.0, 0.0 })
 	starsystemc:setColors({ 0.7, 0.0, 1.0, 0.8 }, { 0.7, 0.0, 1.0, 0.8 }, { 1.0, 0.7, 1.0, 0.0 })
 
+  screenshader = love.graphics.newShader(vertexcode, pixelcode)
+  canvas = love.graphics.newCanvas (love.graphics.getWidth(), love.graphics.getHeight())
+
 	restart()
 end
 
@@ -935,6 +965,8 @@ function love.draw()
 		love.graphics.draw(resbiggrump, 100, 800, 0, 0.4, 0.4)
 		love.graphics.draw(resbigmorfar, 450, 200, 0, -0.9, 0.9)
 	elseif scene == "game" then
+    love.graphics.setCanvas(canvas)
+
 		love.graphics.origin()
 		area:draw()
 
@@ -953,7 +985,16 @@ function love.draw()
 		end)
 		player:draw()
 
+    love.graphics.setCanvas()
+
+
 		love.graphics.origin()
+
+    love.graphics.setShader(screenshader)
+    love.graphics.draw(canvas, 0, 0)
+
+    love.graphics.setShader()
+
 		if dialog ~= nil then
 			dialog:draw()
 		end
