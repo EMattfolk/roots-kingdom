@@ -26,6 +26,9 @@ local resghost = nil
 local resking = nil
 local resmodern = nil
 local rescastle = nil
+local resdamm = nil
+
+local dammsystem = nil
 
 function utf8sub(s, to)
 	return s:sub(1, (utf8.offset(s, to) or #s + 1) - 1)
@@ -139,6 +142,13 @@ function createPlayer()
 			if tot ~= 0 then
 				dx = dx / tot
 				dy = dy / tot
+
+        local dir = math.atan2(-player.vy, -player.vx)
+        dammsystem:setDirection(dir)
+        dammsystem:setPosition(toScreenX(player.x), toScreenY(player.y + reskantis:getHeight() / 2))
+        dammsystem:start()
+      else
+        dammsystem:pause()
 			end
 
 			local drag = 0.001
@@ -158,6 +168,7 @@ function createPlayer()
 			elseif dx > 0 then
 				player.dir = 1
 			end
+
 		end,
 		draw = function(player)
 			local vlen = math.sqrt(player.vx * player.vx + player.vy * player.vy)
@@ -680,6 +691,7 @@ function restart()
 end
 
 function love.load()
+
 	love.window.setFullscreen(true)
 	love.graphics.setDefaultFilter("nearest", "nearest")
 	reskantis = love.graphics.newImage("res/kantis.png")
@@ -698,6 +710,17 @@ function love.load()
 	resking = love.graphics.newImage("res/KONUNGEN.png")
 	resmodern = love.graphics.newImage("res/4thdimention.png")
 	rescastle = love.graphics.newImage("res/castleinthesky.png")
+	resdamm = love.graphics.newImage("res/damm.png")
+
+  dammsystem = love.graphics.newParticleSystem(resdamm)
+  dammsystem:setSizes(2, 2, 3)
+  dammsystem:setColors({ 1.0, 1.0, 1.0, 0.3 }, { 1.0, 1.0, 1.0, 0.3 }, { 1.0, 1.0, 1.0, 0.0 })
+  dammsystem:setRotation(0, 6)
+  dammsystem:setSpread(0.3)
+  dammsystem:setSpinVariation(0.3)
+  dammsystem:setSpeed(50, 100)
+  dammsystem:setParticleLifetime(0.1, 0.5)
+  dammsystem:setEmissionRate(15)
 
 	restart()
 end
@@ -709,6 +732,7 @@ function love.keypressed(key)
 end
 
 function love.update(dt)
+  dammsystem:update(dt)
 	if scene == "menu" then
 		if input.interact then
 			scene = "game"
@@ -800,6 +824,7 @@ function love.draw()
 		table.foreach(area.npcs, function(_, npc)
 			npc:draw()
 		end)
+		love.graphics.draw(dammsystem)
 		player:draw()
 		if dialog ~= nil then
 			dialog:draw()
