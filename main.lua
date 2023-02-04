@@ -12,6 +12,7 @@ local area = nil
 local reskantis = nil
 local restrattis = nil
 local resmorfar = nil
+local resfont = nil
 
 function utf8sub(s, to)
 	return s:sub(1, (utf8.offset(s, to) or #s + 1) - 1)
@@ -161,7 +162,7 @@ function createDialog(node)
 			local dialogY = love.graphics.getHeight() - dialogHeight
 			local padding = love.graphics.getHeight() / 20
 			local npcStart = love.graphics.getWidth() * 3 / 4
-			local scale = 2
+			local scale = 1
 			local typingSpeed = 50
 			local charactersShown = math.max(1, math.floor(dialog.time * typingSpeed))
 			love.graphics.setColor(0.5, 0.5, 0.5, 0.8)
@@ -337,6 +338,8 @@ function love.load()
 	reskantis = love.graphics.newImage("res/kantis.png")
 	restrattis = love.graphics.newImage("res/famly50.png")
 	resmorfar = love.graphics.newImage("res/morfar.png")
+	resfont = love.graphics.newFont("res/Chalkduster.ttf", 28)
+	love.graphics.setFont(resfont)
 	restart()
 end
 
