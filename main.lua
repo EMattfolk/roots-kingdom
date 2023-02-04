@@ -309,27 +309,31 @@ function createNpc(x, y, image, dialogTree, breathSpeed)
 	local breathSpeed = breathSpeed or 5
 	return {
 		isNpc = true,
+    danceTimer = 0.0,
 		x = x,
 		y = y,
 		accepted = false,
 		wasAccepted = false,
 		dialogTree = dialogTree,
 		update = function(npc)
+      npc.danceTimer = math.max(0, npc.danceTimer - love.timer.getDelta())
 			if npc.wasAccepted ~= npc.accepted then
 				emitSuccessParticles(npc.x, npc.y)
+        npc.danceTimer = 2.0
 			end
 			npc.wasAccepted = npc.accepted
 		end,
 		draw = function(npc)
 			local scale = 2
       local r = math.sin(love.timer.getTime() * 2) * 0.03
+      local sx = scale * sign(math.sin(npc.danceTimer * 20.0))
 			love.graphics.setColor(1, 1, 1)
 			love.graphics.draw(
 				image,
 				npc.x,
 				npc.y,
 				r,
-				scale,
+				sx,
 				scale * (1 + 0.02 * math.sin(love.timer.getTime() * breathSpeed)),
 				image:getWidth() / 2,
 				image:getHeight() / 2
