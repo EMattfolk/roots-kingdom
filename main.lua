@@ -152,8 +152,8 @@ function createPlayer()
 			love.graphics.setColor(1, 1, 1)
 			love.graphics.draw(
 				reskantis,
-				toScreenX(player.x - reskantis:getWidth() / 2 * -player.dir * scale),
-				toScreenY(player.y - reskantis:getHeight() / 2 * scale),
+				toScreenX(player.x) - reskantis:getWidth() / 2 * -player.dir * scale,
+				toScreenY(player.y) - reskantis:getHeight() / 2 * scale,
 				0,
 				-player.dir * scale,
 				scale
