@@ -205,9 +205,9 @@ function createDialog(node)
 			local padding = love.graphics.getHeight() / 20
 			local npcStart = love.graphics.getWidth() * 3 / 4
 			local scale = 1
-			local typingSpeed = 50
+			local typingSpeed = 60
 			local charactersShown = math.max(1, math.floor(dialog.time * typingSpeed))
-			love.graphics.setColor(0.5, 0.5, 0.5, 0.8)
+			love.graphics.setColor(0, 0, 0, 0.4)
 			love.graphics.rectangle("fill", 0, dialogY, dialogWidth, dialogHeight)
 			love.graphics.setColor(1, 1, 1)
 			if node.type == "text" then
