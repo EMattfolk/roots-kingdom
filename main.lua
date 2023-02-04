@@ -182,12 +182,12 @@ function createPlayer()
 				dx = dx / tot
 				dy = dy / tot
 
-        local dir = math.atan2(-player.vy, -player.vx)
-        dammsystem:setDirection(dir)
-        dammsystem:setPosition(toScreenX(player.x), toScreenY(player.y + reskantis:getHeight() / 2))
-        dammsystem:start()
-      else
-        dammsystem:pause()
+				local dir = math.atan2(-player.vy, -player.vx)
+				dammsystem:setDirection(dir)
+				dammsystem:setPosition(toScreenX(player.x), toScreenY(player.y + reskantis:getHeight() / 2))
+				dammsystem:start()
+			else
+				dammsystem:pause()
 			end
 
 			local drag = 0.001
@@ -207,7 +207,6 @@ function createPlayer()
 			elseif dx > 0 then
 				player.dir = 1
 			end
-
 		end,
 		draw = function(player)
 			local vlen = math.sqrt(player.vx * player.vx + player.vy * player.vy)
@@ -301,11 +300,11 @@ function createDialog(node)
 			elseif node.type == "choice" then
 				local yt = node.yesText
 				local nt = node.noText
-        local arrow = " <-"
-        local _, frac = math.modf(love.timer.getTime())
-        if frac > 0.5 then
-          arrow = "  <-"
-        end
+				local arrow = " <-"
+				local _, frac = math.modf(love.timer.getTime())
+				if frac > 0.5 then
+					arrow = "  <-"
+				end
 				if choice then
 					yt = yt .. arrow
 				else
@@ -731,7 +730,6 @@ function restart()
 end
 
 function love.load()
-
 	love.window.setFullscreen(true)
 	love.graphics.setDefaultFilter("nearest", "nearest")
 	reskantis = love.graphics.newImage("res/kantis.png")
@@ -752,15 +750,15 @@ function love.load()
 	rescastle = love.graphics.newImage("res/castleinthesky.png")
 	resdamm = love.graphics.newImage("res/damm.png")
 
-  dammsystem = love.graphics.newParticleSystem(resdamm)
-  dammsystem:setSizes(2, 2, 3)
-  dammsystem:setColors({ 1.0, 1.0, 1.0, 0.3 }, { 1.0, 1.0, 1.0, 0.3 }, { 1.0, 1.0, 1.0, 0.0 })
-  dammsystem:setRotation(0, 6)
-  dammsystem:setSpread(0.3)
-  dammsystem:setSpinVariation(0.3)
-  dammsystem:setSpeed(50, 100)
-  dammsystem:setParticleLifetime(0.1, 0.5)
-  dammsystem:setEmissionRate(15)
+	dammsystem = love.graphics.newParticleSystem(resdamm)
+	dammsystem:setSizes(2, 2, 3)
+	dammsystem:setColors({ 1.0, 1.0, 1.0, 0.3 }, { 1.0, 1.0, 1.0, 0.3 }, { 1.0, 1.0, 1.0, 0.0 })
+	dammsystem:setRotation(0, 6)
+	dammsystem:setSpread(0.3)
+	dammsystem:setSpinVariation(0.3)
+	dammsystem:setSpeed(50, 100)
+	dammsystem:setParticleLifetime(0.1, 0.5)
+	dammsystem:setEmissionRate(15)
 
 	restart()
 end
@@ -772,7 +770,7 @@ function love.keypressed(key)
 end
 
 function love.update(dt)
-  dammsystem:update(dt)
+	dammsystem:update(dt)
 	if scene == "menu" then
 		if input.interact then
 			scene = "game"
