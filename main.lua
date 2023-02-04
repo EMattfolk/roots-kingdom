@@ -341,11 +341,13 @@ function restart()
 				)
 				.choice(function(dt, npc)
 					dt.index = 4
+					npc.accepted = true
 				end, function(dt, npc)
 					dt.index = 5
+					npc.accepted = true
 				end, "Två", "Inga")
 				.text(
-					"Två? Nej inga! Moses var inte på arken, det var Noah. Du behöver studera dina bibelverser, min lilla kantarell. Du vill inte att prästen hör dig svara sådär.",
+					"Två? Nej inga! Moses var inte på arken, det var Noah. Du behöver studera dina bibelverser, min lilla kantarell. Du vill inte att prästen hör dig svara sådär. Bäst att jag följer med på festen och ser till att du läser på lite, hehe.",
 					6
 				)
 				.text("Precis! Inga! Moses var inte på arken, det var Noah. Jag antar att detta innebär fest för mig!", 6)
