@@ -202,21 +202,23 @@ function createPlayer()
 		dir = 1,
 		speed = 400,
 		acc = 850,
-		update = function(player, dt)
+		update = function(player, dt, allowInput)
 			local dx = 0
 			local dy = 0
-			if isDown("up") then
-				dy = -1
-			end
-			if isDown("down") then
-				dy = 1
-			end
-			if isDown("left") then
-				dx = -1
-			end
-			if isDown("right") then
-				dx = 1
-			end
+      if allowInput then
+        if isDown("up") then
+          dy = -1
+        end
+        if isDown("down") then
+          dy = 1
+        end
+        if isDown("left") then
+          dx = -1
+        end
+        if isDown("right") then
+          dx = 1
+        end
+      end
 
 			local tot = math.sqrt(dx * dx + dy * dy)
 			if tot ~= 0 then
@@ -884,9 +886,8 @@ function love.update(dt)
 			scene = "game"
 		end
 	elseif scene == "game" then
-		if dialog == nil then
-			player:update(dt)
-		else
+    player:update(dt, dialog == nil)
+		if dialog ~= nil then
 			dialog:update(dt)
 		end
 		table.foreach(area.npcs, function(_, npc)
