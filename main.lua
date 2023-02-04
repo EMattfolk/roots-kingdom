@@ -14,6 +14,9 @@ local restrattis = nil
 local resmorfar = nil
 local resfont = nil
 local resguard = nil
+local resfancyfancy = nil
+local resbackground = nil
+local resthedarkside = nil
 
 function utf8sub(s, to)
 	return s:sub(1, (utf8.offset(s, to) or #s + 1) - 1)
@@ -31,13 +34,13 @@ function createPortal(x, y, next)
 	}
 end
 
-function createArea(npcs, color, portals)
+function createArea(image, npcs, portals)
 	return {
 		npcs = npcs,
 		portals = portals,
 		draw = function(area)
-			love.graphics.setColor(color)
-			love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
+			love.graphics.setColor(1, 1, 1)
+			love.graphics.draw(image, 0, 0, 0, 5, 5)
 			table.foreach(area.portals, function(_, portal)
 				portal:draw()
 			end)
@@ -346,19 +349,26 @@ function restart()
 	input = { interact = false }
 	choice = nil
 	areas = {
-		createArea({ npcs[1], npcs[4] }, { 0, 0.5, 0 }, { createPortal(100, 400, 2) }),
-		createArea({ npcs[2], npcs[3] }, { 0.5, 0, 0 }, { createPortal(100, 400, 1) }),
+		createArea(resfancyfancy, { npcs[1], npcs[4] }, { createPortal(100, 400, 2) }),
+		createArea(resfancyfancy, { npcs[2], npcs[3] }, { createPortal(100, 400, 3) }),
+		createArea(resbackground, { npcs[1] }, { createPortal(100, 400, 4) }),
+		createArea(resthedarkside, { npcs[1] }, { createPortal(100, 400, 5) }),
+		createArea(resfancyfancy, { npcs[1] }, { createPortal(100, 400, 1) }),
 	}
 	area = areas[1]
 end
 
 function love.load()
 	love.window.setFullscreen(true)
+	love.graphics.setDefaultFilter("nearest", "nearest")
 	reskantis = love.graphics.newImage("res/kantis.png")
 	restrattis = love.graphics.newImage("res/famly50.png")
 	resmorfar = love.graphics.newImage("res/morfar.png")
 	resfont = love.graphics.newFont("res/Chalkduster.ttf", 28)
 	resguard = love.graphics.newImage("res/mosh40.png")
+	resfancyfancy = love.graphics.newImage("res/fancyfancy.png", { linear = true })
+	resbackground = love.graphics.newImage("res/background.png")
+	resthedarkside = love.graphics.newImage("res/thedarkside.png")
 	love.graphics.setFont(resfont)
 	restart()
 end
