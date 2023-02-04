@@ -7,12 +7,14 @@ local input = nil
 local choice = nil
 local areas = nil
 local area = nil
+local scene = nil
 
 -- Bilder för NPCs
 local reskantis = nil
 local restrattis = nil
 local resmorfar = nil
 local resfont = nil
+local resbigfont = nil
 local resguard = nil
 local resfancyfancy = nil
 local resbackground = nil
@@ -211,6 +213,7 @@ function createDialog(node)
 			love.graphics.setColor(0, 0, 0, 0.4)
 			love.graphics.rectangle("fill", 0, dialogY, dialogWidth, dialogHeight)
 			love.graphics.setColor(1, 1, 1)
+			love.graphics.setFont(resfont)
 			if node.type == "text" then
 				love.graphics.printf(
 					utf8sub(node.text, charactersShown),
@@ -427,6 +430,7 @@ function restart()
 		createArea(resmodern, { npcs[1] }, { createPortal(650, 1000, 2), createPortal(1800, 300, 4) }),
 	}
 	area = areas[1]
+	scene = "menu"
 end
 
 function love.load()
@@ -436,6 +440,7 @@ function love.load()
 	restrattis = love.graphics.newImage("res/famly50.png")
 	resmorfar = love.graphics.newImage("res/morfar.png")
 	resfont = love.graphics.newFont("res/Chalkduster.ttf", toScreenX(28))
+	resbigfont = love.graphics.newFont("res/Chalkduster.ttf", toScreenX(72))
 	resguard = love.graphics.newImage("res/mosh40.png")
 	resfancyfancy = love.graphics.newImage("res/fancyfancy.png", { linear = true })
 	resbackground = love.graphics.newImage("res/background.png")
@@ -447,7 +452,6 @@ function love.load()
 	resking = love.graphics.newImage("res/KONUNGEN.png")
 	resmodern = love.graphics.newImage("res/4thdimention.png")
 
-	love.graphics.setFont(resfont)
 	restart()
 end
 
@@ -458,18 +462,47 @@ function love.keypressed(key)
 end
 
 function love.update(dt)
-	if dialog == nil then
-		player:update(dt)
-	else
-		dialog:update(dt)
-	end
-	table.foreach(area.npcs, function(_, npc)
-		npc:update()
-	end)
-	if isDown("up") then
-		choice = true
-	elseif isDown("down") then
-		choice = false
+	if scene == "menu" then
+		if input.interact then
+			scene = "game"
+		end
+	elseif scene == "game" then
+		if dialog == nil then
+			player:update(dt)
+		else
+			dialog:update(dt)
+		end
+		table.foreach(area.npcs, function(_, npc)
+			npc:update()
+		end)
+		if isDown("up") then
+			choice = true
+		elseif isDown("down") then
+			choice = false
+		end
+		closePortal = player:getCloseEntity(area.portals)
+		if closePortal ~= nil and input.interact then
+			area = areas[closePortal.next]
+		end
+		closeNpc = player:getCloseEntity(area.npcs)
+		if closeNpc ~= nil then
+			if input.interact then
+				local dt = closeNpc.dialogTree
+				if dialog ~= nil then
+					dt.advance(choice, closeNpc)
+					choice = true
+				end
+				dialog = createDialog(dt.get())
+				if dialog == nil then -- We arrived at ending
+					dt.advance(choice, closeNpc) -- Args not needed here
+					choice = true
+				end
+			end
+		else
+			dialog = nil
+		end
+
+		input.interact = false
 	end
 	if isDown("r") then
 		restart()
@@ -477,38 +510,50 @@ function love.update(dt)
 	if isDown("q") or isDown("escape") then
 		love.event.quit()
 	end
-	closePortal = player:getCloseEntity(area.portals)
-	if closePortal ~= nil and input.interact then
-		area = areas[closePortal.next]
-	end
-	closeNpc = player:getCloseEntity(area.npcs)
-	if closeNpc ~= nil then
-		if input.interact then
-			local dt = closeNpc.dialogTree
-			if dialog ~= nil then
-				dt.advance(choice, closeNpc)
-				choice = true
-			end
-			dialog = createDialog(dt.get())
-			if dialog == nil then -- We arrived at ending
-				dt.advance(choice, closeNpc) -- Args not needed here
-				choice = true
-			end
-		end
-	else
-		dialog = nil
-	end
-
-	input.interact = false
 end
 
 function love.draw()
-	area:draw()
-	table.foreach(area.npcs, function(_, npc)
-		npc:draw()
-	end)
-	player:draw()
-	if dialog ~= nil then
-		dialog:draw()
+	if scene == "menu" then
+		love.graphics.setFont(resbigfont)
+		love.graphics.clear(0, 0.6, 0.3)
+		love.graphics.printf("Roots Kingdom", 0, love.graphics.getHeight() / 4, love.graphics.getWidth(), "center")
+		love.graphics.setFont(resfont)
+		love.graphics.printf(
+			"use space or enter to interact",
+			0,
+			love.graphics.getHeight() * 10 / 20,
+			love.graphics.getWidth(),
+			"center"
+		)
+		love.graphics.printf(
+			"arrow keys to move around",
+			0,
+			love.graphics.getHeight() * 11 / 20,
+			love.graphics.getWidth(),
+			"center"
+		)
+		love.graphics.printf(
+			"talk to the inhabitants of the world",
+			0,
+			love.graphics.getHeight() * 13 / 20,
+			love.graphics.getWidth(),
+			"center"
+		)
+		love.graphics.printf(
+			"interact to begin",
+			0,
+			love.graphics.getHeight() * 15 / 20,
+			love.graphics.getWidth(),
+			"center"
+		)
+	elseif scene == "game" then
+		area:draw()
+		table.foreach(area.npcs, function(_, npc)
+			npc:draw()
+		end)
+		player:draw()
+		if dialog ~= nil then
+			dialog:draw()
+		end
 	end
 end
