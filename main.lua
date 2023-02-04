@@ -43,8 +43,15 @@ local starsystemc = nil
 local canvas = nil
 local screenshader = nil
 
+local happiness = 0.0
+local targetHappiness = 0.0
+
 local pixelcode = [[
+uniform number happiness;
+
 vec4 effect(vec4 color, Image texture, vec2 tc, vec2 _) {
+  color = Texel(texture, tc);
+
   number s = 0.0004;
   number radius = 3.0;
   vec4 c = vec4(0.0);
@@ -56,7 +63,9 @@ vec4 effect(vec4 color, Image texture, vec2 tc, vec2 _) {
   {
     c += Texel(texture, tc + i * vec2(s, 0.0));
   }
-  return c / (4.0 * radius + 2.0) * color;
+  vec4 cOut = c / (4.0 * radius + 2.0) * color;
+  number luma = dot(vec3(0.299, 0.587, 0.114), cOut.rgb);
+  return mix(cOut, vec4(1.0, 1.0, 1.0, 1.0) * luma, happiness);
 }]]
 
 local vertexcode = [[
@@ -898,6 +907,19 @@ function emitSuccessParticles(x, y)
 end
 
 function love.update(dt)
+
+  local count = 0
+  local ys = 0
+  for _, npc in pairs(npcs) do
+    if npc.accepted then
+      ys = ys + 1
+    end
+    count = count + 1
+  end
+  targetHappiness = math.sqrt(ys / count)
+
+  happiness = happiness * (1 - dt) + dt * (happiness + targetHappiness) / 2
+
 	dammsystem:update(dt)
 	starsystema:update(dt)
 	starsystemb:update(dt)
@@ -1042,6 +1064,7 @@ function love.draw()
 
 		love.graphics.origin()
 
+    screenshader:send("happiness", (1 - happiness) * 0.3)
 		love.graphics.setShader(screenshader)
 		love.graphics.draw(canvas, 0, 0)
 
