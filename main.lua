@@ -1044,6 +1044,7 @@ function love.update(dt)
 		allTalkedTo = anyNotAccepted and npc.rsvp ~= "rsvp_unknown"
 	end
 	if transition == nil and dialog == nil and allTalkedTo and areas[1] ~= area then
+    print("TO THE BALL!")
 		transition = createTransition({ x = 0, y = -1 }, function()
 			area = areas[1]
 			player.x = 960
