@@ -930,7 +930,7 @@ function restart()
 			resbigdam,
 			createDialogTree()
 				.text(
-					"Du hade rätt lilla kantarell. Det är faktiskt rätt trevligt här! Åh, Lars-Åke! Jag trodde att du var död. Det känns som en dröm att se dig igen!",
+					"Du hade rätt lilla kantarell. Det är faktiskt rätt trevligt här! --- Åh, Lars-Åke! Jag trodde att du var död. Det känns som en dröm att se dig igen!",
 					2
 				)
 				.ending(1)
@@ -997,7 +997,7 @@ function restart()
 			resbigking,
 			createDialogTree()
 				.text(
-					"Åh, vilken härlig fest! Grattis på födelsedagen till mig! Synd att så få kunde komma, men du gjorde ditt bästa. Tack, lilla kantarell.",
+					"Åh, vilken härlig fest! Grattis på födelsedagen till mig! Du får stanna och njuta av festen hur länge du vill, lilla kantarell! ---- Synd att så få kunde komma, men du gjorde ditt bästa. Tack, lilla kantarell, du får stanna så länge du vill.",
 					2
 				)
 				.ending(1)
