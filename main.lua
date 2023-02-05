@@ -325,7 +325,7 @@ function createNpc(x, y, image, dialogTree, breathSpeed)
 		x = x,
 		y = y,
     dialogTree = dialogTree,
-    rsvp = "unknown",
+    rsvp = "rsvp_unknown",
 		update = function(npc)
 			npc.danceTimer = math.max(0, npc.danceTimer - love.timer.getDelta())
 		end,
@@ -352,9 +352,9 @@ function createNpc(x, y, image, dialogTree, breathSpeed)
 		npc.accept = function(succ)
       if succ then
         emitSuccessParticles(npc.x, npc.y)
-        npc.rsvp = "accepted"
+        npc.rsvp = "rsvp_accepted"
       else
-        npc.rsvp = "not_accepted"
+        npc.rsvp = "rsvp_not_accepted"
       end
 		end
 	end
@@ -626,7 +626,7 @@ function restart()
 					9
 				)
 				.branch(function()
-					return npcs[1].accepted
+					return npcs[1].rsvp == "rsvp_accepted"
 				end, 10, 11)
 				.choice(
 					function(dt, npc)
@@ -971,10 +971,10 @@ function love.update(dt)
 	local count = 0
 	local ys = 0
 	for _, npc in pairs(npcs) do
-		if npc.accepted then
-			ys = ys + 1
-		end
-		count = count + 1
+    count = count + 1
+		if npc.rsvp == "rsvp_accepted" then
+      ys = ys + 1
+    end
 	end
 	targetHappiness = math.sqrt(ys / count)
 
