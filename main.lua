@@ -315,10 +315,11 @@ function createPlayer()
 	}
 end
 
-function createNpc(x, y, image, dialogTree, breathSpeed)
+function createNpc(x, y, image, dialogImage, dialogTree, breathSpeed)
 	local breathSpeed = breathSpeed or 5
 	local npc = {
 		image = image,
+		dialogImage = dialogImage,
 		isNpc = true,
 		danceTimer = 0.0,
 		x = x,
@@ -389,9 +390,9 @@ function createDialog(node)
 
 			local talkingImage = nil
 			if node.type == "text" then
-				talkingImage = talkingToNpc.image
+				talkingImage = talkingToNpc.dialogImage
 			else
-				talkingImage = reskantis
+				talkingImage = reskantarell
 			end
 			local s = love.graphics.getHeight() / (2 * talkingImage:getHeight())
 			love.graphics.draw(talkingImage, w - talkingImage:getWidth() * s, h / 2, 0, s)
@@ -453,6 +454,7 @@ function restart()
 			1250,
 			350,
 			resdam,
+			resbigdam,
 			createDialogTree()
 				.text(
 					"Och varför skulle jag vilja gå på en sådan tillställning? Där alla de andra snofsiga svamparna kommer prata illa om mig bakom min rygg?",
@@ -517,6 +519,7 @@ function restart()
 			1500,
 			600,
 			resmorfar,
+			resbigmorfar,
 			createDialogTree()
 				.text(
 					"Hejsan, min lilla kantarell. Är du ute på uppdrag åt kungen? Jag har ju sagt till din mor att du borde vara här på gården med mig. Men men… en bal säger du? Hmm… det var länge sedan jag var på fest. Du skulle ha sett mig i mina glansdagar! Jag var bäst på fest!",
@@ -574,6 +577,7 @@ function restart()
 			600,
 			500,
 			restrattis,
+			resbigtrattis,
 			createDialogTree()
 				.text(
 					"Mig? På en bal? Men lilla kantarell, tror du de skulle släppa in mig med alla mina barn? Du vet att jag inte kan lämna dem ensamma och inte har jag någon som kan ta hand om dem.",
@@ -603,6 +607,7 @@ function restart()
 			1600,
 			400,
 			resptsd,
+			resbiggrump,
 			createDialogTree()
 				.text("En bal? Varför skulle jag vilja gå på en bal?", 2)
 				.choice(function(dt, npc)
@@ -686,6 +691,7 @@ function restart()
 			600,
 			550,
 			resemo,
+			resbigemo,
 			createDialogTree()
 				.text(
 					"En bal? Usch va tråkigt! Det är säkert bara en massa Basic Bitch musik som Ted Gärdestad och Selena Gomez! Nej tack! De andra svamparna förstår inte min utsökta musiksmak. De skulle inte förstå sig på de fantastiska verken av Bill Kaulitz och resten i Tokio Hotel. Jag skulle inte passa in.",
@@ -724,6 +730,7 @@ function restart()
 			1000,
 			750,
 			resghost,
+			resbigghost,
 			createDialogTree()
 				.text(
 					"Jag har redan hört talats om den här balen! Du vet, en ingenjör måste hålla koll på saker och ting. Men jag vet inte om jag hinner gå, nån måste ha koll på bygget.",
@@ -775,6 +782,7 @@ function restart()
 			600,
 			300,
 			resblygsvamp,
+			resblygsvamp,
 			createDialogTree()
 				.text(
 					"H-h-hejsan lilla kantarell. Jag har redan hört från Spökingenjören om den här balen.. Jag vill så gärna gå, men jag vet inte om jag vågar..",
@@ -805,6 +813,7 @@ function restart()
 			940,
 			250,
 			resking,
+			resbigking,
 			createDialogTree()
 				.text(
 					"Oj oj oj. Vad ska jag ta mig till? Livsträdet har äntligen fått nya rötter och det är min födelsedag! Jag vill så gärna fira…..",
@@ -842,16 +851,18 @@ function restart()
 		),
 		-- Alla vakter (9 st i princip identiska utöver att de introducerar till olika namn)
 		-- Vakterna på Solsidan
-		createNpc(200, 850, resguard, createDialogTree().text("Välkommen till Slottet!", 2).ending(1)),
+		createNpc(200, 850, resguard, resguard, createDialogTree().text("Välkommen till Slottet!", 2).ending(1)),
 		createNpc(
 			1700,
 			850,
+			resguard,
 			resguard,
 			createDialogTree().text("Välkommen till Farmsidan! Det är här vi sköter all vår odling!", 2).ending(1)
 		),
 		createNpc(
 			750,
 			200,
+			resguard,
 			resguard,
 			createDialogTree().text("Välkommen till Framsidan! Det är här våra ingenjörer bor.", 2).ending(1)
 		),
@@ -860,11 +871,13 @@ function restart()
 			200,
 			850,
 			resguard,
+			resguard,
 			createDialogTree().text("Välkommen till Solsidan! Vårt finaste stadskvarter!", 2).ending(1)
 		),
 		createNpc(
 			1300,
 			200,
+			resguard,
 			resguard,
 			createDialogTree()
 				.text("Var försiktig när du går till Skuggsidan! Den är nära gränsen till Parasitlandet.", 2)
@@ -875,11 +888,13 @@ function restart()
 			1300,
 			900,
 			resguard,
+			resguard,
 			createDialogTree().text("Välkommen till Farmsidan! Det är här vi sköter all vår odling!", 2).ending(1)
 		),
 		createNpc(
 			200,
 			350,
+			resguard,
 			resguard,
 			createDialogTree().text("Välkommen till Framsidan! Det är här våra ingenjörer bor.", 2).ending(1)
 		),
@@ -887,6 +902,7 @@ function restart()
 		createNpc(
 			1700,
 			400,
+			resguard,
 			resguard,
 			createDialogTree()
 				.text("Var försiktig när du går till Skuggsidan! Den är nära gränsen till Parasitlandet.", 2)
@@ -896,6 +912,7 @@ function restart()
 			600,
 			900,
 			resguard,
+			resguard,
 			createDialogTree().text("Välkommen till Solsidan! Vårt finaste stadskvarter!", 2).ending(1)
 		),
 		-- Karaktärerna på bal
@@ -903,7 +920,8 @@ function restart()
 		createNpc(
 			250,
 			700,
-			reskantis,
+			resdam,
+			resbigdam,
 			createDialogTree()
 				.text(
 					"Du hade rätt lilla kantarell. Det är faktiskt rätt trevligt här! Åh, Lars-Åke! Jag trodde att du var död. Det känns som en dröm att se dig igen!",
@@ -916,6 +934,7 @@ function restart()
 			700,
 			600,
 			resmorfar,
+			resbigmorfar,
 			createDialogTree()
 				.text("Vilket partaj, lilla kantarell! Snart ska du få se på morfars dansmoves!", 2)
 				.ending(1)
@@ -925,15 +944,17 @@ function restart()
 			850,
 			500,
 			restrattis,
+			resbigtrattis,
 			createDialogTree().text("Åhh, va fint de dekorerat! Ser ni ungar, va fint det är!", 2).ending(1)
 		),
 		-- Lars-Åke
-		createNpc(350, 700, resptsd, createDialogTree().text("Min älskade Gertrud....", 2).ending(1)),
+		createNpc(350, 700, resptsd, resbiggrump, createDialogTree().text("Min älskade Gertrud....", 2).ending(1)),
 		-- Emo-Erik
 		createNpc(
 			1400,
 			700,
 			resemo,
+			resbigemo,
 			createDialogTree()
 				.text("Hmm, den här musiken var inte såå dålig... men jag borde leta reda på DJ:en.", 2)
 				.ending(1)
@@ -943,6 +964,7 @@ function restart()
 			400,
 			450,
 			resghost,
+			resbigghost,
 			createDialogTree()
 				.text("Man skulle nog behöva stärka upp det här taket lite.. får skriva det på att göra listan..", 2)
 				.ending(1)
@@ -951,6 +973,8 @@ function restart()
 		createNpc(
 			1500,
 			700,
+
+			resblygsvamp,
 			resblygsvamp,
 			createDialogTree()
 				.text(
@@ -964,6 +988,7 @@ function restart()
 			940,
 			250,
 			resking,
+			resbigking,
 			createDialogTree()
 				.text(
 					"Åh, vilken härlig fest! Grattis på födelsedagen till mig! Synd att så få kunde komma, men du gjorde ditt bästa. Tack, lilla kantarell.",
