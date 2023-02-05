@@ -937,11 +937,7 @@ function restart()
 			{ npcs[6], npcs[7], npcs[16], npcs[17] },
 			{ createPortal(650, 1000, 2, 650, 100), createPortal(1800, 300, 4, 100, 300) }
 		),
-		createArea(
-			respartycastle,
-			{ npcs[25], npcs[18], npcs[19], npcs[20], npcs[21], npcs[22], npcs[23], npcs[24] },
-			{}
-		),
+		createArea(respartycastle, {}, {}),
 	}
 	area = areas[1]
 	scene = "menu"
@@ -1104,13 +1100,18 @@ function love.update(dt)
 	end
 
 	local allTalkedTo = true
-	for _, npc in pairs(npcs) do
-		allTalkedTo = anyNotAccepted and npc.rsvp ~= "rsvp_unknown"
+	for i = 1, 8 do
+		allTalkedTo = allTalkedTo and npcs[i].rsvp ~= "rsvp_unknown"
 	end
-	if transition == nil and dialog == nil and allTalkedTo and areas[1] ~= area then
-		print("TO THE BALL!")
+	if transition == nil and dialog == nil and allTalkedTo and areas[6] ~= area then
+		-- "TO THE BALL!"
+		for i = 1, 8 do
+			if npcs[i].rsvp == "rsvp_accepted" then
+				table.insert(areas[6].npcs, npcs[i + 17])
+			end
+		end
 		transition = createTransition({ x = 0, y = -1 }, function()
-			area = areas[1]
+			area = areas[6]
 			player.x = 960
 			player.y = 900
 		end)
