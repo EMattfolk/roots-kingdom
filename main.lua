@@ -1055,10 +1055,11 @@ function love.draw()
 		love.graphics.draw(starsystemb)
 		love.graphics.draw(starsystemc)
 
-		table.foreach(area.npcs, function(_, npc)
-			npc:draw()
+    local allThings = {player, unpack(area.npcs)}
+    table.sort(allThings, function(a, b) return a.y < b.y end)
+		table.foreach(allThings, function(_, thing)
+			thing:draw()
 		end)
-		player:draw()
 
 		love.graphics.setCanvas()
 
