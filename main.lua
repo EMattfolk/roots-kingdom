@@ -797,7 +797,7 @@ function restart()
 			600,
 			300,
 			resblygsvamp,
-			resblygsvamp,
+			resbighanna,
 			createDialogTree()
 				.text(
 					"H-h-hejsan lilla kantarell. Jag har redan hört från Spökingenjören om den här balen.. Jag vill så gärna gå, men jag vet inte om jag vågar..",
@@ -985,7 +985,7 @@ function restart()
 			700,
 
 			resblygsvamp,
-			resblygsvamp,
+			resbighanna,
 			createDialogTree()
 				.text(
 					"H-h-hej lilla kantarell. Jag är här nu, det är inte så f-farligt. Men jag vågar nog inte prata med någon än..",
@@ -1218,7 +1218,7 @@ function love.update(dt)
 	end
 
 	local allTalkedTo = true
-	for i = 4, 4 do
+	for i = 1, 8 do
 		allTalkedTo = allTalkedTo and npcs[i].rsvp ~= "rsvp_unknown"
 	end
 	if transition == nil and dialog == nil and allTalkedTo and areas[6] ~= area then
