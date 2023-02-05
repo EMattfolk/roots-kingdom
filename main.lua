@@ -1240,28 +1240,28 @@ function love.draw()
 		love.graphics.printf("Roots Kingdom", 0, love.graphics.getHeight() / 4, love.graphics.getWidth(), "center")
 		love.graphics.setFont(resfont)
 		love.graphics.printf(
-			"use space or enter to interact",
+			"använd mellanslag för att prata",
 			0,
 			love.graphics.getHeight() * 10 / 20,
 			love.graphics.getWidth(),
 			"center"
 		)
 		love.graphics.printf(
-			"arrow keys to move around",
+			"piltangenterna för att röra dig",
 			0,
 			love.graphics.getHeight() * 11 / 20,
 			love.graphics.getWidth(),
 			"center"
 		)
 		love.graphics.printf(
-			"talk to the inhabitants of the world",
+			"prata med kungarikets invånare",
 			0,
 			love.graphics.getHeight() * 13 / 20,
 			love.graphics.getWidth(),
 			"center"
 		)
 		love.graphics.printf(
-			"interact to begin",
+			"tryck på mellanslag för att börja",
 			0,
 			love.graphics.getHeight() * 15 / 20,
 			love.graphics.getWidth(),
