@@ -576,7 +576,15 @@ function restart()
 				.text("Fel svar! Äpplen växer väl ändå på äppelträd?", 19)
 				.text("Fel svar! Alla äpplen växer väl på träd?", 19)
 				.ending(20)
-				.text("När var det partajet började, min lilla kantarell?", 19)
+				.text("Vad är det för skillnad på en smutsig gris och en ren?", 21)
+				.choice(function(dt, npc)
+					dt.index = 22
+				end, function(dt, npc)
+					dt.index = 22
+				end, "Den ena grisen är smutsig?", "Den ena grisen är ren?")
+				.text("Renen har horn, hehe...", 23)
+				.ending(24)
+				.text("När var det partajet började, min lilla kantarell?", 23)
 		),
 		-- Trattis mamma
 		createNpc(
@@ -1285,13 +1293,13 @@ function love.draw()
 		)
 		-- Utritning av karaktärer på framsidan
 		love.graphics.scale(love.graphics.getWidth() / 1920, love.graphics.getHeight() / 1080)
-		love.graphics.draw(resbigking, 1320, 300, 0, 0.2, 0.2)
-		love.graphics.draw(reskantarell, 650, 400, 0, -1, 1)
+		love.graphics.draw(resbigking, 1340, 300, 0, 0.2, 0.2)
+		love.graphics.draw(reskantarell, 620, 400, 0, -1, 1)
 		love.graphics.draw(resbigemo, 1650, 100, 0, 0.7, 0.7)
 		love.graphics.draw(resbiggrump, 90, 800, 0, 0.35, 0.35)
 		love.graphics.draw(resbigdam, 220, 650, 0, 0.2, 0.2)
-		love.graphics.draw(resbigmorfar, 450, 170, 0, -0.9, 0.9)
-		love.graphics.draw(resbigtrattis, 1250, 750, 0, 0.3, 0.3)
+		love.graphics.draw(resbigmorfar, 420, 170, 0, -0.9, 0.9)
+		love.graphics.draw(resbigtrattis, 1330, 750, 0, 0.3, 0.3)
 		love.graphics.draw(resbigghost, 500, 50, 0, 0.2, 0.2)
 	elseif scene == "game" then
 		love.graphics.setCanvas(canvas)
