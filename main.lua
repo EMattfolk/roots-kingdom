@@ -87,24 +87,31 @@ function createTransition(dir, onTransition)
 		draw = function(tr)
 			local xdir = dir.x
 			local ydir = dir.y
+
+      love.graphics.push()
+      love.graphics.origin()
+      local w = love.graphics.getWidth()
+      local h = love.graphics.getHeight()
+
 			love.graphics.setColor(0, 0, 0)
 			if tr.transitioned then
 				love.graphics.rectangle(
 					"fill",
-					xdir * tr.progress * love.graphics.getWidth(),
-					ydir * tr.progress * love.graphics.getHeight(),
-					love.graphics.getWidth(),
-					love.graphics.getHeight()
+					xdir * tr.progress * w,
+					ydir * tr.progress * h,
+				  w,
+					h 
 				)
 			else
 				love.graphics.rectangle(
 					"fill",
-					love.graphics.getWidth() * -xdir + xdir * tr.progress * love.graphics.getWidth(),
-					love.graphics.getHeight() * -ydir + ydir * tr.progress * love.graphics.getHeight(),
-					love.graphics.getWidth(),
-					love.graphics.getHeight()
+					xdir * (tr.progress - 1) * w,
+					ydir * (tr.progress - 1) * h ,
+					w,
+					h
 				)
 			end
+      love.graphics.pop()
 		end,
 		update = function(tr, delta)
 			local speed = 2
