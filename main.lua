@@ -465,7 +465,7 @@ function restart()
 			resbigdam,
 			createDialogTree()
 				.text(
-					"Och varför skulle jag vilja gå på en sådan tillställning? Där alla de andra snofsiga svamparna kommer prata illa om mig bakom min rygg?",
+					"Bal? Och varför skulle jag vilja gå på en sådan tillställning? Där alla de andra snofsiga svamparna kommer prata illa om mig bakom min rygg?",
 					2
 				)
 				.choice(
@@ -482,11 +482,11 @@ function restart()
 				.text("Nej, exakt! Så om du ursäktar har jag ett glas daggdroppar som väntar på mig.", 10)
 				-- Om spelaren väljer alternativet där de fortfarande kan vinna NPCn i val 1
 				.text(
-					"Åh, så naiv du är! Det är klart att de kommer göra det, de har det gjort ända sedan mitt giftermål till min älskade Gerald… Du förstår, jag var en fattig liten svamp när jag träffade min man för första gången. Ingen familj kvar efter kriget. Min dåvarande man, Lars-Åke, var i militären och försvann. Det var en ensam tillvaro… Men sen kom Gerald.",
+					"Åh, så naiv du är! Det är klart att de kommer göra det, det har de gjort ända sedan mitt giftermål till min älskade Gerald… Du förstår, jag var en fattig liten svamp när jag träffade min man för första gången. Ingen familj kvar efter kriget. Min dåvarande man, Lars-Åke, var i militären och försvann.",
 					5
 				)
 				.text(
-					"Han gav mig hopp om livet och vi gifte oss. Jag trodde att mitt liv äntligen vänt. Han blev min bästa vän och vår tid tillsammans var underbar... *suckar och ser drömmande ut*",
+					"Det var en ensam tillvaro… Men sen kom Gerald. Han gav mig hopp om livet och vi gifte oss. Jag trodde att mitt liv äntligen vänt. Han blev min bästa vän och vår tid tillsammans var underbar... *suckar och ser drömmande ut*",
 					6
 				)
 				.text(
@@ -596,7 +596,7 @@ function restart()
 			resbigtrattis,
 			createDialogTree()
 				.text(
-					"Mig? På en bal? Men lilla kantarell, tror du de skulle släppa in mig med alla mina barn? Du vet att jag inte kan lämna dem ensamma och inte har jag någon som kan ta hand om dem.",
+					"Mig? På en bal? Men lilla kantarell, tror du att de skulle släppa in mig med alla mina barn? Du vet att jag inte kan lämna dem ensamma och inte har jag någon som kan ta hand om dem.",
 					2
 				)
 				.choice(
@@ -896,7 +896,7 @@ function restart()
 			resguard,
 			resbigguard,
 			createDialogTree()
-				.text("Var försiktig när du går till Skuggsidan! Den är nära gränsen till Parasitlandet.", 2)
+				.text("Var försiktig när du går till Skuggsidan! Det är nära gränsen till Parasitlandet.", 2)
 				.ending(1)
 		),
 		-- Vakter på Skuggsidan
@@ -921,7 +921,7 @@ function restart()
 			resguard,
 			resbigguard,
 			createDialogTree()
-				.text("Var försiktig när du går till Skuggsidan! Den är nära gränsen till Parasitlandet.", 2)
+				.text("Var försiktig när du går till Skuggsidan! Det är nära gränsen till Parasitlandet.", 2)
 				.ending(1)
 		),
 		createNpc(
