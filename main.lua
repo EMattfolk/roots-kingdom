@@ -339,6 +339,7 @@ function createNpc(x, y, image, dialogImage, dialogTree, breathSpeed)
 		danceTimer = 0.0,
 		x = x,
 		y = y,
+		dir = 1,
 		dialogTree = dialogTree,
 		rsvp = "rsvp_unknown",
 		update = function(npc)
@@ -354,7 +355,7 @@ function createNpc(x, y, image, dialogImage, dialogTree, breathSpeed)
 				npc.x,
 				npc.y,
 				r,
-				sx,
+				npc.dir * sx,
 				scale * (1 + 0.02 * math.sin(love.timer.getTime() * breathSpeed)),
 				image:getWidth() / 2,
 				image:getHeight() / 2
@@ -839,7 +840,7 @@ function restart()
 			resbigking,
 			createDialogTree()
 				.text(
-					"Oj oj oj. Vad ska jag ta mig till? Livsträdet har äntligen fått nya rötter och det är min födelsedag! Jag vill så gärna fira…..",
+					"Oj oj oj. Vad ska jag ta mig till? Livsträdet har äntligen fått nya rötter och det är min födelsedag! Jag vill så gärna fira����..",
 					2
 				)
 				.text(
@@ -1046,6 +1047,7 @@ function restart()
 		createNpc(900, 900, resplant5, resplant5, createDialogTree().ending(1)),
 	}
 
+	npcs[18].dir = -1
 	dialog = nil
 	input = { interact = false }
 	choice = nil
