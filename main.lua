@@ -491,7 +491,7 @@ function restart()
 					6
 				)
 				.text(
-					"Men… alla andra trodde att jag gifte mig för pengarna och sedan dess har de andra aristokraterna alltid sett ner på mig. Det var svårt att få vänner. *hennes uppsyn blir mer och mer bister igen* Och inte blev det bättre när min älskade gick bort. Jag har varit helt ensam sedan dess. Men hellre ensam än i ett rum med dömande och tråkiga svampar!!",
+					"Men… alla andra trodde att jag gifte mig för pengarna och sedan dess har de andra aristokraterna alltid sett ner på mig. *Gertrud ser dyster ut igen* Och inte blev det bättre när min älskade gick bort. Jag har varit helt ensam sedan dess. Men hellre ensam än i ett rum med dömande och tråkiga svampar!!",
 					7
 				)
 				.choice(
@@ -1346,6 +1346,7 @@ function love.draw()
 		love.graphics.draw(resbigmorfar, 420, 170, 0, -0.9, 0.9)
 		love.graphics.draw(resbigtrattis, 1330, 750, 0, 0.3, 0.3)
 		love.graphics.draw(resbigghost, 500, 50, 0, 0.2, 0.2)
+		love.graphics.draw(resbigguard, 1200, 50, 0, 0.2, 0.2)
 	elseif scene == "game" then
 		love.graphics.setCanvas(canvas)
 
