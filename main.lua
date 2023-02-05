@@ -157,11 +157,11 @@ function createArea(image, npcs, portals, walls)
 			table.foreach(area.portals, function(_, portal)
 				portal:draw()
 			end)
-      
+
 			love.graphics.setColor(1, 0, 1)
 			table.foreach(area.walls, function(_, p)
-        love.graphics.ellipse("line", p.x, p.y, 50, 50)
-    end)
+				love.graphics.ellipse("line", p.x, p.y, 50, 50)
+			end)
 		end,
 	}
 end
@@ -209,8 +209,8 @@ end
 
 function createPlayer()
 	return {
-		x = 1100,
-		y = 600,
+		x = 960,
+		y = 900,
 		vx = 0,
 		vy = 0,
 		dir = 1,
@@ -317,24 +317,24 @@ function createNpc(x, y, image, dialogTree, breathSpeed)
 	local breathSpeed = breathSpeed or 5
 	return {
 		isNpc = true,
-    danceTimer = 0.0,
+		danceTimer = 0.0,
 		x = x,
 		y = y,
 		accepted = false,
 		wasAccepted = false,
 		dialogTree = dialogTree,
 		update = function(npc)
-      npc.danceTimer = math.max(0, npc.danceTimer - love.timer.getDelta())
+			npc.danceTimer = math.max(0, npc.danceTimer - love.timer.getDelta())
 			if npc.wasAccepted ~= npc.accepted then
 				emitSuccessParticles(npc.x, npc.y)
-        npc.danceTimer = 2.0
+				npc.danceTimer = 2.0
 			end
 			npc.wasAccepted = npc.accepted
 		end,
 		draw = function(npc)
 			local scale = 2
-      local r = math.sin(love.timer.getTime() * 2) * 0.03
-      local sx = scale * sign(math.sin(npc.danceTimer * 20.0))
+			local r = math.sin(love.timer.getTime() * 2) * 0.03
+			local sx = scale * sign(math.sin(npc.danceTimer * 20.0))
 			love.graphics.setColor(1, 1, 1)
 			love.graphics.draw(
 				image,
@@ -790,19 +790,14 @@ function restart()
 	input = { interact = false }
 	choice = nil
 	areas = {
-		createArea(
-			rescastle,
-			{ npcs[8] },
-			{},
-			{
-				{ x = 1160, y = 523 },
-				{ x = 760, y = 527 },
-				{ x = 760, y = 980 },
-				{ x = 1160, y = 980 },
-				{ x = 430, y = 205 },
-				{ x = 1475, y = 195 },
-			}
-		), -- Slottet
+		createArea(rescastle, { npcs[8] }, {}, {
+			{ x = 1160, y = 523 },
+			{ x = 760, y = 527 },
+			{ x = 760, y = 980 },
+			{ x = 1160, y = 980 },
+			{ x = 430, y = 205 },
+			{ x = 1475, y = 195 },
+		}), -- Slottet
 		createArea(resfancyfancy, { npcs[1], npcs[9], npcs[10], npcs[11] }, {
 			createPortal(100, 800, 1, 960, 1050),
 			createPortal(650, 100, 5, 650, 1000),
@@ -907,18 +902,17 @@ function emitSuccessParticles(x, y)
 end
 
 function love.update(dt)
+	local count = 0
+	local ys = 0
+	for _, npc in pairs(npcs) do
+		if npc.accepted then
+			ys = ys + 1
+		end
+		count = count + 1
+	end
+	targetHappiness = math.sqrt(ys / count)
 
-  local count = 0
-  local ys = 0
-  for _, npc in pairs(npcs) do
-    if npc.accepted then
-      ys = ys + 1
-    end
-    count = count + 1
-  end
-  targetHappiness = math.sqrt(ys / count)
-
-  happiness = happiness * (1 - dt) + dt * (happiness + targetHappiness) / 2
+	happiness = happiness * (1 - dt) + dt * (happiness + targetHappiness) / 2
 
 	dammsystem:update(dt)
 	starsystema:update(dt)
@@ -927,7 +921,9 @@ function love.update(dt)
 
 	if scene == "menu" then
 		if input.interact then
-			scene = "game"
+			transition = createTransition({ x = 0, y = -1 }, function()
+				scene = "game"
+			end)
 		end
 	elseif scene == "game" then
 		player:update(dt, dialog == nil)
@@ -978,15 +974,12 @@ function love.update(dt)
 		else
 			dialog = nil
 		end
-
-		if transition ~= nil then
-			transition:update(dt)
-			if transition.progress == 1 and transition.transitioned then
-				transition = nil
-			end
+	end
+	if transition ~= nil then
+		transition:update(dt)
+		if transition.progress == 1 and transition.transitioned then
+			transition = nil
 		end
-
-		input.interact = false
 	end
 	if isDown("r") then
 		restart()
@@ -994,6 +987,7 @@ function love.update(dt)
 	if isDown("q") or isDown("escape") then
 		love.event.quit()
 	end
+	input.interact = false
 end
 
 function love.draw()
@@ -1055,8 +1049,10 @@ function love.draw()
 		love.graphics.draw(starsystemb)
 		love.graphics.draw(starsystemc)
 
-    local allThings = {player, unpack(area.npcs)}
-    table.sort(allThings, function(a, b) return a.y < b.y end)
+		local allThings = { player, unpack(area.npcs) }
+		table.sort(allThings, function(a, b)
+			return a.y < b.y
+		end)
 		table.foreach(allThings, function(_, thing)
 			thing:draw()
 		end)
@@ -1065,7 +1061,7 @@ function love.draw()
 
 		love.graphics.origin()
 
-    screenshader:send("happiness", (1 - happiness) * 0.3)
+		screenshader:send("happiness", (1 - happiness) * 0.3)
 		love.graphics.setShader(screenshader)
 		love.graphics.draw(canvas, 0, 0)
 
@@ -1074,8 +1070,8 @@ function love.draw()
 		if dialog ~= nil then
 			dialog:draw()
 		end
-		if transition ~= nil then
-			transition:draw()
-		end
+	end
+	if transition ~= nil then
+		transition:draw()
 	end
 end
