@@ -936,12 +936,7 @@ function restart()
 			700,
 			resdam,
 			resbigdam,
-			createDialogTree()
-				.text(
-					"Du hade rätt lilla kantarell. Det är faktiskt rätt trevligt här! --- Åh, Lars-Åke! Jag trodde att du var död. Det känns som en dröm att se dig igen!",
-					2
-				)
-				.ending(1)
+			createDialogTree().text("Du hade rätt lilla kantarell. Det är faktiskt rätt trevligt här!", 2).ending(1)
 		),
 		-- Morfar
 		createNpc(
@@ -1005,7 +1000,7 @@ function restart()
 			resbigking,
 			createDialogTree()
 				.text(
-					"Åh, vilken härlig fest! Grattis på födelsedagen till mig! Du får stanna och njuta av festen hur länge du vill, lilla kantarell! ---- Synd att så få kunde komma, men du gjorde ditt bästa. Tack, lilla kantarell, du får stanna så länge du vill.",
+					"Åh, vilken härlig fest! Grattis på födelsedagen till mig! Du får stanna och njuta av festen hur länge du vill, lilla kantarell!",
 					2
 				)
 				.ending(1)
@@ -1221,7 +1216,7 @@ function love.update(dt)
 	end
 
 	local allTalkedTo = true
-	for i = 1, 8 do
+	for i = 4, 4 do
 		allTalkedTo = allTalkedTo and npcs[i].rsvp ~= "rsvp_unknown"
 	end
 	if transition == nil and dialog == nil and allTalkedTo and areas[6] ~= area then
@@ -1233,6 +1228,17 @@ function love.update(dt)
 				numAccepted = numAccepted + 1
 			end
 		end
+
+		if numAccepted < 6 then
+			npcs[25].dialogTree.data[1].text =
+				"Synd att så få kunde komma, men du gjorde ditt bästa. Tack, lilla kantarell, du får stanna så länge du vill."
+		end
+
+		if npcs[4].rsvp == "rsvp_accepted" then
+			npcs[18].dialogTree.data[1].text =
+				"Åh, Lars-Åke! Jag trodde att du var död. Det känns som en dröm att se dig igen!"
+		end
+
 		transition = createTransition({ x = 0, y = -1 }, function()
 			area = areas[6]
 			player.x = 960
