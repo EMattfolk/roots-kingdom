@@ -946,8 +946,29 @@ function restart()
 			resmorfar,
 			resbigmorfar,
 			createDialogTree()
-				.text("Vilket partaj, lilla kantarell! Snart ska du få se på morfars dansmoves!", 2)
-				.ending(1)
+				.text(
+					"En fönsterputsare tvättar fönsterna på 25e våningen av en skyskrapa när han plötsligt halkar och faller. Han har ingen skyddsutrustning eller säkerhetslina, ändå överlever han. Hur?",
+					2
+				)
+				.choice(function(dt, npc)
+					dt.index = 3
+				end, function(dt, npc)
+					dt.index = 3
+				end, "Ett mirakel", "Han landade på en studsmatta")
+				.text("Han ramlade på insidan av huset. Hö hö...", 4)
+				.ending(5)
+				.text("I vilken månad föds det flest barn?", 6)
+				.choice(function(dt, npc)
+					dt.index = 7
+				end, function(dt, npc)
+					dt.index = 7
+				end, "April", "Augusti")
+				.text("Nej, nej, de flesta barn föds i den nionde månaden. Men det lär du väl dig sen.", 8)
+				.ending(9)
+				.text("Varför är det ingen idé att tävla med skämt, min lilla kantarell?")
+				.text("Det är ingen vits, hehe...", 10)
+				.ending(11)
+				.text("Vilket partaj, lilla kantarell! Snart ska du få se på morfars dansmoves!", 10)
 		),
 		-- Trattis mamman
 		createNpc(
