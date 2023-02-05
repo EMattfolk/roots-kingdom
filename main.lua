@@ -42,6 +42,7 @@ local resbighanna = nil
 local resbigguard = nil
 local resstar = nil
 local resloserbackground = nil
+local reshappyend = nil
 
 local resplant1 = nil
 local resplant2 = nil
@@ -1163,6 +1164,7 @@ function love.load()
 	resplant4 = love.graphics.newImage("res/plant4.png")
 	resplant5 = love.graphics.newImage("res/plant5.png")
 	resloserbackground = love.graphics.newImage("res/sadkantisnew.png")
+	reshappyend = love.graphics.newImage("res/happyEnding.png")
 
 	stepsound = love.audio.newSource("res/step001.wav", "static")
 	stepsound:setLooping(false)
@@ -1477,8 +1479,16 @@ function love.draw()
 		love.graphics.clear(0, 0.6, 0.3)
 		love.graphics.setColor(1, 1, 1)
 		if player.won then
-			love.graphics.printf("Du vinner!", 0, love.graphics.getHeight() / 4, love.graphics.getWidth(), "center")
+			love.graphics.draw(
+				reshappyend,
+				0,
+				0,
+				0,
+				love.graphics.getWidth() / reshappyend:getWidth(),
+				love.graphics.getHeight() / reshappyend:getHeight()
+			)
 			love.graphics.setFont(resfont)
+			love.graphics.setColor(0, 0, 0)
 			love.graphics.printf(
 				"tryck på R för att börja om",
 				0,
@@ -1486,6 +1496,7 @@ function love.draw()
 				love.graphics.getWidth(),
 				"center"
 			)
+			love.graphics.setColor(1, 1, 1)
 		else
 			love.graphics.draw(resloserbackground)
 			love.graphics.printf("Misär", 0, love.graphics.getHeight() / 4, love.graphics.getWidth(), "center")
