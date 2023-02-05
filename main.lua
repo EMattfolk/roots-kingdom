@@ -628,9 +628,11 @@ function restart()
 				.choice(
 					function(dt, npc)
 						dt.index = 12
+						npc.accept(true)
 					end,
 					function(dt, npc)
 						dt.index = 12
+						npc.accept(true)
 					end,
 					"Jag har hört att Gertrud ska vara på balen...",
 					"Du kanske träffar henne på balen? Då kan ni prata?"
@@ -638,9 +640,11 @@ function restart()
 				.choice(
 					function(dt, npc)
 						dt.index = 13
+						npc.accept(false)
 					end,
 					function(dt, npc)
 						dt.index = 13
+						npc.accept(false)
 					end,
 					"Gertrud kommer inte på balen, så du behöver inte fundera på det nu! Men det kanske är kul att få komma ut?",
 					"Jag tycker definitivt att du ska höra av dig till henne!"
@@ -671,13 +675,14 @@ function restart()
 				.choice(
 					function(dt, npc)
 						dt.index = 3
+						npc.accept(false)
 					end,
 					function(dt, npc)
 						dt.index = 4
 						npc.accept(true)
 					end,
 					"Du har rätt. Stanna här och lyssna på din udda musik. Det är nog bäst.",
-					"Jag har hört att det kommer finnas en DJ som tar önskemål! Och du hittar säkert några andra som gillar samma sort som dig! Du skulle passa in perfekt!"
+					"Jag har hört att det kommer finnas en DJ som tar önskemål! Finns säkert flera som gillar Tokio Hotel!"
 				)
 				.text(
 					"Eller hur. Jag stannar mycket hellre här och lyssnar på Tokio Hotel… *nynnar* I'm staring at a broken door…. There's nothing left here anymore…My room is cold, it's making me insane…*mhmm*",
@@ -697,29 +702,54 @@ function restart()
 		),
 		-- Spök ingenjören
 		createNpc(
-			1200,
-			700,
+			1000,
+			750,
 			resghost,
 			createDialogTree()
 				.text(
-					"Mig? På en bal? Men lilla kantarell, tror du de skulle släppa in mig med alla mina barn? Du vet att jag inte kan lämna dem ensamma och inte har jag någon som kan ta hand om dem.",
+					"Jag har redan hört talats om den här balen! Du vet, en ingenjör måste hålla koll på saker och ting. Men jag vet inte om jag hinner gå, nån måste ha koll på bygget.",
 					2
 				)
 				.choice(
 					function(dt, npc)
 						dt.index = 3
+						npc.accept(false)
 					end,
 					function(dt, npc)
-						dt.index = 3
+						dt.index = 4
 					end,
-					"Jag ska bjuda in hela riket! Så klart att de släpper in er!",
-					"Det kommer säkert en massa barn på balen, den är till för hela riket!"
+					"Det kommer att bli jättekul, klart du ska gå!",
+					"Bygget klarar sig säkert för en kväll. Det blir säkert jättekul på balen!"
+				)
+				.text("Nej nej. Jag måste hålla ställningarna här. Spöken ska ha koll på saker hela tiden!", 5)
+				.text("Men tror du att spöksvampar som mig är välkomna?", 5)
+				.choice(
+					function(dt, npc)
+						dt.index = 6
+						npc.accept(true)
+					end,
+					function(dt, npc)
+						dt.index = 7
+						npc.accept(false)
+					end,
+					"Ja, så klart! Alla är välkomna!",
+					"Hmm, jag vet faktiskt inte. Jag skulle bjuda alla, räknas spöken som 'alla'?"
 				)
 				.text(
-					"På riktigt? Nämen, oj, då måste vi ju passa på! En bal på slotten, kan du tänka dig! Tack lilla kantarell! Lycka till med ditt uppdrag så ses vi på balen. Nu har jag en massa förberedelser att stå i!",
-					4
+					"Okej, men då får jag väl ta mig dit då. Bygget klarar sig säkert en kväll. Tack för inbjudan, lilla kantarell!",
+					8
 				)
-				.ending(4)
+				.text(
+					"Exakt! Det är den frågan som plågar mig dag in och dag ut! Det är nog bäst om jag stannar här. Men tack ändå!",
+					10
+				)
+				.ending(9)
+				.text("Det blir nog kul, att få komma iväg från jobbet lite...", 8)
+				.ending(11)
+				.text(
+					"Vad är jag?.. Hur vet jag att jag finns?.. Hur vet jag att jag har ett hjärna?... Vänta lite.... jag är en svamp, jag har ingen hjärna... Hur tänker jag?",
+					10
+				)
 		),
 		-- Blyga Hanna
 		createNpc(
@@ -728,24 +758,28 @@ function restart()
 			resblygsvamp,
 			createDialogTree()
 				.text(
-					"Mig? På en bal? Men lilla kantarell, tror du de skulle släppa in mig med alla mina barn? Du vet att jag inte kan lämna dem ensamma och inte har jag någon som kan ta hand om dem.",
+					"H-h-hejsan lilla kantarell. Jag har redan hört från Spökingenjören om den här balen.. Jag vill så gärna gå, men jag vet inte om jag vågar..",
 					2
 				)
+				.text("Jag är så b-blyg. Tänk om ingen pratar med mig?", 3)
 				.choice(
 					function(dt, npc)
-						dt.index = 3
+						dt.index = 4
+						npc.accept(true)
 					end,
 					function(dt, npc)
-						dt.index = 3
+						dt.index = 5
+						npc.accept(false)
 					end,
-					"Jag ska bjuda in hela riket! Så klart att de släpper in er!",
-					"Det kommer säkert en massa barn på balen, den är till för hela riket!"
+					"Jag kommer vara där, och jag pratar gärna med dig!",
+					"Jag tror på dig! Det kommer att gå jättebra!"
 				)
-				.text(
-					"På riktigt? Nämen, oj, då måste vi ju passa på! En bal på slotten, kan du tänka dig! Tack lilla kantarell! Lycka till med ditt uppdrag så ses vi på balen. Nu har jag en massa förberedelser att stå i!",
-					4
-				)
-				.ending(4)
+				.text("Okej, om du är där så vågar jag komma. Vi ses ikväll!", 6)
+				.text("Jag vet inte, kantarell. Jag tror det är bättre om jag stannar här. M-men lycka till!", 7)
+				.ending(8)
+				.ending(9)
+				.text("Nu måste jag ladda upp mitt sociala batteri så jag orkar gå. Vi s-s-ses ik-kväll!", 6)
+				.text("*Hanna stirrar nervöst ner i marken, så du låter henne vara ifred.*", 7)
 		),
 		-- Kungen
 		createNpc(
