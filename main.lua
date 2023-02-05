@@ -39,6 +39,7 @@ local resbigtrattis = nil
 local resbigghost = nil
 local resbigdam = nil
 local resbighanna = nil
+local resbigguard = nil
 local resstar = nil
 
 local resplant1 = nil
@@ -866,19 +867,19 @@ function restart()
 		),
 		-- Alla vakter (9 st i princip identiska utöver att de introducerar till olika namn)
 		-- Vakterna på Solsidan
-		createNpc(200, 850, resguard, resguard, createDialogTree().text("Välkommen till Slottet!", 2).ending(1)),
+		createNpc(200, 850, resguard, resbigguard, createDialogTree().text("Välkommen till Slottet!", 2).ending(1)),
 		createNpc(
 			1700,
 			850,
 			resguard,
-			resguard,
+			resbigguard,
 			createDialogTree().text("Välkommen till Farmsidan! Det är här vi sköter all vår odling!", 2).ending(1)
 		),
 		createNpc(
 			750,
 			200,
 			resguard,
-			resguard,
+			resbigguard,
 			createDialogTree().text("Välkommen till Framsidan! Det är här våra ingenjörer bor.", 2).ending(1)
 		),
 		-- Vakter på Farmsidan
@@ -886,14 +887,14 @@ function restart()
 			200,
 			850,
 			resguard,
-			resguard,
+			resbigguard,
 			createDialogTree().text("Välkommen till Solsidan! Vårt finaste stadskvarter!", 2).ending(1)
 		),
 		createNpc(
 			1300,
 			200,
 			resguard,
-			resguard,
+			resbigguard,
 			createDialogTree()
 				.text("Var försiktig när du går till Skuggsidan! Den är nära gränsen till Parasitlandet.", 2)
 				.ending(1)
@@ -903,14 +904,14 @@ function restart()
 			1300,
 			900,
 			resguard,
-			resguard,
+			resbigguard,
 			createDialogTree().text("Välkommen till Farmsidan! Det är här vi sköter all vår odling!", 2).ending(1)
 		),
 		createNpc(
 			200,
 			350,
 			resguard,
-			resguard,
+			resbigguard,
 			createDialogTree().text("Välkommen till Framsidan! Det är här våra ingenjörer bor.", 2).ending(1)
 		),
 		-- Vakter på Framsidan
@@ -918,7 +919,7 @@ function restart()
 			1700,
 			400,
 			resguard,
-			resguard,
+			resbigguard,
 			createDialogTree()
 				.text("Var försiktig när du går till Skuggsidan! Den är nära gränsen till Parasitlandet.", 2)
 				.ending(1)
@@ -927,7 +928,7 @@ function restart()
 			600,
 			900,
 			resguard,
-			resguard,
+			resbigguard,
 			createDialogTree().text("Välkommen till Solsidan! Vårt finaste stadskvarter!", 2).ending(1)
 		),
 		-- Karaktärerna på bal
@@ -1088,6 +1089,7 @@ function love.load()
 	resbigghost = love.graphics.newImage("res/fettsadyo.png")
 	resbigdam = love.graphics.newImage("res/damen.png")
 	resbighanna = love.graphics.newImage("res/hanna.png")
+	resbigguard = love.graphics.newImage("res/guard.png")
 	love.graphics.setDefaultFilter("nearest", "nearest")
 	reskantis = love.graphics.newImage("res/kantis.png")
 	restrattis = love.graphics.newImage("res/famly50.png")
