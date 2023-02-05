@@ -38,6 +38,7 @@ local resbigemo = nil
 local resbigtrattis = nil
 local resbigghost = nil
 local resbigdam = nil
+local resbighanna = nil
 local resstar = nil
 
 local resplant1 = nil
@@ -1061,6 +1062,7 @@ function love.load()
 	resbigtrattis = love.graphics.newImage("res/bigfamily.png")
 	resbigghost = love.graphics.newImage("res/fettsadyo.png")
 	resbigdam = love.graphics.newImage("res/damen.png")
+	resbighanna = love.graphics.newImage("res/hanna.png")
 	love.graphics.setDefaultFilter("nearest", "nearest")
 	reskantis = love.graphics.newImage("res/kantis.png")
 	restrattis = love.graphics.newImage("res/famly50.png")
@@ -1302,6 +1304,7 @@ function love.draw()
 		love.graphics.draw(resbigking, 1340, 300, 0, 0.2, 0.2)
 		love.graphics.draw(reskantarell, 620, 400, 0, -1, 1)
 		love.graphics.draw(resbigemo, 1650, 100, 0, 0.7, 0.7)
+		love.graphics.draw(resbighanna, 1650, 500, 0, 0.3, 0.3)
 		love.graphics.draw(resbiggrump, 90, 800, 0, 0.35, 0.35)
 		love.graphics.draw(resbigdam, 220, 650, 0, 0.2, 0.2)
 		love.graphics.draw(resbigmorfar, 420, 170, 0, -0.9, 0.9)
