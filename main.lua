@@ -699,7 +699,7 @@ function restart()
 					"*du hör Lars-Åke muttra för sig själv* Hallå där Gertrud.... nej, nej. God afton, fröken Gertrud... nej. Inte det heller. Tjenare pinglan?....",
 					14
 				)
-				.text("Jag kanske ska skriva ett brev? Nej, nej, jag tror inte det.", 15)
+				.text("Jag kanske ska skriva ett brev? Nej,... nej,.. jag tror inte det.", 15)
 		),
 		-- EMO svamp
 		createNpc(
