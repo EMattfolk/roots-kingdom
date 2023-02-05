@@ -1027,11 +1027,11 @@ function restart()
 				)
 				.ending(1)
 		),
-		createNpc(1400, 200, resplant1, createDialogTree().ending(1)),
-		createNpc(250, 500, resplant2, createDialogTree().ending(1)),
-		createNpc(1700, 500, resplant3, createDialogTree().ending(1)),
-		createNpc(400, 350, resplant4, createDialogTree().ending(1)),
-		createNpc(900, 900, resplant5, createDialogTree().ending(1)),
+		createNpc(1400, 200, resplant1, resplant1, createDialogTree().ending(1)),
+		createNpc(250, 500, resplant2, resplant2, createDialogTree().ending(1)),
+		createNpc(1700, 500, resplant3, resplant3, createDialogTree().ending(1)),
+		createNpc(400, 350, resplant4, resplant4, createDialogTree().ending(1)),
+		createNpc(900, 900, resplant5, resplant5, createDialogTree().ending(1)),
 	}
 
 	dialog = nil
