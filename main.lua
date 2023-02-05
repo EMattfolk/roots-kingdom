@@ -87,24 +87,19 @@ function createTransition(dir, onTransition)
 		draw = function(tr)
 			local xdir = dir.x
 			local ydir = dir.y
+
+			love.graphics.push()
+			love.graphics.origin()
+			local w = love.graphics.getWidth()
+			local h = love.graphics.getHeight()
+
 			love.graphics.setColor(0, 0, 0)
 			if tr.transitioned then
-				love.graphics.rectangle(
-					"fill",
-					xdir * tr.progress * love.graphics.getWidth(),
-					ydir * tr.progress * love.graphics.getHeight(),
-					love.graphics.getWidth(),
-					love.graphics.getHeight()
-				)
+				love.graphics.rectangle("fill", xdir * tr.progress * w, ydir * tr.progress * h, w, h)
 			else
-				love.graphics.rectangle(
-					"fill",
-					love.graphics.getWidth() * -xdir + xdir * tr.progress * love.graphics.getWidth(),
-					love.graphics.getHeight() * -ydir + ydir * tr.progress * love.graphics.getHeight(),
-					love.graphics.getWidth(),
-					love.graphics.getHeight()
-				)
+				love.graphics.rectangle("fill", xdir * (tr.progress - 1) * w, ydir * (tr.progress - 1) * h, w, h)
 			end
+			love.graphics.pop()
 		end,
 		update = function(tr, delta)
 			local speed = 2
@@ -143,14 +138,14 @@ function createArea(image, npcs, portals, walls)
 			love.graphics.setColor(1, 1, 1)
 			love.graphics.draw(image, 0, 0, 0, xscale, yscale)
 
-			table.foreach(area.portals, function(_, portal)
-				portal:draw()
-			end)
+			-- table.foreach(area.portals, function(_, portal)
+			-- 	portal:draw()
+			-- end)
 
 			love.graphics.setColor(1, 0, 1)
-			table.foreach(area.walls, function(_, p)
-				love.graphics.ellipse("line", p.x, p.y, 50, 50)
-			end)
+			-- table.foreach(area.walls, function(_, p)
+			-- 	love.graphics.ellipse("line", p.x, p.y, 50, 50)
+			-- end)
 		end,
 	}
 end
@@ -348,6 +343,7 @@ function createNpc(x, y, image, dialogTree, breathSpeed)
 	}
 	if image == resguard then
 		npc.accept = function(_) end
+		npc.rsvp = "rsvp_guard"
 	else
 		npc.accept = function(succ)
 			if succ then
@@ -471,6 +467,7 @@ function restart()
 				.choice(
 					function(dt, npc)
 						dt.index = 8
+						npc.accept(false)
 					end,
 					function(dt, npc)
 						dt.index = 9
@@ -1049,12 +1046,13 @@ function love.update(dt)
 	starsystemc:update(dt)
 
 	if scene == "menu" then
-		if input.interact then
+		if input.interact and transition == nil then
 			transition = createTransition({ x = 0, y = -1 }, function()
 				scene = "game"
 			end)
 		end
 	elseif scene == "game" then
+		local beforeMoveClosePortal = player:getCloseEntity(area.portals)
 		player:update(dt, dialog == nil)
 		if dialog ~= nil then
 			dialog:update(dt)
@@ -1068,7 +1066,7 @@ function love.update(dt)
 			choice = false
 		end
 		local closePortal = player:getCloseEntity(area.portals)
-		if closePortal ~= nil and input.interact and transition == nil then
+		if closePortal ~= nil and closePortal ~= beforeMoveClosePortal and transition == nil then
 			local xdir = 0
 			local ydir = 0
 			if closePortal.x < 300 or 1600 < closePortal.x then
@@ -1104,6 +1102,20 @@ function love.update(dt)
 			dialog = nil
 		end
 	end
+
+	local allTalkedTo = true
+	for _, npc in pairs(npcs) do
+		allTalkedTo = anyNotAccepted and npc.rsvp ~= "rsvp_unknown"
+	end
+	if transition == nil and dialog == nil and allTalkedTo and areas[1] ~= area then
+		print("TO THE BALL!")
+		transition = createTransition({ x = 0, y = -1 }, function()
+			area = areas[1]
+			player.x = 960
+			player.y = 900
+		end)
+	end
+
 	if transition ~= nil then
 		transition:update(dt)
 		if transition.progress == 1 and transition.transitioned then
