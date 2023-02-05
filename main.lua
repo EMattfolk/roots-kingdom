@@ -42,6 +42,8 @@ local starsystema = nil
 local starsystemb = nil
 local starsystemc = nil
 
+local talkingToNpc = nil
+
 local canvas = nil
 local screenshader = nil
 
@@ -315,6 +317,7 @@ end
 function createNpc(x, y, image, dialogTree, breathSpeed)
 	local breathSpeed = breathSpeed or 5
 	local npc = {
+		image = image,
 		isNpc = true,
 		danceTimer = 0.0,
 		x = x,
@@ -367,6 +370,9 @@ function createDialog(node)
 			dialog.time = dialog.time + delta
 		end,
 		draw = function(dialog)
+			local w = love.graphics.getWidth()
+			local h = love.graphics.getHeight()
+
 			local dialogHeight = love.graphics.getHeight() / 4
 			local dialogWidth = love.graphics.getWidth()
 			local dialogY = love.graphics.getHeight() - dialogHeight
@@ -375,9 +381,20 @@ function createDialog(node)
 			local scale = 1
 			local typingSpeed = 60
 			local charactersShown = math.max(1, math.floor(dialog.time * typingSpeed))
+
 			love.graphics.setColor(0, 0, 0, 0.4)
 			love.graphics.rectangle("fill", 0, dialogY, dialogWidth, dialogHeight)
 			love.graphics.setColor(1, 1, 1)
+
+			local talkingImage = nil
+			if node.type == "text" then
+				talkingImage = talkingToNpc.image
+			else
+				talkingImage = reskantis
+			end
+			local s = love.graphics.getHeight() / (2 * talkingImage:getHeight())
+			love.graphics.draw(talkingImage, w - talkingImage:getWidth() * s, h / 2, 0, s)
+
 			love.graphics.setFont(resfont)
 			if node.type == "text" then
 				love.graphics.printf(
@@ -402,6 +419,7 @@ function createDialog(node)
 				else
 					nt = nt .. arrow
 				end
+
 				love.graphics.printf(
 					utf8sub(yt, charactersShown),
 					padding,
@@ -1116,6 +1134,7 @@ function love.update(dt)
 		player:nudgeAwayFrom(area.npcs)
 		player:nudgeAwayFrom(area.walls, 50)
 		if closeNpc ~= nil and transition == nil then
+			talkingToNpc = closeNpc
 			if input.interact then
 				local dt = closeNpc.dialogTree
 				if dialog ~= nil then
