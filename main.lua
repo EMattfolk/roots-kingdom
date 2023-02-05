@@ -762,7 +762,7 @@ function restart()
 					"Det kommer att bli jättekul, klart du ska gå!",
 					"Bygget klarar sig säkert för en kväll. Det blir säkert jättekul på balen!"
 				)
-				.text("Nej nej. Jag måste hålla ställningarna här. Spöken ska ha koll på saker hela tiden!", 5)
+				.text("Nej nej. Jag måste hålla ställningarna här. Spöken ska ha koll på saker hela tiden!", 10)
 				.text("Men tror du att spöksvampar som mig är välkomna?", 5)
 				.choice(
 					function(dt, npc)
