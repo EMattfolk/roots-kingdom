@@ -51,6 +51,7 @@ local resplant5 = nil
 
 local stepsound = nil
 local selectsound = nil
+local switchsound = nil
 
 local dammsystem = nil
 local starsystema = nil
@@ -386,6 +387,7 @@ function createDialog(node)
 	end
 	return {
 		time = 0,
+		type = node.type,
 		update = function(dialog, delta)
 			dialog.time = dialog.time + delta
 		end,
@@ -1136,6 +1138,9 @@ function love.load()
 	selectsound = love.audio.newSource("res/select.wav", "static")
 	selectsound:setLooping(false)
 	selectsound:setVolume(0.2)
+	switchsound = love.audio.newSource("res/switch.wav", "static")
+	switchsound:setLooping(false)
+	switchsound:setVolume(0.2)
 
 	dammsystem = love.graphics.newParticleSystem(resdamm)
 	dammsystem:setSizes(2, 2, 3)
@@ -1206,9 +1211,7 @@ function love.update(dt)
 	starsystemc:update(dt)
 
 	if input.interact then
-		if selectsound:isPlaying() then
-			selectsound:stop()
-		end
+		selectsound:stop()
 		selectsound:play()
 	end
 
@@ -1223,15 +1226,22 @@ function love.update(dt)
 		player:update(dt, dialog == nil)
 		if dialog ~= nil then
 			dialog:update(dt)
+			if dialog.type == "choice" then
+				local before = choice
+				if isDown("up") then
+					choice = true
+				elseif isDown("down") then
+					choice = false
+				end
+				if before ~= choice then
+					switchsound:stop()
+					switchsound:play()
+				end
+			end
 		end
 		table.foreach(area.npcs, function(_, npc)
 			npc:update()
 		end)
-		if isDown("up") then
-			choice = true
-		elseif isDown("down") then
-			choice = false
-		end
 		local closePortal = player:getCloseEntity(area.portals)
 		if closePortal ~= nil and closePortal ~= beforeMoveClosePortal and transition == nil then
 			local xdir = 0
