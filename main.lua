@@ -986,7 +986,7 @@ function love.update(dt)
 	starsystemc:update(dt)
 
 	if scene == "menu" then
-		if input.interact then
+		if input.interact and transition == nil then
 			transition = createTransition({ x = 0, y = -1 }, function()
 				scene = "game"
 			end)
