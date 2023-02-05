@@ -609,7 +609,7 @@ function restart()
 			resbigtrattis,
 			createDialogTree()
 				.text(
-					"Mig? På en bal? Men lilla kantarell, tror du att de skulle släppa in mig med alla mina barn? Du vet att jag inte kan l��������mna dem ensamma och inte har jag någon som kan ta hand om dem.",
+					"Mig? På en bal? Men lilla kantarell, tror du att de skulle släppa in mig med alla mina barn? Du vet att jag inte kan lämna dem ensamma och inte har jag någon som kan ta hand om dem.",
 					2
 				)
 				.choice(
@@ -845,7 +845,7 @@ function restart()
 			resbigking,
 			createDialogTree()
 				.text(
-					"Oj oj oj. Vad ska jag ta mig till? Livsträdet har äntligen fått nya rötter och det är min födelsedag! Jag vill så gärna fira����..",
+					"Oj oj oj. Vad ska jag ta mig till? Livsträdet har äntligen fått nya rötter och det är min födelsedag! Jag vill så gärna fira...",
 					2
 				)
 				.text(
@@ -1130,7 +1130,7 @@ function love.load()
 	resplant3 = love.graphics.newImage("res/plant3.png")
 	resplant4 = love.graphics.newImage("res/plant4.png")
 	resplant5 = love.graphics.newImage("res/plant5.png")
-	resloserbackground = love.graphics.newImage("res/sadkantis.png")
+	resloserbackground = love.graphics.newImage("res/sadkantisnew.png")
 
 	stepsound = love.audio.newSource("res/step001.wav", "static")
 	stepsound:setLooping(false)
