@@ -897,7 +897,17 @@ function restart()
 		),
 		-- Karaktärerna på bal
 		-- Gertrud index 18
-		createNpc(250, 700, reskantis, createDialogTree()),
+		createNpc(
+			250,
+			700,
+			reskantis,
+			createDialogTree()
+				.text(
+					"Du hade rätt lilla kantarell. Det är faktiskt rätt trevligt här! Åh, Lars-Åke! Jag trodde att du var död. Det känns som en dröm att se dig igen!",
+					2
+				)
+				.ending(1)
+		),
 		-- Morfar
 		createNpc(
 			700,
@@ -951,7 +961,12 @@ function restart()
 			940,
 			250,
 			resking,
-			createDialogTree().text("Åh, vilken härlig fest! Grattis på födelsedagen till mig!", 2).ending(1)
+			createDialogTree()
+				.text(
+					"Åh, vilken härlig fest! Grattis på födelsedagen till mig! Synd att så få kunde komma, men du gjorde ditt bästa. Tack, lilla kantarell.",
+					2
+				)
+				.ending(1)
 		),
 	}
 
