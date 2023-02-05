@@ -41,6 +41,7 @@ local resbigdam = nil
 local resbighanna = nil
 local resbigguard = nil
 local resstar = nil
+local resloserbackground = nil
 
 local resplant1 = nil
 local resplant2 = nil
@@ -483,6 +484,7 @@ function restart()
 					end,
 					function(dt, npc)
 						dt.index = 14
+						npc.accept(false)
 					end,
 					"Jag tror inte att någon skulle prata illa om dig!",
 					"Sant, det låter inte så trevligt att gå dit."
@@ -605,7 +607,7 @@ function restart()
 			resbigtrattis,
 			createDialogTree()
 				.text(
-					"Mig? På en bal? Men lilla kantarell, tror du att de skulle släppa in mig med alla mina barn? Du vet att jag inte kan lämna dem ensamma och inte har jag någon som kan ta hand om dem.",
+					"Mig? På en bal? Men lilla kantarell, tror du att de skulle släppa in mig med alla mina barn? Du vet att jag inte kan l��������mna dem ensamma och inte har jag någon som kan ta hand om dem.",
 					2
 				)
 				.choice(
@@ -1126,6 +1128,7 @@ function love.load()
 	resplant3 = love.graphics.newImage("res/plant3.png")
 	resplant4 = love.graphics.newImage("res/plant4.png")
 	resplant5 = love.graphics.newImage("res/plant5.png")
+	resloserbackground = love.graphics.newImage("res/sadkantis.png")
 
 	stepsound = love.audio.newSource("res/step001.wav", "static")
 	stepsound:setLooping(false)
@@ -1276,6 +1279,8 @@ function love.update(dt)
 
 	local allTalkedTo = true
 	for i = 1, 8 do
+		print(i)
+		print(npcs[i].rsvp)
 		allTalkedTo = allTalkedTo and npcs[i].rsvp ~= "rsvp_unknown"
 	end
 	if transition == nil and dialog == nil and allTalkedTo and areas[6] ~= area then
@@ -1423,6 +1428,7 @@ function love.draw()
 				"center"
 			)
 		else
+			love.graphics.draw(resloserbackground)
 			love.graphics.printf("Misär", 0, love.graphics.getHeight() / 4, love.graphics.getWidth(), "center")
 			love.graphics.setFont(resfont)
 			love.graphics.printf(
