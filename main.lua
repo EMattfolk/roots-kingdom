@@ -195,8 +195,10 @@ function createDialogTree()
 				else
 					dt.get().no(dt, npc)
 				end
-			end
-			if dt.get().type == "branch" then
+      elseif dt.get().type == "branch" then
+				dt.advance(choseYes, npc)
+      elseif dt.get().type == "action" then
+        dt.get().thing()
 				dt.advance(choseYes, npc)
 			end
 		end,
@@ -317,21 +319,15 @@ end
 
 function createNpc(x, y, image, dialogTree, breathSpeed)
 	local breathSpeed = breathSpeed or 5
-	return {
+	local npc = {
 		isNpc = true,
 		danceTimer = 0.0,
 		x = x,
 		y = y,
-		accepted = false,
-		wasAccepted = false,
-		dialogTree = dialogTree,
+    dialogTree = dialogTree,
+    rsvp = "unknown",
 		update = function(npc)
 			npc.danceTimer = math.max(0, npc.danceTimer - love.timer.getDelta())
-			if npc.wasAccepted ~= npc.accepted then
-				emitSuccessParticles(npc.x, npc.y)
-				npc.danceTimer = 2.0
-			end
-			npc.wasAccepted = npc.accepted
 		end,
 		draw = function(npc)
 			local scale = 2
@@ -350,6 +346,19 @@ function createNpc(x, y, image, dialogTree, breathSpeed)
 			)
 		end,
 	}
+	if image == resguard then
+		npc.accept = function(_) end
+	else
+		npc.accept = function(succ)
+      if succ then
+        emitSuccessParticles(npc.x, npc.y)
+        npc.rsvp = "accepted"
+      else
+        npc.rsvp = "not_accepted"
+      end
+		end
+	end
+	return npc
 end
 
 function createDialog(node)
@@ -465,7 +474,7 @@ function restart()
 					end,
 					function(dt, npc)
 						dt.index = 9
-						npc.accepted = true
+						npc.accept(true)
 					end,
 					"Du inbillar dig säkert bara! Jag tror alla tycker om dig!",
 					"Jag ska bjuda alla, du kommer säkert hitta nya vänner! Då blir du inte lika ensam längre."
@@ -503,10 +512,10 @@ function restart()
 				)
 				.choice(function(dt, npc)
 					dt.index = 4
-					npc.accepted = true
+					npc.accept(true)
 				end, function(dt, npc)
 					dt.index = 5
-					npc.accepted = true
+					npc.accept(true)
 				end, "Två", "Inga")
 				.text(
 					"Två? Nej inga! Moses var inte på arken, det var Noah. Du behöver studera dina bibelverser, min lilla kantarell. Du vill inte att prästen hör dig svara sådär. Bäst att jag följer med på festen och ser till att du läser på lite, hehe.",
@@ -557,11 +566,11 @@ function restart()
 				.choice(
 					function(dt, npc)
 						dt.index = 3
-						npc.accepted = true
+						npc.accept(true)
 					end,
 					function(dt, npc)
 						dt.index = 3
-						npc.accepted = true
+						npc.accept(true)
 					end,
 					"Jag ska bjuda in hela riket! Så klart att de släpper in er!",
 					"Det kommer säkert en massa barn på balen, den är till för hela riket!"
@@ -668,7 +677,7 @@ function restart()
 					end,
 					function(dt, npc)
 						dt.index = 4
-						npc.accepted = true
+						npc.accept(true)
 					end,
 					"Du har rätt. Stanna här och lyssna på din udda musik. Det är nog bäst.",
 					"Jag har hört att det kommer finnas en DJ som tar önskemål! Och du hittar säkert några andra som gillar samma sort som dig! Du skulle passa in perfekt!"
@@ -769,11 +778,11 @@ function restart()
 				)
 				.choice(function(dt, npc)
 					dt.index = 7
-					npc.accepted = true -- Att kungen har accepterat sin egen inbjudan.
+					npc.accept(true) -- Att kungen har accepterat sin egen inbjudan.
 					table.insert(areas[1].portals, createPortal(960, 1050, 2, 100, 800))
 				end, function(dt, npc)
 					dt.index = 7
-					npc.accepted = true -- Att kungen har accepterat sin egen inbjudan.
+					npc.accept(true) -- Att kungen har accepterat sin egen inbjudan.
 					table.insert(areas[1].portals, createPortal(960, 1050, 2, 100, 800))
 				end, "Ja!", "Självklart!")
 				.text("*Man tackar inte nej till en kung så du accepterar gladeligen ditt uppdrag.*", 8)
