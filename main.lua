@@ -174,15 +174,28 @@ function createDialogTree()
 			table.insert(dt.data, { type = "end", next = next })
 			return dt
 		end,
+		branch = function(pred, a, b)
+			table.insert(dt.data, { type = "branch", pred = pred, a = a, b = b })
+			return dt
+		end,
 		advance = function(choseYes, npc)
 			if dt.get().type == "text" or dt.get().type == "end" then
 				dt.index = dt.get().next
+			elseif dt.get().type == "branch" then
+				if dt.get().pred() then
+					dt.index = dt.get().a
+				else
+					dt.index = dt.get().b
+				end
 			elseif dt.get().type == "choice" then
 				if choseYes then
 					dt.get().yes(dt, npc)
 				else
 					dt.get().no(dt, npc)
 				end
+			end
+			if dt.get().type == "branch" then
+				dt.advance(choseYes, npc)
 			end
 		end,
 		index = 1,
@@ -338,7 +351,7 @@ function createNpc(x, y, image, dialogTree, breathSpeed)
 end
 
 function createDialog(node)
-	if node.type == "end" then
+	if node.type == "end" or node.type == "branch" then
 		return nil
 	end
 	return {
