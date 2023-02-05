@@ -1025,6 +1025,10 @@ function restart()
 					"Åh, vilken härlig fest! Grattis på födelsedagen till mig! Du får stanna och njuta av festen hur länge du vill, lilla kantarell!",
 					2
 				)
+				.branch(function()
+					areas[6].portals = { createPortal(960, 1050, 6, 960, 1050) }
+					return true
+				end, 3, 3)
 				.ending(1)
 		),
 		createNpc(1400, 200, resplant1, resplant1, createDialogTree().ending(1)),
@@ -1210,11 +1214,17 @@ function love.update(dt)
 				ydir = (closePortal.y - love.graphics.getHeight() / 2)
 					/ math.abs(closePortal.y - love.graphics.getHeight() / 2)
 			end
-			transition = createTransition({ x = xdir, y = ydir }, function()
-				area = areas[closePortal.next]
-				player.x = closePortal.newX
-				player.y = closePortal.newY
-			end)
+			if area == areas[6] then
+				transition = createTransition({ x = xdir, y = ydir }, function()
+					scene = "ending"
+				end)
+			else
+				transition = createTransition({ x = xdir, y = ydir }, function()
+					area = areas[closePortal.next]
+					player.x = closePortal.newX
+					player.y = closePortal.newY
+				end)
+			end
 		end
 		local closeNpc = player:getCloseEntity(area.npcs)
 		player:nudgeAwayFrom(area.npcs)
@@ -1368,6 +1378,14 @@ function love.draw()
 		if dialog ~= nil then
 			dialog:draw()
 		end
+	elseif scene == "ending" then
+		love.graphics.origin()
+		love.graphics.setFont(resbigfont)
+		love.graphics.clear(0, 0.6, 0.3)
+		love.graphics.setColor(1, 1, 1)
+		love.graphics.printf("The end", 0, love.graphics.getHeight() / 4, love.graphics.getWidth(), "center")
+		love.graphics.setFont(resfont)
+		love.graphics.printf("", 0, love.graphics.getHeight() * 10 / 20, love.graphics.getWidth(), "center")
 	end
 	if transition ~= nil then
 		transition:draw()
