@@ -54,6 +54,7 @@ local selectsound = nil
 local switchsound = nil
 local morfarsounds = nil
 local sweetsounds = nil
+local weirdsounds = nil
 
 local dammsystem = nil
 local starsystema = nil
@@ -400,6 +401,10 @@ function createDialog(node)
 				sounds = morfarsounds
 			elseif talkingToNpc == npcs[3] or talkingToNpc == npcs[20] then
 				sounds = sweetsounds
+			elseif talkingToNpc == npcs[5] or talkingToNpc == npcs[22] then
+				sounds = weirdsounds
+			elseif talkingToNpc == npcs[6] or talkingToNpc == npcs[23] then
+				sounds = weirdsounds
 			elseif talkingToNpc == npcs[7] or talkingToNpc == npcs[24] then
 				sounds = sweetsounds
 			elseif talkingToNpc == npcs[8] or talkingToNpc == npcs[25] then
@@ -1174,6 +1179,11 @@ function love.load()
 		love.audio.newSource("res/voicesweet001.wav", "static"),
 		love.audio.newSource("res/voicesweet002.wav", "static"),
 		love.audio.newSource("res/voicesweet003.wav", "static"),
+	}
+	weirdsounds = {
+		love.audio.newSource("res/voicewierd001.wav", "static"),
+		love.audio.newSource("res/voicewierd002.wav", "static"),
+		love.audio.newSource("res/voicewierd003.wav", "static"),
 	}
 
 	dammsystem = love.graphics.newParticleSystem(resdamm)
