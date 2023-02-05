@@ -226,6 +226,7 @@ function createPlayer()
 		dir = 1,
 		speed = 400,
 		acc = 850,
+		won = false,
 		update = function(player, dt, allowInput)
 			local dx = 0
 			local dy = 0
@@ -1264,6 +1265,8 @@ function love.update(dt)
 			end
 		end
 
+		player.won = numAccepted >= 6
+
 		if numAccepted < 6 then
 			npcs[25].dialogTree.data[1].text =
 				"Synd att så få kunde komma, men du gjorde ditt bästa. Tack, lilla kantarell, du får stanna så länge du vill."
@@ -1385,9 +1388,34 @@ function love.draw()
 		love.graphics.setFont(resbigfont)
 		love.graphics.clear(0, 0.6, 0.3)
 		love.graphics.setColor(1, 1, 1)
-		love.graphics.printf("The end", 0, love.graphics.getHeight() / 4, love.graphics.getWidth(), "center")
-		love.graphics.setFont(resfont)
-		love.graphics.printf("", 0, love.graphics.getHeight() * 10 / 20, love.graphics.getWidth(), "center")
+		if player.won then
+			love.graphics.printf("Du vinner!", 0, love.graphics.getHeight() / 4, love.graphics.getWidth(), "center")
+			love.graphics.setFont(resfont)
+			love.graphics.printf(
+				"tryck på R för att börja om",
+				0,
+				love.graphics.getHeight() * 10 / 20,
+				love.graphics.getWidth(),
+				"center"
+			)
+		else
+			love.graphics.printf("Misär", 0, love.graphics.getHeight() / 4, love.graphics.getWidth(), "center")
+			love.graphics.setFont(resfont)
+			love.graphics.printf(
+				"du dog på grund av misär",
+				0,
+				love.graphics.getHeight() * 10 / 20,
+				love.graphics.getWidth(),
+				"center"
+			)
+			love.graphics.printf(
+				"tryck på R för att börja om",
+				0,
+				love.graphics.getHeight() * 12 / 20,
+				love.graphics.getWidth(),
+				"center"
+			)
+		end
 	end
 	if transition ~= nil then
 		transition:draw()
