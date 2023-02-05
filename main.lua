@@ -192,10 +192,8 @@ function createDialogTree()
 				else
 					dt.get().no(dt, npc)
 				end
-			elseif dt.get().type == "branch" then
-				dt.advance(choseYes, npc)
-			elseif dt.get().type == "action" then
-				dt.get().thing()
+			end
+			if dt.get().type == "branch" then
 				dt.advance(choseYes, npc)
 			end
 		end,
