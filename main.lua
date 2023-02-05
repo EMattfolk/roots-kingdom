@@ -894,11 +894,11 @@ end
 function emitSuccessParticles(x, y)
 	local t = 2.0
 	starsystema:setPosition(x, y)
-	starsystema:emit(50)
+	starsystema:emit(10)
 	starsystemb:setPosition(x, y)
-	starsystemb:emit(50)
+	starsystemb:emit(10)
 	starsystemc:setPosition(x, y)
-	starsystemc:emit(50)
+	starsystemc:emit(10)
 end
 
 function love.update(dt)
