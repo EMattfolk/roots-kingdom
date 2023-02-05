@@ -55,6 +55,7 @@ local switchsound = nil
 local morfarsounds = nil
 local sweetsounds = nil
 local weirdsounds = nil
+local starsound = nil
 
 local dammsystem = nil
 local starsystema = nil
@@ -1166,6 +1167,9 @@ function love.load()
 	stepsound = love.audio.newSource("res/step001.wav", "static")
 	stepsound:setLooping(false)
 	stepsound:setVolume(1)
+	starsound = love.audio.newSource("res/stars.wav", "static")
+	starsound:setLooping(false)
+	starsound:setVolume(0.5)
 	selectsound = love.audio.newSource("res/select.wav", "static")
 	selectsound:setLooping(false)
 	selectsound:setVolume(0.1)
@@ -1236,6 +1240,7 @@ function emitSuccessParticles(x, y)
 	starsystemb:emit(10)
 	starsystemc:setPosition(x, y)
 	starsystemc:emit(10)
+	starsound:play()
 end
 
 function love.update(dt)
