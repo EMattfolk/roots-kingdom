@@ -811,7 +811,7 @@ function restart()
 					2
 				)
 				.text(
-					"Allt har varit så dystert i mitt kungadöme sedan kriget. Jag vill bringa lite glädje till mina undersåtar. Men hur?! Hmmm…",
+					"Allt har varit så dystert i mitt kungadöme sedan kriget mot Parasiterna. Jag vill bringa lite glädje till mina undersåtar. Men hur?! Hmmm…",
 					3
 				)
 				.text(
@@ -867,7 +867,7 @@ function restart()
 			200,
 			resguard,
 			createDialogTree()
-				.text("Var försiktig när du går till Skuggsidan! Den är nära gränsen till ", 2)
+				.text("Var försiktig när du går till Skuggsidan! Den är nära gränsen till Parasitlandet.", 2)
 				.ending(1)
 		),
 		-- Vakter på Skuggsidan
@@ -889,7 +889,7 @@ function restart()
 			400,
 			resguard,
 			createDialogTree()
-				.text("Var försiktig när du går till Skuggsidan! Den är nära gränsen till ", 2)
+				.text("Var försiktig när du går till Skuggsidan! Den är nära gränsen till Parasitlandet.", 2)
 				.ending(1)
 		),
 		createNpc(
