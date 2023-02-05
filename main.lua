@@ -138,14 +138,14 @@ function createArea(image, npcs, portals, walls)
 			love.graphics.setColor(1, 1, 1)
 			love.graphics.draw(image, 0, 0, 0, xscale, yscale)
 
-			table.foreach(area.portals, function(_, portal)
-				portal:draw()
-			end)
+			-- table.foreach(area.portals, function(_, portal)
+			-- 	portal:draw()
+			-- end)
 
 			love.graphics.setColor(1, 0, 1)
-			table.foreach(area.walls, function(_, p)
-				love.graphics.ellipse("line", p.x, p.y, 50, 50)
-			end)
+			-- table.foreach(area.walls, function(_, p)
+			-- 	love.graphics.ellipse("line", p.x, p.y, 50, 50)
+			-- end)
 		end,
 	}
 end
@@ -1045,7 +1045,7 @@ function love.update(dt)
 		allTalkedTo = anyNotAccepted and npc.rsvp ~= "rsvp_unknown"
 	end
 	if transition == nil and dialog == nil and allTalkedTo and areas[1] ~= area then
-    print("TO THE BALL!")
+		print("TO THE BALL!")
 		transition = createTransition({ x = 0, y = -1 }, function()
 			area = areas[1]
 			player.x = 960
