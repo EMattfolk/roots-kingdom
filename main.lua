@@ -698,7 +698,7 @@ function restart()
 				)
 				.text("Vi ses väl på balen senare då. Eller nåt'.", 6)
 		),
-		-- Ghost
+		-- Spök ingenjören
 		createNpc(
 			1200,
 			700,
@@ -724,7 +724,7 @@ function restart()
 				)
 				.ending(4)
 		),
-		-- Long
+		-- Blyga Hanna
 		createNpc(
 			600,
 			300,
@@ -848,6 +848,64 @@ function restart()
 			resguard,
 			createDialogTree().text("Välkommen till Solsidan! Vårt finaste stadskvarter!", 2).ending(1)
 		),
+		-- Karaktärerna på bal
+		-- Gertrud index 18
+		createNpc(250, 700, reskantis, createDialogTree()),
+		-- Morfar
+		createNpc(
+			700,
+			600,
+			resmorfar,
+			createDialogTree()
+				.text("Vilket partaj, lilla kantarell! Snart ska du få se på morfars dansmoves!", 2)
+				.ending(1)
+		),
+		-- Trattis mamman
+		createNpc(
+			850,
+			500,
+			restrattis,
+			createDialogTree().text("Åhh, va fint de dekorerat! Ser ni ungar, va fint det är!", 2).ending(1)
+		),
+		-- Lars-Åke
+		createNpc(350, 700, resptsd, createDialogTree().text("Min älskade Gertrud....", 2).ending(1)),
+		-- Emo-Erik
+		createNpc(
+			1400,
+			700,
+			resemo,
+			createDialogTree()
+				.text("Hmm, den här musiken var inte såå dålig... men jag borde leta reda på DJ:en.", 2)
+				.ending(1)
+		),
+		-- Spök ingenjören
+		createNpc(
+			400,
+			450,
+			resghost,
+			createDialogTree()
+				.text("Man skulle nog behöva stärka upp det här taket lite.. får skriva det på att göra listan..", 2)
+				.ending(1)
+		),
+		-- Blyga Hanna
+		createNpc(
+			1500,
+			700,
+			resblygsvamp,
+			createDialogTree()
+				.text(
+					"H-h-hej lilla kantarell. Jag är här nu, det är inte så f-farligt. Men jag vågar nog inte prata med någon än..",
+					2
+				)
+				.ending(1)
+		),
+		-- Kungen
+		createNpc(
+			940,
+			250,
+			resking,
+			createDialogTree().text("Åh, vilken härlig fest! Grattis på födelsedagen till mig!", 2).ending(1)
+		),
 	}
 
 	dialog = nil
@@ -881,6 +939,11 @@ function restart()
 			resmodern,
 			{ npcs[6], npcs[7], npcs[16], npcs[17] },
 			{ createPortal(650, 1000, 2, 650, 100), createPortal(1800, 300, 4, 100, 300) }
+		),
+		createArea(
+			respartycastle,
+			{ npcs[25], npcs[18], npcs[19], npcs[20], npcs[21], npcs[22], npcs[23], npcs[24] },
+			{}
 		),
 	}
 	area = areas[1]
