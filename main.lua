@@ -20,6 +20,7 @@ local resguard = nil
 local resfancyfancy = nil
 local resbackground = nil
 local resthedarkside = nil
+local respartycastle = nil
 local resemo = nil
 local resptsd = nil
 local resblygsvamp = nil
@@ -33,6 +34,7 @@ local resbiggrump = nil
 local resbigmorfar = nil
 local reskantarell = nil
 local resbigemo = nil
+local resbigtrattis = nil
 local resstar = nil
 
 local dammsystem = nil
@@ -446,7 +448,7 @@ function restart()
 				.text("Nej, exakt! Så om du ursäktar har jag ett glas daggdroppar som väntar på mig.", 10)
 				-- Om spelaren väljer alternativet där de fortfarande kan vinna NPCn i val 1
 				.text(
-					"Åh, så naiv du är! Det är klart att de kommer göra det, de har det gjort ända sedan mitt giftermål till min älskade Gerald… Du förstår, jag var en fattig liten svamp när jag träffade min man för första gången. Ingen familj kvar efter kriget. Min man, Bertil, var i militären och försvann. Det var en ensam tillvaro… Men sen kom Gerald.",
+					"Åh, så naiv du är! Det är klart att de kommer göra det, de har det gjort ända sedan mitt giftermål till min älskade Gerald… Du förstår, jag var en fattig liten svamp när jag träffade min man för första gången. Ingen familj kvar efter kriget. Min dåvarande man, Lars-Åke, var i militären och försvann. Det var en ensam tillvaro… Men sen kom Gerald.",
 					5
 				)
 				.text(
@@ -487,8 +489,8 @@ function restart()
 
 		-- Morfar
 		createNpc(
-			700,
-			300,
+			1500,
+			600,
 			resmorfar,
 			createDialogTree()
 				.text(
@@ -577,25 +579,54 @@ function restart()
 			500,
 			resptsd,
 			createDialogTree()
+				.text("En bal? Varför skulle jag vilja gå på en bal?", 2)
+				.choice(function(dt, npc)
+					dt.index = 3
+				end, function(dt, npc)
+					dt.index = 3
+				end, "För att det är kul så klart!", "För att det kommer vara en massa trevliga människor där?")
 				.text(
-					"Mig? På en bal? Men lilla kantarell, tror du de skulle släppa in mig med alla mina barn? Du vet att jag inte kan lämna dem ensamma och inte har jag någon som kan ta hand om dem.",
-					2
+					"Nej nej, lämna mig till min misär. Det är säkrare här i min hydda, om parasiterna anfaller kan jag skydda mig här. De jävlarna!",
+					4
+				)
+				.text(
+					"Du bör passa dig för dem, lilla kantarell. I sju långa svampår var jag deras krigsfånge, fast i ett arbetsläger. Och när jag äntligen fritogs och kom hem var min familj borta och min älskade Gertrud…",
+					5
+				)
+				.text(
+					"Hon hade gift om sig, till nån’ rik aristokrat. Jag önskar henne allt gott och jag ville inte förstöra något så jag har hållit tyst. Hon tror nog att jag fortfarande är borta.  *Lars-Åke avbryter sig och ser om möjligt ännu surare ut.*",
+					6
+				)
+				.text(
+					"Hennes man gick bort för ett tag sen. Sådant som händer, Gertrud är en giftsvamp som mig, men det var inte han. Du är kanske för ung för att förstå det, men svampar som dig bör inte ha umgänge med giftiga svampar. Om det pågår under för lång tid förgiftas du och dör, precis som aristokraten.",
+					7
 				)
 				.choice(
 					function(dt, npc)
-						dt.index = 3
+						dt.index = 8
 					end,
 					function(dt, npc)
-						dt.index = 3
+						dt.index = 8
 					end,
-					"Jag ska bjuda in hela riket! Så klart att de släpper in er!",
-					"Det kommer säkert en massa barn på balen, den är till för hela riket!"
+
+					"Tror du inte hon är lika ensam som du är?",
+					"Oj, vad hemskt. Men tror du inte att det är dags att höra av dig till henne?"
 				)
 				.text(
-					"På riktigt? Nämen, oj, då måste vi ju passa på! En bal på slotten, kan du tänka dig! Tack lilla kantarell! Lycka till med ditt uppdrag så ses vi på balen. Nu har jag en massa förberedelser att stå i!",
-					4
+					"Jag har ju funderat på att höra av mig till henne... Men hur skulle hon reagera? Och.. hur skulle jag närma mig henne? Skicka brev? Gå dit och knacka på... nej nej..",
+					9
 				)
-				.ending(4)
+				.choice(function(dt, npc)
+					dt.index = 10
+				end, function(dt, npc)
+					dt.index = 10
+				end, "text", "text")
+				.text(
+					"*du hör Lars-Åke muttra för sig själv* Hallå där Gertrud.... nej, nej. God afton, fröken Gertrud... nej. Inte det heller. Tjenare pinglan?....",
+					11
+				)
+				.text("Jag kanske ska skriva ett brev? Nej, nej, jag tror inte det.", 12)
+				.ending(12)
 		),
 		-- EMO svamp
 		createNpc(
@@ -831,6 +862,7 @@ function love.load()
 	resbigking = love.graphics.newImage("res/kungenBIG.png")
 	resbigmorfar = love.graphics.newImage("res/morfarBIG.png")
 	reskantarell = love.graphics.newImage("res/kantarell.png")
+	resbigtrattis = love.graphics.newImage("res/fmliy.png")
 	love.graphics.setDefaultFilter("nearest", "nearest")
 	reskantis = love.graphics.newImage("res/kantis.png")
 	restrattis = love.graphics.newImage("res/famly50.png")
@@ -848,6 +880,7 @@ function love.load()
 	resking = love.graphics.newImage("res/KONUNGEN.png")
 	resmodern = love.graphics.newImage("res/4thdimention.png")
 	rescastle = love.graphics.newImage("res/castleinthesky.png")
+	respartycastle = love.graphics.newImage("res/partycastle.png")
 	resdamm = love.graphics.newImage("res/damm.png")
 	resstar = love.graphics.newImage("res/star.png")
 
@@ -1061,7 +1094,7 @@ function love.draw()
 
 		love.graphics.origin()
 
-		screenshader:send("happiness", (1 - happiness) * 0.1)
+		screenshader:send("happiness", (1 - happiness) * 0.3)
 		love.graphics.setShader(screenshader)
 		love.graphics.draw(canvas, 0, 0)
 
