@@ -616,17 +616,41 @@ function restart()
 					"Jag har ju funderat på att höra av mig till henne... Men hur skulle hon reagera? Och.. hur skulle jag närma mig henne? Skicka brev? Gå dit och knacka på... nej nej..",
 					9
 				)
-				.choice(function(dt, npc)
-					dt.index = 10
-				end, function(dt, npc)
-					dt.index = 10
-				end, "text", "text")
+				.branch(function()
+					return npcs[1].accepted
+				end, 10, 11)
+				.choice(
+					function(dt, npc)
+						dt.index = 12
+					end,
+					function(dt, npc)
+						dt.index = 12
+					end,
+					"Jag har hört att Gertrud ska vara på balen...",
+					"Du kanske träffar henne på balen? Då kan ni prata?"
+				)
+				.choice(
+					function(dt, npc)
+						dt.index = 13
+					end,
+					function(dt, npc)
+						dt.index = 13
+					end,
+					"Gertrud kommer inte på balen, så du behöver inte fundera på det nu! Men det kanske är kul att få komma ut?",
+					"Jag tycker definitivt att du ska höra av dig till henne!"
+				)
+				.text(
+					"Jag borde kanske satsa. Okej, kantarell, du har övertygat mig. Jag ska in i stridens hetta, men först måste jag hitta min kostym.",
+					14
+				)
+				.text("Tack för inspirationen, kantarell. Men jag är nog för gammal för att gå på bal.", 15)
+				.ending(16)
+				.ending(17)
 				.text(
 					"*du hör Lars-Åke muttra för sig själv* Hallå där Gertrud.... nej, nej. God afton, fröken Gertrud... nej. Inte det heller. Tjenare pinglan?....",
-					11
+					14
 				)
-				.text("Jag kanske ska skriva ett brev? Nej, nej, jag tror inte det.", 12)
-				.ending(12)
+				.text("Jag kanske ska skriva ett brev? Nej, nej, jag tror inte det.", 15)
 		),
 		-- EMO svamp
 		createNpc(
@@ -660,7 +684,7 @@ function restart()
 				.ending(7)
 				.ending(8)
 				.text(
-					"Running through the monsoon..... Beyond the world... Til' the end of time...Where the rain won't hurt",
+					"Running through the monsoon..... Beyond the world... Til' the end of time...Where the rain won't hurt....",
 					5
 				)
 				.text("Vi ses väl på balen senare då. Eller nåt'.", 6)
