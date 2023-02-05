@@ -965,10 +965,10 @@ function restart()
 				end, "April", "Augusti")
 				.text("Nej, nej, de flesta barn föds i den nionde månaden. Men det lär du väl dig sen.", 8)
 				.ending(9)
-				.text("Varför är det ingen idé att tävla med skämt, min lilla kantarell?")
-				.text("Det är ingen vits, hehe...", 10)
-				.ending(11)
-				.text("Vilket partaj, lilla kantarell! Snart ska du få se på morfars dansmoves!", 10)
+				.text("Varför är det ingen idé att tävla med skämt, min lilla kantarell?", 10)
+				.text("Det är ingen vits, hehe...", 11)
+				.ending(12)
+				.text("Vilket partaj, lilla kantarell! Snart ska du få se på morfars dansmoves!", 11)
 		),
 		-- Trattis mamman
 		createNpc(
