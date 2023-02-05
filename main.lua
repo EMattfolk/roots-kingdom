@@ -1171,9 +1171,11 @@ function love.update(dt)
 	end
 	if transition == nil and dialog == nil and allTalkedTo and areas[6] ~= area then
 		-- "TO THE BALL!"
+		local numAccepted = 0
 		for i = 1, 8 do
 			if npcs[i].rsvp == "rsvp_accepted" then
 				table.insert(areas[6].npcs, npcs[i + 17])
+				numAccepted = numAccepted + 1
 			end
 		end
 		transition = createTransition({ x = 0, y = -1 }, function()
