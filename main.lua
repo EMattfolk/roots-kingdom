@@ -355,6 +355,7 @@ function createNpc(x, y, image, dialogTree, breathSpeed)
 	}
 	if image == resguard then
 		npc.accept = function(_) end
+		npc.rsvp = "rsvp_guard"
 	else
 		npc.accept = function(succ)
 			if succ then
