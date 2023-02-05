@@ -195,10 +195,10 @@ function createDialogTree()
 				else
 					dt.get().no(dt, npc)
 				end
-      elseif dt.get().type == "branch" then
+			elseif dt.get().type == "branch" then
 				dt.advance(choseYes, npc)
-      elseif dt.get().type == "action" then
-        dt.get().thing()
+			elseif dt.get().type == "action" then
+				dt.get().thing()
 				dt.advance(choseYes, npc)
 			end
 		end,
@@ -324,8 +324,8 @@ function createNpc(x, y, image, dialogTree, breathSpeed)
 		danceTimer = 0.0,
 		x = x,
 		y = y,
-    dialogTree = dialogTree,
-    rsvp = "rsvp_unknown",
+		dialogTree = dialogTree,
+		rsvp = "rsvp_unknown",
 		update = function(npc)
 			npc.danceTimer = math.max(0, npc.danceTimer - love.timer.getDelta())
 		end,
@@ -350,12 +350,12 @@ function createNpc(x, y, image, dialogTree, breathSpeed)
 		npc.accept = function(_) end
 	else
 		npc.accept = function(succ)
-      if succ then
-        emitSuccessParticles(npc.x, npc.y)
-        npc.rsvp = "rsvp_accepted"
-      else
-        npc.rsvp = "rsvp_not_accepted"
-      end
+			if succ then
+				emitSuccessParticles(npc.x, npc.y)
+				npc.rsvp = "rsvp_accepted"
+			else
+				npc.rsvp = "rsvp_not_accepted"
+			end
 		end
 	end
 	return npc
@@ -971,10 +971,10 @@ function love.update(dt)
 	local count = 0
 	local ys = 0
 	for _, npc in pairs(npcs) do
-    count = count + 1
+		count = count + 1
 		if npc.rsvp == "rsvp_accepted" then
-      ys = ys + 1
-    end
+			ys = ys + 1
+		end
 	end
 	targetHappiness = math.sqrt(ys / count)
 
