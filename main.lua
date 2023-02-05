@@ -571,7 +571,7 @@ function restart()
 		-- Trattis mamma
 		createNpc(
 			600,
-			400,
+			500,
 			restrattis,
 			createDialogTree()
 				.text(
@@ -1012,7 +1012,7 @@ function love.load()
 	resbigfont = love.graphics.newFont("res/Chalkduster.ttf", 72)
 	resguard = love.graphics.newImage("res/mosh40.png")
 	resfancyfancy = love.graphics.newImage("res/fancyfancy.png", { linear = true })
-	resbackground = love.graphics.newImage("res/background.png")
+	resbackground = love.graphics.newImage("res/background_new.png")
 	resthedarkside = love.graphics.newImage("res/thedarkside_new.png")
 	resemo = love.graphics.newImage("res/emo.png")
 	resptsd = love.graphics.newImage("res/angry40.png")
