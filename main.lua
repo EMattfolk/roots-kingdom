@@ -53,6 +53,7 @@ local stepsound = nil
 local selectsound = nil
 local switchsound = nil
 local morfarsounds = nil
+local sweetsounds = nil
 
 local dammsystem = nil
 local starsystema = nil
@@ -392,17 +393,26 @@ function createDialog(node)
 		update = function(dialog, delta)
 			dialog.time = dialog.time + delta
 
-			if
-				dialog.time < 3
-				and (talkingToNpc == npcs[2] or talkingToNpc == npcs[19])
-				and dialog.type ~= "choice"
-			then
-				for _, sound in pairs(morfarsounds) do
+			local sounds = nil
+			if talkingToNpc == npcs[1] or talkingToNpc == npcs[18] then
+				sounds = sweetsounds
+			elseif talkingToNpc == npcs[2] or talkingToNpc == npcs[19] then
+				sounds = morfarsounds
+			elseif talkingToNpc == npcs[3] or talkingToNpc == npcs[20] then
+				sounds = sweetsounds
+			elseif talkingToNpc == npcs[7] or talkingToNpc == npcs[24] then
+				sounds = sweetsounds
+			elseif talkingToNpc == npcs[8] or talkingToNpc == npcs[25] then
+				sounds = morfarsounds
+			end
+
+			if dialog.time < 3 and dialog.type ~= "choice" and sounds ~= nil then
+				for _, sound in pairs(sounds) do
 					if sound:isPlaying() then
 						return
 					end
 				end
-				(morfarsounds[love.math.random(1, 3)]):play()
+				(sounds[love.math.random(1, 3)]):play()
 			end
 		end,
 		draw = function(dialog)
@@ -1159,6 +1169,11 @@ function love.load()
 		love.audio.newSource("res/voiceold001.wav", "static"),
 		love.audio.newSource("res/voiceold002.wav", "static"),
 		love.audio.newSource("res/voiceold003.wav", "static"),
+	}
+	sweetsounds = {
+		love.audio.newSource("res/voicesweet001.wav", "static"),
+		love.audio.newSource("res/voicesweet002.wav", "static"),
+		love.audio.newSource("res/voicesweet003.wav", "static"),
 	}
 
 	dammsystem = love.graphics.newParticleSystem(resdamm)
