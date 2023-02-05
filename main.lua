@@ -49,6 +49,7 @@ local resplant4 = nil
 local resplant5 = nil
 
 local stepsound = nil
+local selectsound = nil
 
 local dammsystem = nil
 local starsystema = nil
@@ -1129,6 +1130,9 @@ function love.load()
 	stepsound = love.audio.newSource("res/step001.wav", "static")
 	stepsound:setLooping(false)
 	stepsound:setVolume(1)
+	selectsound = love.audio.newSource("res/select.wav", "static")
+	selectsound:setLooping(false)
+	selectsound:setVolume(0.2)
 
 	dammsystem = love.graphics.newParticleSystem(resdamm)
 	dammsystem:setSizes(2, 2, 3)
@@ -1197,6 +1201,13 @@ function love.update(dt)
 	starsystema:update(dt)
 	starsystemb:update(dt)
 	starsystemc:update(dt)
+
+	if input.interact then
+		if selectsound:isPlaying() then
+			selectsound:stop()
+		end
+		selectsound:play()
+	end
 
 	if scene == "menu" then
 		if input.interact and transition == nil then
