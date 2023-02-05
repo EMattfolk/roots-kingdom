@@ -1279,8 +1279,6 @@ function love.update(dt)
 
 	local allTalkedTo = true
 	for i = 1, 8 do
-		print(i)
-		print(npcs[i].rsvp)
 		allTalkedTo = allTalkedTo and npcs[i].rsvp ~= "rsvp_unknown"
 	end
 	if transition == nil and dialog == nil and allTalkedTo and areas[6] ~= area then
