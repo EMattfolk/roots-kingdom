@@ -48,6 +48,8 @@ local resplant3 = nil
 local resplant4 = nil
 local resplant5 = nil
 
+local stepsound = nil
+
 local dammsystem = nil
 local starsystema = nil
 local starsystemb = nil
@@ -273,6 +275,10 @@ function createPlayer()
 			-- Walls
 			player.x = clamp(100, 1820, player.x)
 			player.y = clamp(100, 980, player.y)
+
+			if (math.abs(player.vx) > 50 or math.abs(player.vy) > 50) and not stepsound:isPlaying() then
+				stepsound:play()
+			end
 
 			if dx < 0 then
 				player.dir = -1
@@ -1117,6 +1123,10 @@ function love.load()
 	resplant3 = love.graphics.newImage("res/plant3.png")
 	resplant4 = love.graphics.newImage("res/plant4.png")
 	resplant5 = love.graphics.newImage("res/plant5.png")
+
+	stepsound = love.audio.newSource("res/step001.wav", "static")
+	stepsound:setLooping(false)
+	stepsound:setVolume(1)
 
 	dammsystem = love.graphics.newParticleSystem(resdamm)
 	dammsystem:setSizes(2, 2, 3)
