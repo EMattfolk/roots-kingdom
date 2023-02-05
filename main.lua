@@ -479,6 +479,7 @@ function restart()
 				.choice(
 					function(dt, npc)
 						dt.index = 8
+						npc.accept(false)
 					end,
 					function(dt, npc)
 						dt.index = 9
