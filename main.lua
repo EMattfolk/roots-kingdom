@@ -989,6 +989,7 @@ function love.update(dt)
 			end)
 		end
 	elseif scene == "game" then
+		local beforeMoveClosePortal = player:getCloseEntity(area.portals)
 		player:update(dt, dialog == nil)
 		if dialog ~= nil then
 			dialog:update(dt)
@@ -1002,7 +1003,7 @@ function love.update(dt)
 			choice = false
 		end
 		local closePortal = player:getCloseEntity(area.portals)
-		if closePortal ~= nil and input.interact and transition == nil then
+		if closePortal ~= nil and closePortal ~= beforeMoveClosePortal and transition == nil then
 			local xdir = 0
 			local ydir = 0
 			if closePortal.x < 300 or 1600 < closePortal.x then
