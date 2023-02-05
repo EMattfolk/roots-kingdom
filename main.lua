@@ -401,6 +401,8 @@ function createDialog(node)
 				sounds = morfarsounds
 			elseif talkingToNpc == npcs[3] or talkingToNpc == npcs[20] then
 				sounds = sweetsounds
+			elseif talkingToNpc == npcs[4] or talkingToNpc == npcs[21] then
+				sounds = morfarsounds
 			elseif talkingToNpc == npcs[5] or talkingToNpc == npcs[22] then
 				sounds = weirdsounds
 			elseif talkingToNpc == npcs[6] or talkingToNpc == npcs[23] then
