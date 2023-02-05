@@ -584,8 +584,8 @@ function restart()
 		),
 		-- PTSD svamp
 		createNpc(
-			600,
-			500,
+			1600,
+			400,
 			resptsd,
 			createDialogTree()
 				.text("En bal? Varför skulle jag vilja gå på en bal?", 2)
@@ -663,8 +663,8 @@ function restart()
 		),
 		-- EMO svamp
 		createNpc(
-			1200,
-			300,
+			600,
+			550,
 			resemo,
 			createDialogTree()
 				.text(
@@ -905,7 +905,7 @@ function love.load()
 	resguard = love.graphics.newImage("res/mosh40.png")
 	resfancyfancy = love.graphics.newImage("res/fancyfancy.png", { linear = true })
 	resbackground = love.graphics.newImage("res/background.png")
-	resthedarkside = love.graphics.newImage("res/thedarkside.png")
+	resthedarkside = love.graphics.newImage("res/thedarkside_new.png")
 	resemo = love.graphics.newImage("res/emo.png")
 	resptsd = love.graphics.newImage("res/angry40.png")
 	resblygsvamp = love.graphics.newImage("res/long40.png")
