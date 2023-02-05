@@ -40,6 +40,12 @@ local resbigghost = nil
 local resbigdam = nil
 local resstar = nil
 
+local resplant1 = nil
+local resplant2 = nil
+local resplant3 = nil
+local resplant4 = nil
+local resplant5 = nil
+
 local dammsystem = nil
 local starsystema = nil
 local starsystemb = nil
@@ -996,6 +1002,11 @@ function restart()
 				)
 				.ending(1)
 		),
+		createNpc(1400, 200, resplant1, createDialogTree().ending(1)),
+		createNpc(250, 500, resplant2, createDialogTree().ending(1)),
+		createNpc(1700, 500, resplant3, createDialogTree().ending(1)),
+		createNpc(400, 350, resplant4, createDialogTree().ending(1)),
+		createNpc(900, 900, resplant5, createDialogTree().ending(1)),
 	}
 
 	dialog = nil
@@ -1010,14 +1021,14 @@ function restart()
 			{ x = 430, y = 205 },
 			{ x = 1475, y = 195 },
 		}), -- Slottet
-		createArea(resfancyfancy, { npcs[1], npcs[9], npcs[10], npcs[11] }, {
+		createArea(resfancyfancy, { npcs[1], npcs[9], npcs[10], npcs[11], npcs[26], npcs[28], npcs[30] }, {
 			createPortal(100, 800, 1, 960, 1050),
 			createPortal(650, 100, 5, 650, 1000),
 			createPortal(1800, 750, 3, 100, 750),
 		}),
 		createArea(
 			resbackground,
-			{ npcs[2], npcs[3], npcs[12], npcs[13] },
+			{ npcs[2], npcs[3], npcs[12], npcs[13], npcs[27] },
 			{ createPortal(100, 750, 2, 1800, 750), createPortal(1200, 100, 4, 1200, 1000) }
 		),
 		createArea(
@@ -1027,7 +1038,7 @@ function restart()
 		),
 		createArea(
 			resmodern,
-			{ npcs[6], npcs[7], npcs[16], npcs[17] },
+			{ npcs[6], npcs[7], npcs[16], npcs[17], npcs[29] },
 			{ createPortal(650, 1000, 2, 650, 100), createPortal(1800, 300, 4, 100, 300) }
 		),
 		createArea(respartycastle, {}, {}),
@@ -1044,7 +1055,7 @@ function love.load()
 	resbigking = love.graphics.newImage("res/kungenBIG.png")
 	resbigmorfar = love.graphics.newImage("res/morfarBIG.png")
 	reskantarell = love.graphics.newImage("res/kantarell.png")
-	resbigtrattis = love.graphics.newImage("res/fmliy.png")
+	resbigtrattis = love.graphics.newImage("res/bigfamily.png")
 	resbigghost = love.graphics.newImage("res/fettsadyo.png")
 	resbigdam = love.graphics.newImage("res/damen.png")
 	love.graphics.setDefaultFilter("nearest", "nearest")
@@ -1068,6 +1079,11 @@ function love.load()
 	resdamm = love.graphics.newImage("res/damm.png")
 	resstar = love.graphics.newImage("res/star.png")
 	resdam = love.graphics.newImage("res/DamenLIL.png")
+	resplant1 = love.graphics.newImage("res/plant1.png")
+	resplant2 = love.graphics.newImage("res/plant2.png")
+	resplant3 = love.graphics.newImage("res/plant3.png")
+	resplant4 = love.graphics.newImage("res/plant4.png")
+	resplant5 = love.graphics.newImage("res/plant5.png")
 
 	dammsystem = love.graphics.newParticleSystem(resdamm)
 	dammsystem:setSizes(2, 2, 3)
