@@ -88,30 +88,18 @@ function createTransition(dir, onTransition)
 			local xdir = dir.x
 			local ydir = dir.y
 
-      love.graphics.push()
-      love.graphics.origin()
-      local w = love.graphics.getWidth()
-      local h = love.graphics.getHeight()
+			love.graphics.push()
+			love.graphics.origin()
+			local w = love.graphics.getWidth()
+			local h = love.graphics.getHeight()
 
 			love.graphics.setColor(0, 0, 0)
 			if tr.transitioned then
-				love.graphics.rectangle(
-					"fill",
-					xdir * tr.progress * w,
-					ydir * tr.progress * h,
-				  w,
-					h 
-				)
+				love.graphics.rectangle("fill", xdir * tr.progress * w, ydir * tr.progress * h, w, h)
 			else
-				love.graphics.rectangle(
-					"fill",
-					xdir * (tr.progress - 1) * w,
-					ydir * (tr.progress - 1) * h ,
-					w,
-					h
-				)
+				love.graphics.rectangle("fill", xdir * (tr.progress - 1) * w, ydir * (tr.progress - 1) * h, w, h)
 			end
-      love.graphics.pop()
+			love.graphics.pop()
 		end,
 		update = function(tr, delta)
 			local speed = 2
@@ -1050,6 +1038,19 @@ function love.update(dt)
 			dialog = nil
 		end
 	end
+
+	local allTalkedTo = true
+	for _, npc in pairs(npcs) do
+		allTalkedTo = anyNotAccepted and npc.rsvp ~= "rsvp_unknown"
+	end
+	if transition == nil and dialog == nil and allTalkedTo and areas[1] ~= area then
+		transition = createTransition({ x = 0, y = -1 }, function()
+			area = areas[1]
+			player.x = 960
+			player.y = 900
+		end)
+	end
+
 	if transition ~= nil then
 		transition:update(dt)
 		if transition.progress == 1 and transition.transitioned then
