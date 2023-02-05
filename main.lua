@@ -52,6 +52,7 @@ local resplant5 = nil
 local stepsound = nil
 local selectsound = nil
 local switchsound = nil
+local morfarsounds = nil
 
 local dammsystem = nil
 local starsystema = nil
@@ -390,6 +391,19 @@ function createDialog(node)
 		type = node.type,
 		update = function(dialog, delta)
 			dialog.time = dialog.time + delta
+
+			if
+				dialog.time < 3
+				and (talkingToNpc == npcs[2] or talkingToNpc == npcs[19])
+				and dialog.type ~= "choice"
+			then
+				for _, sound in pairs(morfarsounds) do
+					if sound:isPlaying() then
+						return
+					end
+				end
+				(morfarsounds[love.math.random(1, 3)]):play()
+			end
 		end,
 		draw = function(dialog)
 			local w = love.graphics.getWidth()
@@ -1141,6 +1155,11 @@ function love.load()
 	switchsound = love.audio.newSource("res/switch.wav", "static")
 	switchsound:setLooping(false)
 	switchsound:setVolume(0.1)
+	morfarsounds = {
+		love.audio.newSource("res/voiceold001.wav", "static"),
+		love.audio.newSource("res/voiceold002.wav", "static"),
+		love.audio.newSource("res/voiceold003.wav", "static"),
+	}
 
 	dammsystem = love.graphics.newParticleSystem(resdamm)
 	dammsystem:setSizes(2, 2, 3)
