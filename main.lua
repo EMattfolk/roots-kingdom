@@ -23,6 +23,7 @@ local resthedarkside = nil
 local respartycastle = nil
 local resemo = nil
 local resptsd = nil
+local resdam = nil
 local resblygsvamp = nil
 local resghost = nil
 local resking = nil
@@ -35,6 +36,8 @@ local resbigmorfar = nil
 local reskantarell = nil
 local resbigemo = nil
 local resbigtrattis = nil
+local resbigghost = nil
+local resbigdam = nil
 local resstar = nil
 
 local dammsystem = nil
@@ -449,7 +452,7 @@ function restart()
 		createNpc(
 			1250,
 			350,
-			reskantis,
+			resdam,
 			createDialogTree()
 				.text(
 					"Och varför skulle jag vilja gå på en sådan tillställning? Där alla de andra snofsiga svamparna kommer prata illa om mig bakom min rygg?",
@@ -1017,6 +1020,8 @@ function love.load()
 	resbigmorfar = love.graphics.newImage("res/morfarBIG.png")
 	reskantarell = love.graphics.newImage("res/kantarell.png")
 	resbigtrattis = love.graphics.newImage("res/fmliy.png")
+	resbigghost = love.graphics.newImage("res/fettsadyo.png")
+	resbigdam = love.graphics.newImage("res/damen.png")
 	love.graphics.setDefaultFilter("nearest", "nearest")
 	reskantis = love.graphics.newImage("res/kantis.png")
 	restrattis = love.graphics.newImage("res/famly50.png")
@@ -1037,6 +1042,7 @@ function love.load()
 	respartycastle = love.graphics.newImage("res/partycastle.png")
 	resdamm = love.graphics.newImage("res/damm.png")
 	resstar = love.graphics.newImage("res/star.png")
+	resdam = love.graphics.newImage("res/DamenLIL.png")
 
 	dammsystem = love.graphics.newParticleSystem(resdamm)
 	dammsystem:setSizes(2, 2, 3)
@@ -1239,8 +1245,11 @@ function love.draw()
 		love.graphics.draw(resbigking, 1320, 300, 0, 0.2, 0.2)
 		love.graphics.draw(reskantarell, 650, 400, 0, -1, 1)
 		love.graphics.draw(resbigemo, 1650, 100, 0, 0.7, 0.7)
-		love.graphics.draw(resbiggrump, 100, 800, 0, 0.4, 0.4)
-		love.graphics.draw(resbigmorfar, 450, 200, 0, -0.9, 0.9)
+		love.graphics.draw(resbiggrump, 90, 800, 0, 0.35, 0.35)
+		love.graphics.draw(resbigdam, 220, 650, 0, 0.2, 0.2)
+		love.graphics.draw(resbigmorfar, 450, 170, 0, -0.9, 0.9)
+		love.graphics.draw(resbigtrattis, 1250, 750, 0, 0.3, 0.3)
+		love.graphics.draw(resbigghost, 500, 50, 0, 0.2, 0.2)
 	elseif scene == "game" then
 		love.graphics.setCanvas(canvas)
 
