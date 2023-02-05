@@ -51,21 +51,8 @@ uniform number happiness;
 
 vec4 effect(vec4 color, Image texture, vec2 tc, vec2 _) {
   color = Texel(texture, tc);
-
-  number s = 0.0004;
-  number radius = 3.0;
-  vec4 c = vec4(0.0);
-  for (float i = -radius; i <= radius; i += 1.0)
-  {
-    c += Texel(texture, tc + i * vec2(0.0, s));
-  }
-  for (float i = -radius; i <= radius; i += 1.0)
-  {
-    c += Texel(texture, tc + i * vec2(s, 0.0));
-  }
-  vec4 cOut = c / (4.0 * radius + 2.0) * color;
-  number luma = dot(vec3(0.299, 0.587, 0.114), cOut.rgb);
-  return mix(cOut, vec4(1.0, 1.0, 1.0, 1.0) * luma, happiness);
+  number luma = dot(vec3(0.299, 0.587, 0.114), color.rgb);
+  return mix(color, vec4(1.0, 1.0, 1.0, 1.0) * luma, happiness);
 }]]
 
 local vertexcode = [[
@@ -1061,7 +1048,7 @@ function love.draw()
 
 		love.graphics.origin()
 
-		screenshader:send("happiness", (1 - happiness) * 0.3)
+		screenshader:send("happiness", (1 - happiness) * 0.1)
 		love.graphics.setShader(screenshader)
 		love.graphics.draw(canvas, 0, 0)
 
